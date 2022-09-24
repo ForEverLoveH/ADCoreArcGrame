@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DE7C796A-FF54-47DA-BE17-42D977DC7261}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArcSoftFace</RootNamespace>
+    <AssemblyName>ArcSoftFace</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge, Version=2.2.4.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AForge.2.2.4\lib\AForge.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AForge.Controls, Version=2.2.4.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AForge.Controls.2.2.4\lib\AForge.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.4.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AForge.Imaging.2.2.4\lib\AForge.Imaging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.2.4.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AForge.Math.2.2.4\lib\AForge.Math.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AForge.Video, Version=2.2.4.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AForge.Video.2.2.4\lib\AForge.Video.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.4.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AForge.Video.DirectShow.2.2.4\lib\AForge.Video.DirectShow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.9\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.3.11, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.3.3\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="SunnyUI, Version=3.2.3.1, Culture=neutral, PublicKeyToken=27d7d2e821d97aeb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SunnyUI.3.2.3.1\lib\net472\SunnyUI.dll</HintPath>
+    </Reference>
+    <Reference Include="SunnyUI.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5a271fb7ba597231, processorArchitecture=MSIL">
+      <HintPath>..\packages\SunnyUI.Common.3.2.0\lib\net40\SunnyUI.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.116.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.116.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.116.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.116.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.116.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.116.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ADCoreSystem\ADCoreGameSys\LoginSys.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameSys\MainSys.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameSys\NewGroupSys.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameSys\PersonImportSys.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameSys\StartTestingSys.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameSys\VerificationSys.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\NewGroupWindows.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\NewGroupWindows.Designer.cs">
+      <DependentUpon>NewGroupWindows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\StartTestingWindowm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\StartTestingWindowm.Designer.cs">
+      <DependentUpon>StartTestingWindowm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\VerificationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\VerificationWindow.Designer.cs">
+      <DependentUpon>VerificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADcoreModel\GroupData\GroupDataModel.cs" />
+    <Compile Include="ADCoreSystem\ADcoreModel\StartTestingExamData\StartTestingExamDataModel.cs" />
+    <Compile Include="ADCoreSystem\Excel\ExcelToDataSet.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\FrmLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\FrmLoading.Designer.cs">
+      <DependentUpon>FrmLoading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\LoginWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\LoginWindow.Designer.cs">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\PersonImportWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\PersonImportWindow.Designer.cs">
+      <DependentUpon>PersonImportWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADcoreModel\Login\Admin.cs" />
+    <Compile Include="ADCoreSystem\ADcoreModel\Login\AdminModel.cs" />
+    <Compile Include="ADCoreSystem\ADcoreModel\UserExcel\UserExcel.cs" />
+    <Compile Include="ADCoreSystem\ADcoreModel\UserExcel\UserExcelIndexMode.cs" />
+    <Compile Include="ADCoreSystem\ADcoreModel\UserExcel\UserExcelMode.cs" />
+    <Compile Include="ADCoreSystem\ADcoreModel\UserExcel\UserExcelTemplateMode.cs" />
+    <Compile Include="ADCoreSystem\Excel\ExcelMo.cs" />
+    <Compile Include="ADCoreSystem\Excel\Xlsx.cs" />
+    <Compile Include="ADCoreSystem\GameConst\GameConst.cs" />
+    <Compile Include="ADCoreSystem\Image\ImageData.cs" />
+    <Compile Include="ADCoreSystem\Loading\LoadingDot.cs" />
+    <Compile Include="ADCoreSystem\Loading\LoadingHelper.cs" />
+    <Compile Include="ADCoreSystem\OpenLocalFile\OpenDialogFile.cs" />
+    <Compile Include="Arcsoft\ArcsoftManager.cs" />
+    <Compile Include="Entity\DictionaryUnit.cs" />
+    <Compile Include="Entity\FaceTrackUnit.cs" />
+    <Compile Include="FaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FaceForm.Designer.cs">
+      <DependentUpon>FaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameCommon\ExportGrade\ExportGradeSql.cs" />
+    <Compile Include="GameCommon\LoginSetting\LoginSettingSql.cs" />
+    <Compile Include="GameCommon\Login\LoginSql.cs" />
+    <Compile Include="GameCommon\ModeHelp.cs" />
+    <Compile Include="GameCommon\NewGroup\NewGroupSql.cs" />
+    <Compile Include="GameCommon\PersonImport\Personnel_Import_Sql.cs" />
+    <Compile Include="GameCommon\SqlDbCommand.cs" />
+    <Compile Include="GameCommon\SqliteConnect.cs" />
+    <Compile Include="GameCommon\SqliteDB.cs" />
+    <Compile Include="GameCommon\StartTesting\StartTestingSql.cs" />
+    <Compile Include="GameNet\CMD.cs" />
+    <Compile Include="GameNet\ErrorType.cs" />
+    <Compile Include="GameNet\GameMsg.cs" />
+    <Compile Include="GameNet\LocalNetClient.cs" />
+    <Compile Include="GameNet\LocalNetServer.cs" />
+    <Compile Include="GameRoot.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\FaceUtil.cs" />
+    <Compile Include="Utils\LogUtil.cs" />
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\FrmLoading.resx">
+      <DependentUpon>FrmLoading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\LoginWindow.resx">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\NewGroupWindows.resx">
+      <DependentUpon>NewGroupWindows.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\PersonImportWindow.resx">
+      <DependentUpon>PersonImportWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\VerificationWindow.resx">
+      <DependentUpon>VerificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FaceForm.resx">
+      <DependentUpon>FaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\AForge.Controls.dll" />
+    <Content Include="lib\AForge.dll" />
+    <Content Include="lib\AForge.Imaging.dll" />
+    <Content Include="lib\AForge.Imaging.Formats.dll" />
+    <Content Include="lib\AForge.Math.dll" />
+    <Content Include="lib\AForge.Video.DirectShow.dll" />
+    <Content Include="lib\AForge.Video.dll" />
+    <None Include="Resources\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArcFaceSDK\ArcFaceSDK.csproj">
+      <Project>{1a4ba5f4-ba56-4e34-8cb8-9da8bf354cf8}</Project>
+      <Name>ArcFaceSDK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.116.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.116.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.116.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.116.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

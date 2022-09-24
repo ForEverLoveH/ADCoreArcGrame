@@ -1,0 +1,12 @@
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\bin\x64\Debug\ArcFaceSDK.dll
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\bin\x64\Debug\ArcFaceSDK.pdb
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.csproj.AssemblyReference.cache
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.csproj.CoreCompileInputs.cache
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.dll
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.pdb
+D:\WorkProject\ADCoreArc\ArcFaceSDK\bin\x64\Debug\ArcFaceSDK.dll
+D:\WorkProject\ADCoreArc\ArcFaceSDK\bin\x64\Debug\ArcFaceSDK.pdb
+D:\WorkProject\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.csproj.AssemblyReference.cache
+D:\WorkProject\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.csproj.CoreCompileInputs.cache
+D:\WorkProject\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.dll
+D:\WorkProject\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.pdb

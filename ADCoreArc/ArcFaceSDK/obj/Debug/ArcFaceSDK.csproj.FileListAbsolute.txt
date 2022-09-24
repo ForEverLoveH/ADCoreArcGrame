@@ -1,0 +1,6 @@
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\bin\Debug\ArcFaceSDK.dll
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\bin\Debug\ArcFaceSDK.pdb
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\obj\Debug\ArcFaceSDK.csproj.AssemblyReference.cache
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\obj\Debug\ArcFaceSDK.csproj.CoreCompileInputs.cache
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\obj\Debug\ArcFaceSDK.dll
+C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcFaceSDK\obj\Debug\ArcFaceSDK.pdb
