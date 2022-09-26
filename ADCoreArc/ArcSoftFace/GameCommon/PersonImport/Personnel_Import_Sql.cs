@@ -31,7 +31,11 @@ namespace ArcSoftFace.GameCommon
             return number.ToString();
         }
         bool is_NewImport = false;
-
+        /// <summary>
+        ///  新建导入
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="listUserExcel"></param>
         public void New_Import(string name, List<UserExcel> listUserExcel)
         {
             IsExistenceUserExcelData(name);
@@ -39,11 +43,9 @@ namespace ArcSoftFace.GameCommon
             SqlDbCommand sql = new SqlDbCommand(path);
             sql.DeleteTable(name);
             sql.CreateTable<UserExcelMode>(name);
-
             GameMsg msgs = new GameMsg()
             {
                 cmd = CMD.Rsp_New_Import,
-
             };
             if (listUserExcel.Count > 0)
             {
@@ -71,7 +73,6 @@ namespace ArcSoftFace.GameCommon
                     {
                         IsReq_New_Import = -1,
                     };
-
                 }
             }
             else
@@ -80,10 +81,7 @@ namespace ArcSoftFace.GameCommon
             }
             LocalNetServer localNetServer = new LocalNetServer();
             localNetServer.SendMsg(msgs);
-
-
         }
-
         /// <summary>
         ///  是否存在数据表{name}
         /// </summary>
@@ -111,6 +109,11 @@ namespace ArcSoftFace.GameCommon
             }
         }
         private bool Is_add_Import = false;
+        /// <summary>
+        /// 添加导入
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="userExcels"></param>
         public void Add_Import(string name, List<UserExcel> userExcels)
         {
             IsExistenceUserExcelData(name);

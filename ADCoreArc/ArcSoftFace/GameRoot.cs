@@ -20,10 +20,16 @@ namespace ArcSoftFace
         static  PersonImportSys PersonImportSys = new PersonImportSys();
         static VerificationSys VerificationSys = new VerificationSys(); 
         static NewGroupSys NewGroupSys = new NewGroupSys(); 
+        static LoginSettingOfAdminSys LoginSettingOfAdminSys = new LoginSettingOfAdminSys();
+        static LoginSettingOfUserSys LoginSettingOfUserSys = new LoginSettingOfUserSys();
+        static ExportGradeSys ExportGradeSys = new ExportGradeSys();
 
         static LoginSql LoginSql = new LoginSql();  
         static Personnel_Import_Sql Personnel_Import_Sql=new Personnel_Import_Sql();
-        static  NewGroupSql NewGroupSql = new NewGroupSql();    
+        static  NewGroupSql NewGroupSql = new NewGroupSql();  
+        static  LoginSettingSql  LoginSettingSql = new LoginSettingSql();  
+        static ExportGradeSql ExportGradeSql = new ExportGradeSql();
+       
 
 
         static LocalNetClient localNetClient = new LocalNetClient();
@@ -52,6 +58,10 @@ namespace ArcSoftFace
             PersonImportSys.Awake();
             VerificationSys.Awake();
             NewGroupSys.Awake();
+            LoginSettingOfAdminSys.Awake();
+            LoginSettingOfUserSys.Awake();
+            ExportGradeSys.Awake();
+
 
 
             localNetClient.Awake();
@@ -61,6 +71,8 @@ namespace ArcSoftFace
             LoginSql .Awake();
             Personnel_Import_Sql.Awake();
             NewGroupSql .Awake();
+            LoginSettingSql .Awake();
+            NewGroupSql.Awake ();   
         }
     }
 }

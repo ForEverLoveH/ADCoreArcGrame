@@ -19,7 +19,6 @@ namespace ArcSoftFace.GameCommon
         /// 
         /// </summary>
         /// <param name="msg"></param>
-
         public void Req_NewGroupGetGroup(GameMsg msg)
         {
             GameMsg msgs = new GameMsg()
@@ -64,7 +63,10 @@ namespace ArcSoftFace.GameCommon
             }
             netServer.SendMsg(msgs);
         }
-
+        /// <summary>
+        /// 人脸更新
+        /// </summary>
+        /// <param name="msg"></param>
         public void Req_NewGroupUpdateUserExcel(GameMsg msg)
         {
             GameMsg gameMsg = new GameMsg()
@@ -79,12 +81,18 @@ namespace ArcSoftFace.GameCommon
                 var sl = sqlcommand.Insert<UserExcel>(msg.req_NewGroupUpdateUserExcel.userExcelModes, GameConst.DBUserExcel);
                 if (sl == 0)
                 {
-                    gameMsg.rsp_NewGroupUpdateUserExcel = new Rsp_NewGroupUpdateUserExcel() { IsSucess = 0 };
+                    gameMsg.rsp_NewGroupUpdateUserExcel = new Rsp_NewGroupUpdateUserExcel() 
+                    { 
+                        IsSucess = 0 
+                    };
 
                 }
                 else if (sl >= 1)
                 {
-                    gameMsg.rsp_NewGroupUpdateUserExcel = new Rsp_NewGroupUpdateUserExcel() { IsSucess = 1 };
+                    gameMsg.rsp_NewGroupUpdateUserExcel = new Rsp_NewGroupUpdateUserExcel() 
+                    {
+                        IsSucess = 1 
+                    };
                 }
 
             }
@@ -96,7 +104,11 @@ namespace ArcSoftFace.GameCommon
             netServer.SendMsg(gameMsg);
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private bool IsExitenceUserExcelData(string name)
         {
             string path = Application.StartupPath + GameConst.SaveDBPath;

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -22,6 +23,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.ListView;
 using Image = System.Drawing.Image;
 
 namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
@@ -401,7 +403,17 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             else
             {
-                FaceRegister(uiTextBox2, false, imageLists, GroupListFaceView);
+                List< Sunny.UI.UIButton> btns = new List< Sunny.UI.UIButton>();
+                btns.Add(NextStudentBtn);
+                btns.Add(AddStudentToListBtn);
+                btns.Add(TopStudentBtn);    
+                btns.Add(SucessAddStudent);
+                btns.Add(ContinueAddBtn);
+                btns.Add(ChooseFaceDataBtn);
+                btns.Add(ClearFaceGroupBtn);
+                btns.Add(DelectCurrentStudentBtn);
+
+                FaceRegister(uiTextBox2, false, imageLists, GroupListFaceView, btns);
             }
         }
         /// <summary>
@@ -477,8 +489,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <summary>
         /// 存贮人脸图
         /// </summary>
-        /// <param name="groupid"></param>
-        /// <param name="imagePath"></param>
+        /// <param name="groupid">组号</param>
+        /// <param name="imagePath">图片路径</param>
         private void SaveImageToFace(string groupid, List<string> imagePath)
         {
             var dic = CreateFaceGroupFile(groupid);
@@ -590,13 +602,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             {
                 if (!string.IsNullOrEmpty(sl))
                 {
-                    LoadingHelper.ShowLoading("正在打开excel 数据表", this, (obj) =>
-                    {
-                        ViewListExamineeDataMode(s, sl);
-                    });
+                     
+                     ViewListExamineeDataMode(s, sl);
+                    
                     if (dataTable != null)
                     {
                         UserDataView.DataSource = dataTable;
+                        ViewDataBtn.Enabled = false;
                     }
                     else
                     {
@@ -605,16 +617,114 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
                     }
                 }
+                else
+                {
+                    MessageBox.Show("请先选择你需要打开的数据表！！");
+
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先选择文件路径！！");
+                return ;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="sl"></param>
         private void ViewListExamineeDataMode(string s, string sl)
         {
             DataTable dt = new DataTable();
             ExcelToDataSet excelToDataSet = new ExcelToDataSet();
             dt = excelToDataSet.GetExcelDatable(s, sl);
             dataTable = dt;
+            GetFileImportData();
+            GetFileImportDataInGroupID();
+        }
+        /// <summary>
+        /// 获取文件数据中的组信息
+        /// </summary>
+        private void GetFileImportDataInGroupID()
+        {
+            if (userExcels == null)
+            {
+                return;
+            }
+            else
+            {
+                for(int i = 0; i < userExcels.Count-1; i++)
+                {
+                    if (userExcels[i].Group_number != userExcels[i + 1].Group_number)
+                    {
+                        MessageBox.Show("当前导入的数据为多组的形式，无法导入！！请重新选择");
+                        ClearData();
+                        return;
+                    }
+                    else
+                    {
+                        groupid = userExcels[i].Group_number;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 清除信息
+        /// </summary>
+        private void ClearData()
+        {
+            ChooseFileBtn.Enabled = true;
+            FilePathInput.Text = string.Empty;
+            ViewDataBtn.Enabled = true;
+            SheetDataTableDrop.Items.Clear();
+            UserDataView.DataSource = null;
 
         }
+
+        /// <summary>
+        /// 获取导入的数据中的组号
+        /// </summary>
+        private void GetFileImportData()
+        {
+            if (dataTable == null)
+            {
+                return;
+            }
+            else
+            {
+                userExcels = new List<UserExcel>();
+                for (int i = 1; i < dataTable.Rows.Count; i++)
+                {
+                    CurrentStudentUserExcel = new UserExcel()
+                    {
+                        Exam_number = dataTable.Rows[i][0].ToString(),
+                        Region = dataTable.Rows[i][1].ToString(),
+                        Venue = dataTable.Rows[i][2].ToString(),
+                        Project_team = dataTable.Rows[i][3].ToString(),
+                        Name = dataTable.Rows[i][4].ToString(),
+                        Sex = dataTable.Rows[i][5].ToString(),
+                        School = dataTable.Rows[i][6].ToString(),
+                        Grade = dataTable.Rows[i][7].ToString(),
+                        ClassName = dataTable.Rows[i][8].ToString(),
+                        Number_class = dataTable.Rows[i][9].ToString(),
+                        Project = dataTable.Rows[i][10].ToString(),
+                        Exam_date = dataTable.Rows[i][11].ToString(),
+                        Sessions = dataTable.Rows[i][12].ToString(),
+                        Group_number = dataTable.Rows[i][13].ToString(),
+                        Intra_group_serial_number = dataTable.Rows[i][14].ToString(),
+                        Achievement_one = dataTable.Rows[i][15].ToString(),
+                        Achievement_two = dataTable.Rows[i][16].ToString(),
+                        Achievement_three = dataTable.Rows[i][17].ToString(),
+                        Achievement_four = dataTable.Rows[i][18].ToString(),
+                        Remarks = dataTable.Rows[i][19].ToString(),
+                    };
+                    userExcels.Add(CurrentStudentUserExcel);
+                }
+            }   
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -622,12 +732,28 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="e"></param>
         private void ChoosefileImageBtn_Click(object sender, EventArgs e)
         {
-            FaceRegister(uiTextBox1, true, imagelist2, listView1);
+            if (UserDataView.DataSource != null)
+            {
+                List<Sunny.UI.UIButton> btsn = new List<Sunny.UI.UIButton>();
+                btsn.Add(ChooseFileBtn);
+                btsn.Add(ViewDataBtn);
+                btsn.Add(ChoosefileImageBtn);
+                btsn.Add(uiButton2);
+                FaceRegister(uiTextBox1, true, imagelist2, listView1, btsn);
+            }
+            else
+            {
+                MessageBox.Show("请先导入组数据！！");
+                return;
+            }
+            
         }
-        private void NextStudent_Click(object sender, EventArgs e)
-        {
-
-        }
+      
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void UserDataView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -642,9 +768,26 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                         MessageBox.Show("请选择考生！！");
                         return;
                     }
+                    SetListGroupHightLight(index);
                 }
             }
         }
+        /// <summary>
+        ///  设置人脸数据选中
+        /// </summary>
+        /// <param name="index"></param>
+        private void SetListGroupHightLight(int index)
+        {
+            if(listView1.Items.Count == 0)
+            {
+                 return;
+            }
+            else
+            {
+                
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -689,7 +832,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="a"></param>
         /// <param name="imageList"></param>
         /// <param name="listView"></param>
-        private void FaceRegister(Sunny.UI.UITextBox uITextBox, bool a, ImageList imageList, ListView listView)
+        private void FaceRegister(Sunny.UI.UITextBox uITextBox, bool a, ImageList imageList, ListView listView, List<Sunny.UI.UIButton> btns)
         {
             try
             {
@@ -709,7 +852,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                         {
                             imagePath.Add(sl);
                         }
-                        SaveImageToFace(groupid, imagePath);
+                        //SaveImageToFace(groupid, imagePath);
                         List<string> imagePathListTemp = new List<string>();
                         int isGoodImage = index;
                         int numStart = imagePathList.Count;
@@ -718,7 +861,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                         {
                             Invoke(new Action(delegate
                             {
-                                ControlsEnable(false, NextStudentBtn, AddStudentToListBtn, TopStudentBtn, SucessAddStudent, ContinueAddBtn, ChooseFaceDataBtn, ClearFaceGroupBtn, DelectCurrentStudentBtn);
+                                foreach(var btn in btns)
+                                {
+                                    ControlsEnable(false, btn); 
+                                }
+
                             }));
                             string[] fileNames = s;
                             //保存图片路径并显示
@@ -807,7 +954,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                             }
                         }));
                     }
-
                     else
                     {
                         return;
@@ -820,7 +966,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
 
         }
+        private void uiButton2_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
+
+
     }
 }
 

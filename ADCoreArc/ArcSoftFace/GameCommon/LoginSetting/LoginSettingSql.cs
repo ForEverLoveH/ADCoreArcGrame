@@ -19,7 +19,6 @@ namespace ArcSoftFace.GameCommon
         {
             loginSql = LoginSql.Instance;
             localNetServer = LocalNetServer.Instance;
-
         }
         /// <summary>
         /// 管理员更改自己密码
@@ -52,8 +51,7 @@ namespace ArcSoftFace.GameCommon
                                         User = GameConst.InitAdminAcct,
                                         Password = msg.req_AdminChangeAdminPassword.newPassword,
                                     };
-
-                                    if (SetLoginData(admin, GameConst.DBLoginName, $"User  = '{admin.User} and Password ='{msg.req_AdminChangeAdminPassword.newPassword}'") != -1)
+                                    if (SetLoginData(admin, GameConst.DBLoginName, $"User  = '{admin.User}' and Password ='{msg.req_AdminChangeAdminPassword.newPassword}'") != -1)
                                     {
                                         msgs.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword()
                                         {
@@ -108,6 +106,7 @@ namespace ArcSoftFace.GameCommon
                     };
                 }
             }
+            localNetServer.SendMsg(msgs);   
         }
         /// <summary>
         /// 管理员更改裁判员账号密码
@@ -136,7 +135,8 @@ namespace ArcSoftFace.GameCommon
                                 User = GameConst.InitAdminAcct,
                                 Password = msg.req_AdminChangeUserPassword.newPassword,
                             };
-                            if (SetLoginData(admin, GameConst.DBLoginName, $"User='{admin.User}' and  Password = '{admin.Password}'") != -1)
+                            var s = SetLoginData(admin, GameConst.DBLoginName, $"User='{admin.User}' and  Password = '{admin.Password}'");
+                            if ( s != -1)
                             {
                                 gameMsg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword()
                                 {
@@ -183,6 +183,7 @@ namespace ArcSoftFace.GameCommon
                     IsSucess = -2,
                 };
             }
+            localNetServer.SendMsg(gameMsg);
         }
         /// <summary>
         ///  裁判员更改自己账号
@@ -213,7 +214,8 @@ namespace ArcSoftFace.GameCommon
                                     User = GameConst.InitAdminAcct,
                                     Password = msg.req_UserChangeUserPassword.newPassword,
                                 };
-                                if (SetLoginData(admin, GameConst.DBLoginName, $"User='{admin.User} and Password  = '{admin.Password}'") != -1)
+                                var s  = SetLoginData(admin, GameConst.DBLoginName, $"User='{admin.User}' and Password  = '{admin.Password}'");
+                                if ( s != -1)
                                 {
                                     gameMsgs.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword()
                                     {
@@ -267,6 +269,7 @@ namespace ArcSoftFace.GameCommon
                     IsSucess = -1,
                 };
             }
+            localNetServer.SendMsg(gameMsgs);
         }
         /// <summary>
         /// 设置登录信息

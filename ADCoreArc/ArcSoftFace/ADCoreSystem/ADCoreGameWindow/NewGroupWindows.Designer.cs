@@ -763,7 +763,7 @@
             this.examTimeDroup.SymbolDropDown = 61555;
             this.examTimeDroup.SymbolNormal = 61555;
             this.examTimeDroup.TabIndex = 9;
-            this.examTimeDroup.Text = "2022/09/24 12:09";
+            this.examTimeDroup.Text = "2022/09/26 12:09";
             this.examTimeDroup.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.examTimeDroup.TimeFormat = "yyyy/MM/dd hh:MM";
             this.examTimeDroup.Value = new System.DateTime(2022, 9, 12, 16, 21, 8, 894);
@@ -973,6 +973,7 @@
             this.uiButton2.Text = "清空人脸库";
             this.uiButton2.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButton2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiButton2.Click += new System.EventHandler(this.uiButton2_Click);
             // 
             // uiLabel18
             // 
@@ -1113,7 +1114,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1365, 681);
             this.Controls.Add(this.uiTabControl1);
-           // this.Name = "NewGroupWindows";
+            //this.Name = "NewGroupWindows";
             this.Text = "NewGroupWindows";
             this.Load += new System.EventHandler(this.NewGroup_Load);
             ((System.ComponentModel.ISupportInitialize)(this.UserExcelData)).EndInit();

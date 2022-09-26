@@ -59,7 +59,7 @@ namespace ArcSoftFace.GameNet
                     PersonImportSys.Instance.Rsp_GetKey(msg);
                     break;
                 case CMD.Rsp_GetKeyByExportGrade:
-                   // ExportGradeSys.Instance.Rsp_GetKey(msg);
+                    ExportGradeSys.Instance.Rsp_GetKey(msg);
                     break;
                 case CMD.Rsp_Add_Import:
                     PersonImportSys.Instance.Rsp_Add_Import(msg);
@@ -71,16 +71,16 @@ namespace ArcSoftFace.GameNet
                     VerificationSys.Instance.Rsp_Verification(msg);
                     break;
                 case CMD.Rsp_AdminChangeAdminPassword:
-                  //  LoginSettingSys.Instance.Rsp_AdminChangeAdminPassword(msg);
+                    LoginSettingOfAdminSys.Instance.Rsp_AdminChangeAdminPassword(msg);
                     break;
                 case CMD.Rsp_AdminChangeUserPassword:
-                    //LoginSettingSys.Instance.Rsp_AdminChangeUserPassword(msg);
+                   LoginSettingOfAdminSys.Instance.Rsp_AdminChangeUserPassword(msg);
                     break;
                 case CMD.Rsp_UserChangeUserPassword:
-                   // LoginSettingSys.Instance.Rsp_UserChangeUserPassword(msg);
+                  LoginSettingOfUserSys.Instance.Rsp_UserChangeUserPassword(msg);
                     break;
                 case CMD.Rsp_ExportGrade:
-                   // ExportGradeSys.Instance.Rsp_ExportGrade(msg);
+                    ExportGradeSys.Instance.Rsp_ExportGrade(msg);
                     break;
                 case CMD.Rsp_NewGroupGetGroup:
                     NewGroupSys.Instance.Rsp_NewGroupGetGroup(msg);
@@ -89,11 +89,11 @@ namespace ArcSoftFace.GameNet
                     NewGroupSys.Instance.Rsp_NewGroupUpdateUserExcel(msg);
                     break;
                 case CMD.Rsp_QueryExaminationTime:
-                    //StartTestingSys.Instance.Rsp_QueryExaminationTime(msg);
+                   // StartTestingSys.Instance.Rsp_QueryExaminationTime(msg);
                     break;
 
                 case CMD.Rsp_GetGroupMent:
-                   // StartTestingSys.Instance.Rsp_GetGroupMent(msg);
+                  //  StartTestingSys.Instance.Rsp_GetGroupMent(msg);
                     break;
                 case CMD.Rsp_TestNumberInquiry:
                    // StartTestingSys.Instance.Rsp_TestNumberInquiry(msg);

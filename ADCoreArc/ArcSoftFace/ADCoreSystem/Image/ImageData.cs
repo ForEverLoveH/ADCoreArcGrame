@@ -1,10 +1,12 @@
 ﻿using ArcFaceSDK.Utils;
 using ArcSoftFace.Utils;
+using Sunny.UI.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 
 namespace ArcSoftFace.ADCoreSystem
 {
@@ -101,7 +103,11 @@ namespace ArcSoftFace.ADCoreSystem
             }
             return true;
         }
-        
+        /// <summary>
+        ///  将图片文件存入本地
+        /// </summary>
+        /// <param name="destionDirectory"></param>
+        /// <param name="ImagePath"></param>
         public  void  SaveImageFileToDestion(string destionDirectory , List<string> ImagePath)
         {
             if (!Directory.Exists(destionDirectory))
@@ -110,21 +116,47 @@ namespace ArcSoftFace.ADCoreSystem
             }
             if (ImagePath.Count > 0)
             {
-                foreach (var image in ImagePath)
+                for(int i = 0; i < ImagePath.Count; i++)
                 {
-                    var m = GetImage(image);
-                    SaveImageToFace(destionDirectory, m);
+                    Bitmap  m = GetImageToBitMap(ImagePath[i]);
+                    SaveImageToFace(destionDirectory, BitmapToBitmapImage(m));
                 }
             }
         }
+        /// <summary>
+        /// bitmap 转bitmapImage
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+        private  BitmapImage BitmapToBitmapImage(Bitmap bitmap)
+        {
+            System.Drawing.Bitmap ImageOriginalBase = new System.Drawing.Bitmap(bitmap);
+            BitmapImage bitmapImage = new BitmapImage();
+            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+            {
+                ImageOriginalBase.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = ms;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+            }
+            return bitmapImage;
+        }
+
         /// <summary>
         ///  将bitmap 文件存到本地文件中
         /// </summary>
         /// <param name="destionDirectory"></param>
         /// <param name="m"></param>
-        private void SaveImageToFace(string destionDirectory, Bitmap m)
+        private void SaveImageToFace(string destionDirectory, BitmapImage m)
         {
-             
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add((BitmapFrame.Create(m)));
+            using (var filestream = new System.IO.FileStream(destionDirectory, System.IO.FileMode.Create))
+            {
+                encoder.Save(filestream);   
+            }
         }
 
         // <summary>
@@ -133,7 +165,7 @@ namespace ArcSoftFace.ADCoreSystem
         /// <param name="image"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public Bitmap GetImage(string image)
+        public Bitmap GetImageToBitMap(string image)
         {
             Bitmap b = null;
             if (!File.Exists(image))

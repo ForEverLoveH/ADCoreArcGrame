@@ -405,7 +405,6 @@ namespace ArcSoftFace.GameCommon
             var dr = _sqlComm.ExecuteReader();
             if (dr != null)
             {
-
                 while (dr.Read())
                 {
                     var l = DataReaderToData<T>(dr);

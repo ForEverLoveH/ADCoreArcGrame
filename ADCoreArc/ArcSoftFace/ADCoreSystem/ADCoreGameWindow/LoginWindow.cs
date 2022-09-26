@@ -17,7 +17,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             InitializeComponent();
         }
         public LoginSys loginSys  = new LoginSys();
-        public string User;
+        public  static string User;
 
         private void AdminToggle_CheckedChanged(object sender, EventArgs e)
         {
@@ -77,6 +77,19 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 MessageBox.Show("请将信息填写完整");
                 return;
             }
+        }
+
+        public  string GetUserData()
+        {
+            if(User == null)
+            {
+                return null;
+            }
+            else
+            {
+                return User;
+            }
+             
         }
     }
 }

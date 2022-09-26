@@ -13,6 +13,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 {
     public partial class MainWindow : Form
     {
+        MainSys mainSys= new MainSys();
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +33,30 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
         private void StartTestingBtn_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void ExportGradeBtn_Click(object sender, EventArgs e)
+        {
+            ExportGradeSys  exportGradeSys= new ExportGradeSys();
+            exportGradeSys.Init();
+        }
+
+        private void LoginSettingBtn_Click(object sender, EventArgs e)
+        {
+            var s = mainSys.GetLoginData();
+           if ( s == "admin")
+           {
+                LoginSettingOfAdminSys loginSettingOfAdminSys = new LoginSettingOfAdminSys();
+                loginSettingOfAdminSys.Init();
+
+           }
+            else if(s == "user")
+            {
+                LoginSettingOfUserSys  loginSettingOfUserSys = new LoginSettingOfUserSys();
+                loginSettingOfUserSys.Init();
+
+            }
 
         }
     }

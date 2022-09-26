@@ -115,6 +115,8 @@ namespace ArcSoftFace.ADCoreSystem.ADcoreModel
             /// </summary>
             private string _remarks;
 
+            
+
 
 
 

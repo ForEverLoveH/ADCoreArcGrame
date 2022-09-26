@@ -22,7 +22,6 @@ namespace ArcSoftFace.GameCommon
         /// <param name="Name"></param>
         public void IsExtenceAdminData(string name)
         {
-
             string path = Application.StartupPath + GameConst.UserDBPath;
             SqlDbCommand sql = new SqlDbCommand(path);
             int isExistenceAdminData = sql.IsCreateTable(name);
@@ -30,7 +29,6 @@ namespace ArcSoftFace.GameCommon
             {
                 Console.WriteLine($"数据库表{name}不存在");
                 sql.CreateTable<AdminModel>(name);
-
                 //初始化Admin表
                 Admin admin = new Admin() { User = GameConst.InitAdminAcct, Password = GameConst.InitAdminPass };
                 Admin user = new Admin() { User = GameConst.InitUserAcct, Password = GameConst.InitUserPass };
@@ -45,15 +43,13 @@ namespace ArcSoftFace.GameCommon
             }
             sql.Dispose();
         }
-
         /// <summary>
-        ///  
+        ///  登录验证
         /// </summary>
         /// <param name="Name">数据库的名字</param>
         /// <param name="acc">账号信息</param>
         /// <param name="password">密码</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public bool IsLogin(string Name, string acc, string password)
         {
             try
