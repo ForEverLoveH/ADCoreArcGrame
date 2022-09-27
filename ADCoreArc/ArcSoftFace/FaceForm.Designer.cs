@@ -172,7 +172,7 @@
             // btnStartVideo
             // 
             this.btnStartVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartVideo.Location = new System.Drawing.Point(883, 431);
+            this.btnStartVideo.Location = new System.Drawing.Point(883, 429);
             this.btnStartVideo.Name = "btnStartVideo";
             this.btnStartVideo.Size = new System.Drawing.Size(107, 26);
             this.btnStartVideo.TabIndex = 39;

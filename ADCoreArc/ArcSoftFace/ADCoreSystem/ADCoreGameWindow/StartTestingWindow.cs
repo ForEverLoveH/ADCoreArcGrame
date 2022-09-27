@@ -1,4 +1,5 @@
-﻿using ArcSoftFace.ADCoreSystem.ADcoreModel;
+﻿using ArcFaceSDK.Entity;
+using ArcSoftFace.ADCoreSystem.ADcoreModel;
 using ArcSoftFace.GameCommon;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
     {
         public StartTestingSys StartTestingSys = new StartTestingSys();
         private List<UserExcelMode> userExcel =  new List<UserExcelMode>();
+        private CameraConnect cameraConnect= new CameraConnect();
+
+
+        /// <summary>
+        /// 人脸库人脸特征列表
+        /// </summary>
+        private List<FaceFeature> leftImageFeatureList = new List<FaceFeature>();
         public StartTestingWindow()
         {
             InitializeComponent();
@@ -141,12 +149,14 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="userExcelModes"></param>
         public void Rsp_TestNumberInquiry(List<UserExcelMode> userExcelModes)
         {
-            if (userExcelModes != null || userExcelModes.Count>0)
+            GroupDataView.DataSource = null;
+            if (userExcelModes == null || userExcelModes.Count==0)
             {
-                GroupDataView.DataSource = null;
+                return;
             }
             else
             {
+                 
                 GroupDataView.DataSource = userExcelModes;
             }
             userExcel = userExcelModes;
@@ -160,6 +170,18 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             string examTime = ExamTimeDrop.Text.Trim();
             StartTestingSys.Req_GetGroupMent(examTime);
+        }
+        /// <summary>
+        ///  开始相机
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartCameraBtn_Click(object sender, EventArgs e)
+        {
+            cameraConnect.CameraInit();
+            StartCameraBtn.Enabled = false;
+            cameraConnect.OtherCamera(rgbVideoSource, irVideoSource, txtThreshold);
+
         }
     }
 }

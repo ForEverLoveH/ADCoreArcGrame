@@ -157,3 +157,8 @@ D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.AD
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\RRQMCore.xml
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\RRQMSocket.xml
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.StartTestingWindow.resources
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\Newtonsoft.Json.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\RRQMCore.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\RRQMSocket.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\Newtonsoft.Json.xml
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.exe.config
