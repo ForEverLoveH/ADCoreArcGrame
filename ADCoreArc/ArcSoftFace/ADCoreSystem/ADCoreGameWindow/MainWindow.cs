@@ -33,7 +33,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
         private void StartTestingBtn_Click(object sender, EventArgs e)
         {
-
+            StartTestingSys startTestingSys = new StartTestingSys();
+            startTestingSys.Init(); 
         }
 
         private void ExportGradeBtn_Click(object sender, EventArgs e)

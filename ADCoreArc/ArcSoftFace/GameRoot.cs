@@ -23,12 +23,14 @@ namespace ArcSoftFace
         static LoginSettingOfAdminSys LoginSettingOfAdminSys = new LoginSettingOfAdminSys();
         static LoginSettingOfUserSys LoginSettingOfUserSys = new LoginSettingOfUserSys();
         static ExportGradeSys ExportGradeSys = new ExportGradeSys();
+        static StartTestingSys  StartTestingSys   = new StartTestingSys();
 
         static LoginSql LoginSql = new LoginSql();  
         static Personnel_Import_Sql Personnel_Import_Sql=new Personnel_Import_Sql();
         static  NewGroupSql NewGroupSql = new NewGroupSql();  
         static  LoginSettingSql  LoginSettingSql = new LoginSettingSql();  
         static ExportGradeSql ExportGradeSql = new ExportGradeSql();
+        static StartTestingSql  startTestingSql = new StartTestingSql();
        
 
 
@@ -61,6 +63,7 @@ namespace ArcSoftFace
             LoginSettingOfAdminSys.Awake();
             LoginSettingOfUserSys.Awake();
             ExportGradeSys.Awake();
+            StartTestingSys.Awake();
 
 
 
@@ -72,7 +75,8 @@ namespace ArcSoftFace
             Personnel_Import_Sql.Awake();
             NewGroupSql .Awake();
             LoginSettingSql .Awake();
-            NewGroupSql.Awake ();   
+            NewGroupSql.Awake ();
+            startTestingSql.Awake();
         }
     }
 }

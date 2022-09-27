@@ -2,6 +2,7 @@
 using ArcSoftFace.ADCoreSystem;
 using ArcSoftFace.GameNet;
 using System.Windows.Forms;
+using System;
 
 namespace ArcSoftFace.GameCommon
 {
@@ -33,7 +34,7 @@ namespace ArcSoftFace.GameCommon
 
         }
         /// <summary>
-        /// /
+        /// 
         /// </summary>
         /// <param name="msg"></param>
 
@@ -54,7 +55,7 @@ namespace ArcSoftFace.GameCommon
             localNetServer.SendMsg(Rsp_Query_group_number);
         }
         /// <summary>
-        /// 
+        /// 考号查询
         /// </summary>
         /// <param name="msg"></param>
 
@@ -67,7 +68,6 @@ namespace ArcSoftFace.GameCommon
             };
             string path = Application.StartupPath + GameConst.SaveDBPath;
             SqlDbCommand cmd = new SqlDbCommand(path);
-
             var userExcelData = cmd.SelectBySql<UserExcelMode>("UserExcel", $"Exam_number = '{msg.req_TestNumberInquriry.examNum}'");
             msgs.rsp_TestNumberInquriey = new Rsp_TestNumberInquriey()
             {
@@ -76,7 +76,10 @@ namespace ArcSoftFace.GameCommon
             cmd.Dispose();
             localNetServer.SendMsg(msgs);
         }
-
+        /// <summary>
+        /// 获取当前组的数据
+        /// </summary>
+        /// <param name="msg"></param>
         public void Req_GetCurrentGroupMsg(GameMsg msg)
         {
             GameMsg msh = new GameMsg()
@@ -94,7 +97,10 @@ namespace ArcSoftFace.GameCommon
             localNetServer.SendMsg(msh);
 
         }
-
+        /// <summary>
+        /// 修改成绩
+        /// </summary>
+        /// <param name="msg"></param>
         public void ReqModify_Grades(GameMsg msg)
         {
             GameMsg msgs = new GameMsg()
@@ -118,6 +124,18 @@ namespace ArcSoftFace.GameCommon
             }
             sqlDbCommand.Dispose();
             localNetServer.SendMsg(msgs);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        
+        public void Req_GetFaceFeature(GameMsg msg)
+        {
+            GameMsg gameMsg = new GameMsg()
+            {
+                cmd = CMD.Rsp_GetFaceFeature,
+            };
         }
     }
 }

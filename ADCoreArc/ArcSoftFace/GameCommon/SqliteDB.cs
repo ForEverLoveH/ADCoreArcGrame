@@ -266,7 +266,7 @@ namespace ArcSoftFace.GameCommon
             StartTestingSql.Instance.ReqModify_Grades(msg);
         }
 
-        internal void Req_GetKeyByExportGrade(GameMsg msg)
+        public  void Req_GetKeyByExportGrade(GameMsg msg)
         {
             GameMsg Rsp_GetKey_Msg = new GameMsg
             {
@@ -277,6 +277,11 @@ namespace ArcSoftFace.GameCommon
                 number = Personnel_Import_Sql.Instance.GetKey(GameConst.DBUserExcel, "Id")
             };
             locaNetServer.SendMsg(Rsp_GetKey_Msg);
+        }
+
+        public  void Req_GetFaceFeature(GameMsg msg)
+        {
+            StartTestingSql.Instance.Req_GetFaceFeature(msg);
         }
     }
 }

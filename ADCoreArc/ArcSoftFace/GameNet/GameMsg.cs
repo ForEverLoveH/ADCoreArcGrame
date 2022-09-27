@@ -43,7 +43,23 @@ namespace ArcSoftFace.GameNet
         public ReqModify_Grades reqModify_Grades;
         public RspModify_Grades rspModify_Grades;
 
+        public Req_GetFaceFeature req_GetFaceFeature;
+        public Rsp_GetFaceFeature rsp_GetFaceFeature;
+
     }
+
+    public class Rsp_GetFaceFeature
+    {
+         
+    }
+
+    public class Req_GetFaceFeature
+    {
+        public   string groupID { get; set; } // 根据组号去获取人脸信息
+
+        
+    }
+
     public class RspModify_Grades
     {
         public UserExcelMode userExcelMode { get; set; }

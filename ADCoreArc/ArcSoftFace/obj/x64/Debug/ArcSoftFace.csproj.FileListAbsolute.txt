@@ -154,8 +154,6 @@ D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.pd
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.ExportGradeWindow.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.LoginSettingOfAdminWindow.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.LoginSettingOfUserWindow.resources
-D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\RRQMCore.dll
-D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\RRQMSocket.dll
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\RRQMCore.xml
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\RRQMSocket.xml
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.StartTestingWindow.resources

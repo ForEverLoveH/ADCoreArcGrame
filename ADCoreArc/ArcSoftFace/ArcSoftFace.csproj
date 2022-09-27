@@ -227,9 +227,9 @@
     <Compile Include="ADCoreSystem\ADCoreGameWindow\VerificationWindow.Designer.cs">
       <DependentUpon>VerificationWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="ADCoreSystem\ADcoreModel\FaceDataModel\FaceDataModel.cs" />
-    <Compile Include="ADCoreSystem\ADcoreModel\GroupData\GroupDataModel.cs" />
-    <Compile Include="ADCoreSystem\ADcoreModel\StartTestingExamData\StartTestingExamDataModel.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\FaceDataModel\FaceDataModel.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\GroupData\GroupDataModel.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\StartTestingExamData\StartTestingExamDataModel.cs" />
     <Compile Include="ADCoreSystem\Excel\ExcelToDataSet.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameWindow\FrmLoading.cs">
       <SubType>Form</SubType>
@@ -255,12 +255,12 @@
     <Compile Include="ADCoreSystem\ADCoreGameWindow\PersonImportWindow.Designer.cs">
       <DependentUpon>PersonImportWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="ADCoreSystem\ADcoreModel\Login\Admin.cs" />
-    <Compile Include="ADCoreSystem\ADcoreModel\Login\AdminModel.cs" />
-    <Compile Include="ADCoreSystem\ADcoreModel\UserExcel\UserExcel.cs" />
-    <Compile Include="ADCoreSystem\ADcoreModel\UserExcel\UserExcelIndexMode.cs" />
-    <Compile Include="ADCoreSystem\ADcoreModel\UserExcel\UserExcelMode.cs" />
-    <Compile Include="ADCoreSystem\ADcoreModel\UserExcel\UserExcelTemplateMode.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\Login\Admin.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\Login\AdminModel.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\UserExcel\UserExcel.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\UserExcel\UserExcelIndexMode.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\UserExcel\UserExcelMode.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\UserExcel\UserExcelTemplateMode.cs" />
     <Compile Include="ADCoreSystem\Excel\ExcelMo.cs" />
     <Compile Include="ADCoreSystem\Excel\Xlsx.cs" />
     <Compile Include="ADCoreSystem\GameConst\GameConst.cs" />

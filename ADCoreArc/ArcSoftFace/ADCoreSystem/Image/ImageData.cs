@@ -119,45 +119,57 @@ namespace ArcSoftFace.ADCoreSystem
                 for(int i = 0; i < ImagePath.Count; i++)
                 {
                     Bitmap  m = GetImageToBitMap(ImagePath[i]);
-                    SaveImageToFace(destionDirectory, BitmapToBitmapImage(m));
+
+                    SaveBitMapImage(destionDirectory, m);
+                    //SaveImageToFace(destionDirectory, BitmapToBitmapImage(m));
                 }
             }
         }
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="destionDirectory"></param>
+        /// <param name="bitmap"></param>
+        private void SaveBitMapImage(string destionDirectory, Bitmap bitmap)
+        {
+            bitmap.Save(destionDirectory, System.Drawing.Imaging.ImageFormat.Png);
+        }
+
         /// <summary>
         /// bitmap 转bitmapImage
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns></returns>
-        private  BitmapImage BitmapToBitmapImage(Bitmap bitmap)
-        {
-            System.Drawing.Bitmap ImageOriginalBase = new System.Drawing.Bitmap(bitmap);
-            BitmapImage bitmapImage = new BitmapImage();
-            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
-            {
-                ImageOriginalBase.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = ms;
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
-            }
-            return bitmapImage;
-        }
+        /* private  BitmapImage BitmapToBitmapImage(Bitmap bitmap)
+         {
+             System.Drawing.Bitmap ImageOriginalBase = new System.Drawing.Bitmap(bitmap);
+             BitmapImage bitmapImage = new BitmapImage();
+             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+             {
+                 ImageOriginalBase.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                 bitmapImage.BeginInit();
+                 bitmapImage.StreamSource = ms;
+                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                 bitmapImage.EndInit();
+                 bitmapImage.Freeze();
+             }
+             return bitmapImage;
+         }*/
 
         /// <summary>
         ///  将bitmap 文件存到本地文件中
         /// </summary>
         /// <param name="destionDirectory"></param>
         /// <param name="m"></param>
-        private void SaveImageToFace(string destionDirectory, BitmapImage m)
-        {
-            BitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add((BitmapFrame.Create(m)));
-            using (var filestream = new System.IO.FileStream(destionDirectory, System.IO.FileMode.Create))
-            {
-                encoder.Save(filestream);   
-            }
-        }
+        /*  private void SaveImageToFace(string destionDirectory, BitmapImage m)
+          {
+              BitmapEncoder encoder = new PngBitmapEncoder();
+              encoder.Frames.Add((BitmapFrame.Create(m)));
+              using (var filestream = new System.IO.FileStream(destionDirectory, System.IO.FileMode.Create))
+              {
+                  encoder.Save(filestream);   
+              }
+          }*/
 
         // <summary>
         /// 

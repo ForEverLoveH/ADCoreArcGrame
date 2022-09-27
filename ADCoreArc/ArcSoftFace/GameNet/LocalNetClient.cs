@@ -89,20 +89,23 @@ namespace ArcSoftFace.GameNet
                     NewGroupSys.Instance.Rsp_NewGroupUpdateUserExcel(msg);
                     break;
                 case CMD.Rsp_QueryExaminationTime:
-                   // StartTestingSys.Instance.Rsp_QueryExaminationTime(msg);
+                    StartTestingSys.Instance.Rsp_QueryExaminationTime(msg);
                     break;
 
                 case CMD.Rsp_GetGroupMent:
-                  //  StartTestingSys.Instance.Rsp_GetGroupMent(msg);
+                   StartTestingSys.Instance.Rsp_GetGroupMent(msg);
                     break;
                 case CMD.Rsp_TestNumberInquiry:
-                   // StartTestingSys.Instance.Rsp_TestNumberInquiry(msg);
+                    StartTestingSys.Instance.Rsp_TestNumberInquiry(msg);
                     break;
                 case CMD.Rsp_GetCurrentGroupMsg:
-                   // StartTestingSys.Instance.Rsp_GetCurrentGroupMsg(msg);
+                   StartTestingSys.Instance.Rsp_GetCurrentGroupMsg(msg);
                     break;
                 case CMD.RspModify_Grades:
-                   // StartTestingSys.Instance.RspModify_Grades(msg);
+                    StartTestingSys.Instance.RspModify_Grades(msg);
+                    break;
+                case CMD.Rsp_GetFaceFeature:
+                    StartTestingSys.Instance.Rsp_GetFaceFeature(msg);
                     break;
 
             }

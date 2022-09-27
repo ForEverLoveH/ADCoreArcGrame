@@ -41,7 +41,10 @@
         ReqModify_Grades,
         RspModify_Grades,
         Req_GetKeyByExportGrade,
-        Rsp_GetKeyByExportGrade
+        Rsp_GetKeyByExportGrade,
+        Req_GetFaceFeature,
+        Rsp_GetFaceFeature,
+
 
 
     }

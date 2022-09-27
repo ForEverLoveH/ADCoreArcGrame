@@ -91,6 +91,9 @@ namespace ArcSoftFace.GameNet
                 case CMD.ReqModify_Grades:
                     SqliteDB.Instance.ReqModify_Grades(msg);
                     break;
+                case CMD.Req_GetFaceFeature:
+                    SqliteDB.Instance.Req_GetFaceFeature(msg);
+                    break;
             }
         }
         public void SendMsg(GameMsg msg)

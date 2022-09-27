@@ -10,6 +10,7 @@ using ArcSoftFace.GameCommon;
 using ArcSoftFace.Utils;
 using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +40,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <summary>
         /// 用字典类型标记人脸数组 key 为 组号， value 为人脸数据列表
         /// </summary>
-        public Dictionary<string, List<string>> FaceData = new Dictionary<string, List<string>>();
+       // public Dictionary<string, List<string>> FaceData = new Dictionary<string, List<string>>();
         List<string> featureData = new List<string>(); // 人脸特征值
 
         public NewGroupWindows()
@@ -277,7 +278,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             SesetionInput.Text = string.Empty;
             SchoolInput.Text = string.Empty;
         }
-        int index;
+        static int  index=0;
         UserExcel CurrentStudentUserExcel = null;
         private void UserExcelData_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -286,7 +287,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 if (e.RowIndex != -1 && e.ColumnIndex != -1)
                 {
                     index = e.RowIndex;
-                    CurrentStudentUserExcel = SetUserExcelDatas(UserExcelData, index);
+                    // 点击分为俩种一个是没有导入数据一个是导入了数据
+                    //查找是否已经导入了人脸数据
+
+                    if (SelectFaceDataInFaceView(index))
+                    {
+                        CurrentStudentUserExcel = SetUserExcelDatas(UserExcelData, index);
+                    }
                     if (CurrentStudentUserExcel == null)
                     {
                         MessageBox.Show("请选择考生！！");
@@ -294,10 +301,39 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     }
                     
                 }
-                //查找是否已经导入了人脸数据
-               //SelectFaceDataInFaceView(index ,);
+                 
             }
             
+        }
+        /// <summary>
+        /// 查找根据点击的位置判断在GroupListFaceView 是否存在对应的数据
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private bool SelectFaceDataInFaceView(int index)
+        {
+            if (GroupListFaceView.Items.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                if (imageLists.Images.Count > 0)
+                {
+                   var l = GroupListFaceView.Items[index] ;
+                    if (l == null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        l.Selected = true;  
+                        return false;
+                    }
+                }
+            }
+
+            return false;
         }
 
 
@@ -412,8 +448,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btns.Add(ChooseFaceDataBtn);
                 btns.Add(ClearFaceGroupBtn);
                 btns.Add(DelectCurrentStudentBtn);
-
-                FaceRegister(uiTextBox2, false, imageLists, GroupListFaceView, btns);
+                var sl = ChooseLocalFile(false, uiTextBox2);
+                FaceRegister( sl, imageLists, GroupListFaceView, btns);
             }
         }
         /// <summary>
@@ -583,8 +619,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 return;
             }
         }
-        DataTable dataTable = new DataTable();
-
+           
         /// <summary>
         /// 浏览按钮按下
         /// </summary>
@@ -594,6 +629,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             var s = FilePathInput.Text;
             var sl = SheetDataTableDrop.Text;
+            ViewDataBtn.Enabled = false;
             if (UserDataView.DataSource != null)
             {
                 UserDataView.DataSource = null;
@@ -602,17 +638,25 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             {
                 if (!string.IsNullOrEmpty(sl))
                 {
-                     
-                     ViewListExamineeDataMode(s, sl);
+                    var dt = ViewListExamineeDataMode(s, sl);
                     
-                    if (dataTable != null)
+                    if (dt != null)
                     {
-                        UserDataView.DataSource = dataTable;
-                        ViewDataBtn.Enabled = false;
+                        GetFileImportData(dt);
+                        if (GetFileImportDataInGroupID())
+                        {
+                            UserDataView.DataSource = dt;
+
+                        }
+                        else
+                        {
+                            UserDataView.DataSource = null;
+                        }
                     }
                     else
                     {
                         MessageBox.Show("打开excel 失败，请确定文件是否毁坏，或者路径是否正确！");
+                        ViewDataBtn.Enabled = true;
                         return;
 
                     }
@@ -620,6 +664,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 else
                 {
                     MessageBox.Show("请先选择你需要打开的数据表！！");
+                    ViewDataBtn.Enabled = true;
 
                     return;
                 }
@@ -635,39 +680,51 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// </summary>
         /// <param name="s"></param>
         /// <param name="sl"></param>
-        private void ViewListExamineeDataMode(string s, string sl)
+        private DataTable ViewListExamineeDataMode(string s, string sl)
         {
             DataTable dt = new DataTable();
             ExcelToDataSet excelToDataSet = new ExcelToDataSet();
             dt = excelToDataSet.GetExcelDatable(s, sl);
-            dataTable = dt;
-            GetFileImportData();
-            GetFileImportDataInGroupID();
+            return dt;
+             
         }
         /// <summary>
         /// 获取文件数据中的组信息
         /// </summary>
-        private void GetFileImportDataInGroupID()
+        private bool  GetFileImportDataInGroupID()
         {
             if (userExcels == null)
             {
-                return;
+                return  false;
             }
             else
             {
-                for(int i = 0; i < userExcels.Count-1; i++)
+                List<string> lis = new List<string>();
+                for (int i = 0; i < userExcels.Count; i++)
                 {
-                    if (userExcels[i].Group_number != userExcels[i + 1].Group_number)
-                    {
-                        MessageBox.Show("当前导入的数据为多组的形式，无法导入！！请重新选择");
-                        ClearData();
-                        return;
-                    }
-                    else
-                    {
-                        groupid = userExcels[i].Group_number;
-                    }
+                    var s = userExcels[i].Group_number;
+                    lis.Add(s);
                 }
+                for(int i = 0; i < lis.Count-1; i++)
+                {
+                    for(int j = 1; j < lis.Count; j++)
+                    {
+                        if (lis[i] != lis[j])
+                        {
+                            MessageBox.Show("当前导入的数据为多组的形式，无法导入！！请重新选择");
+                            ClearData();
+                            return false; 
+                        }
+                        else
+                        {
+                            groupid = lis[i];
+                        }
+                         
+                    }
+
+                }
+                   
+                return true;
             }
         }
         /// <summary>
@@ -675,18 +732,20 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// </summary>
         private void ClearData()
         {
+            userExcels = null;
             ChooseFileBtn.Enabled = true;
             FilePathInput.Text = string.Empty;
             ViewDataBtn.Enabled = true;
             SheetDataTableDrop.Items.Clear();
             UserDataView.DataSource = null;
+            FilePathInput.Text= string.Empty;   
 
         }
 
         /// <summary>
         /// 获取导入的数据中的组号
         /// </summary>
-        private void GetFileImportData()
+        private void GetFileImportData(DataTable dataTable)
         {
             if (dataTable == null)
             {
@@ -695,7 +754,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             else
             {
                 userExcels = new List<UserExcel>();
-                for (int i = 1; i < dataTable.Rows.Count; i++)
+                for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
                     CurrentStudentUserExcel = new UserExcel()
                     {
@@ -726,12 +785,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         }
 
         /// <summary>
-        /// 
+        /// 多文件选择
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ChoosefileImageBtn_Click(object sender, EventArgs e)
         {
+            ChooseFileBtn.Enabled=false;
             if (UserDataView.DataSource != null)
             {
                 List<Sunny.UI.UIButton> btsn = new List<Sunny.UI.UIButton>();
@@ -739,7 +799,37 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btsn.Add(ViewDataBtn);
                 btsn.Add(ChoosefileImageBtn);
                 btsn.Add(uiButton2);
-                FaceRegister(uiTextBox1, true, imagelist2, listView1, btsn);
+                //选择本地文件
+                var sl  =  ChooseLocalFile(true, uiTextBox1);
+                if (sl == null)
+                {
+                    MessageBox.Show("请先选择图片文件！！");
+                    ChooseFileBtn.Enabled = true;
+                    return;
+
+                }
+                else
+                {
+                    if (sl.Length > 0)
+                    {
+                        if (sl.Length != userExcels.Count || sl.Length < userExcels.Count)
+                        {
+                            MessageBox.Show("请重新选择人脸图片，与左边的表格中的数据统一！！");
+                            ClearData();
+                            return;
+                        }
+                        else
+                        {
+                            foreach (var s in sl)
+                            {
+                                imagePath.Add(s);
+                            }
+                            FaceRegister(sl, imagelist2, listView1, btsn);
+                        }
+
+                    }
+                }
+                 
             }
             else
             {
@@ -748,35 +838,88 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             
         }
-      
+        /// <summary>
+        ///  选择本地文件
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="uITextBox"></param>
+        private string[]  ChooseLocalFile(bool a, Sunny.UI.UITextBox uITextBox)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "选择图片";
+            openFileDialog.Filter = "图片文件|*.bmp;*.jpg;*.jpeg;*.png";
+            openFileDialog.Multiselect = a;  // 是否可以选择多个
+            openFileDialog.FileName = string.Empty;
+            GroupListFaceView.Refresh();
+            if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
+            {
+                uITextBox.Text = openFileDialog.FileName;
+                var s = openFileDialog.FileNames;
+                return s;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// /
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
+        bool isLastClick = false;
         private void UserDataView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (listView1.Items .Count!=0)
             {
-                if (e.RowIndex != -1 && e.ColumnIndex != -1)
+                if (isLastClick == true) // 说明上次点击了
                 {
-                    index = e.RowIndex;
-                    CurrentStudentUserExcel = SetUserExcelDatas(UserDataView, index);
-                    if (CurrentStudentUserExcel == null)
+                    SetUserExcelData(UserDataView, index);
+                }
+                else
+                {
+
+                    if (e.RowIndex >= 0)
                     {
-                        MessageBox.Show("请选择考生！！");
-                        return;
+                        if (e.RowIndex != -1 && e.ColumnIndex != -1)
+                        {
+                            index = e.RowIndex;
+                            CurrentStudentUserExcel = SetUserExcelDatas(UserDataView, index);
+                            if (CurrentStudentUserExcel == null)
+                            {
+                                MessageBox.Show("请选择考生！！");
+                                return;
+                            }
+                            SetListGroupHightLight(index, true);
+                            isLastClick = true;
+                        }
                     }
-                    SetListGroupHightLight(index);
                 }
             }
+            else
+            {
+                MessageBox.Show("请选择图片数据导入！");
+                return;
+            }
         }
+        /// <summary>
+        /// 取消上一次点击的东西
+        /// </summary>
+        /// <param name="dataGridView"></param>
+        /// <param name="index"></param>
+        private void SetUserExcelData(DataGridView dataGridView,int index)
+        {
+            dataGridView.Rows[index].DefaultCellStyle.BackColor = Color.White;
+            SetListGroupHightLight(index, false);
+        }
+
         /// <summary>
         ///  设置人脸数据选中
         /// </summary>
         /// <param name="index"></param>
-        private void SetListGroupHightLight(int index)
+        private void SetListGroupHightLight(int index  ,bool a)
         {
             if(listView1.Items.Count == 0)
             {
@@ -784,7 +927,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             else
             {
-                
+                listView1.Items[index].Selected = a;
             }
         }
 
@@ -832,27 +975,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="a"></param>
         /// <param name="imageList"></param>
         /// <param name="listView"></param>
-        private void FaceRegister(Sunny.UI.UITextBox uITextBox, bool a, ImageList imageList, ListView listView, List<Sunny.UI.UIButton> btns)
+        private void FaceRegister( string[] imagePath,  ImageList imageList, ListView listView, List<Sunny.UI.UIButton> btns)
         {
             try
             {
                 lock (chooseImgLocker)
                 {
-                    OpenFileDialog openFileDialog = new OpenFileDialog();
-                    openFileDialog.Title = "选择图片";
-                    openFileDialog.Filter = "图片文件|*.bmp;*.jpg;*.jpeg;*.png";
-                    openFileDialog.Multiselect = a;  // 是否可以选择多个
-                    openFileDialog.FileName = string.Empty;
-                    GroupListFaceView.Refresh();
-                    if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
-                    {
-                        var s = openFileDialog.FileNames;
-                        uITextBox.Text = openFileDialog.FileName;
-                        foreach (var sl in s)
-                        {
-                            imagePath.Add(sl);
-                        }
-                        //SaveImageToFace(groupid, imagePath);
+                      
                         List<string> imagePathListTemp = new List<string>();
                         int isGoodImage = index;
                         int numStart = imagePathList.Count;
@@ -867,7 +996,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                                 }
 
                             }));
-                            string[] fileNames = s;
+                            string[] fileNames =imagePath;
                             //保存图片路径并显示
                             for (int i = 0; i < fileNames.Length; i++)
                             {
@@ -943,8 +1072,19 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                                     imageList.Images.Add(imagePathListTemp[i], image);
                                     listView.Items.Add((numStart + isGoodImage) + "号", imagePathListTemp[i]);
                                     listView.Refresh();
-                                    var sls = $"left:{singleFaceInfo.faceRect.left},right:{singleFaceInfo.faceRect.right},top：{singleFaceInfo.faceRect.top},bottom:{singleFaceInfo.faceRect.bottom},orient:{singleFaceInfo.faceOrient}";
-                                    Console.WriteLine($"已提取{(numStart + isGoodImage)}号人脸特征值为:" + s);
+                                    Invoke(new Action(delegate
+                                    {
+                                        foreach (var btn in btns)
+                                        {
+                                            ControlsEnable(true, btn);
+                                        }
+
+                                    }));
+                                    string sls = $"left:{singleFaceInfo.faceRect.left},right:{singleFaceInfo.faceRect.right},top：{singleFaceInfo.faceRect.top},bottom:{singleFaceInfo.faceRect.bottom},orient:{singleFaceInfo.faceOrient}";
+                                    // 拿到特征值之后要根据
+                                    Console.WriteLine($"已提取{(numStart + isGoodImage)}号人脸特征值为:" + sls);
+
+
                                     isGoodImage++;
                                     if (image != null)
                                     {
@@ -953,11 +1093,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                                 }));
                             }
                         }));
-                    }
-                    else
-                    {
-                        return;
-                    }
+                    
                 }
             }
             catch (Exception ex)
