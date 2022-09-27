@@ -129,6 +129,9 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NPOI, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.dll</HintPath>
     </Reference>
@@ -142,11 +145,13 @@
       <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="RRQMCore">
-      <HintPath>..\..\..\ADCore\ADCore\ADCore\bin\Dll\RRQMCore.dll</HintPath>
+    <Reference Include="RRQMCore, Version=8.2.2.0, Culture=neutral, PublicKeyToken=83a466fd8c19d6a7">
+      <HintPath>..\packages\RRQMCore.8.2.2\lib\net45\RRQMCore.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="RRQMSocket">
-      <HintPath>..\..\..\ADCore\ADCore\ADCore\bin\Dll\RRQMSocket.dll</HintPath>
+    <Reference Include="RRQMSocket, Version=6.6.0.0, Culture=neutral, PublicKeyToken=83a466fd8c19d6a7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ADCore\ADCore\ADCore\ADCore\bin\Dll\RRQMSocket.dll</HintPath>
     </Reference>
     <Reference Include="SunnyUI, Version=3.2.3.1, Culture=neutral, PublicKeyToken=27d7d2e821d97aeb, processorArchitecture=MSIL">
       <HintPath>..\packages\SunnyUI.3.2.3.1\lib\net472\SunnyUI.dll</HintPath>
