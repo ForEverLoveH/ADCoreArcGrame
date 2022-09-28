@@ -10,6 +10,7 @@ namespace ArcSoftFace.GameCommon
     public  class NewGroupSql
     {
         public static NewGroupSql Instance;
+        FaceRegisterSql FaceRegisterSql= new FaceRegisterSql();
         LocalNetServer netServer = new LocalNetServer();
         public void Awake()
         {
@@ -104,6 +105,48 @@ namespace ArcSoftFace.GameCommon
             netServer.SendMsg(gameMsg);
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        public  void Req_NewGroupFaceRegister(GameMsg msg)
+        {
+            GameMsg gameMsg = new GameMsg()
+            {
+                cmd = CMD.Rsp_NewGrroupFaceRegister,
+            };
+            FaceRegisterSql.IsExtenFaceData(GameConst.DBFaceData);
+            try
+            {
+                string path = Application.StartupPath + GameConst.FaceDBPath;
+                SqlDbCommand sqlcommand = new SqlDbCommand(path);
+                var sl = sqlcommand.Insert<FaceData>( msg.req_NewGroupFaceRegister.faces , GameConst.DBFaceData);
+                if (sl == 0)
+                {
+                    gameMsg.rsp_NewGroupFaceRegister = new Rsp_NewGrroupFaceRegister()
+                    {
+                        Issucess = 0
+                    };
+                }
+                else if (sl >= 1)
+                {
+                    gameMsg.rsp_NewGroupFaceRegister = new Rsp_NewGrroupFaceRegister()
+                    {
+                        Issucess = 1
+                    };
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("数据插入错误！！");
+
+            }
+            netServer.SendMsg(gameMsg);
+
+        }
+
         /// <summary>
         /// 
         /// </summary>

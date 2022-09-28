@@ -1,9 +1,11 @@
-﻿using ArcSoftFace.ADCoreSystem.ADCoreGameWindow;
+﻿using ArcFaceSDK.Entity;
+using ArcSoftFace.ADCoreSystem.ADCoreGameWindow;
 using ArcSoftFace.ADCoreSystem.ADcoreModel;
 using ArcSoftFace.GameCommon;
 using ArcSoftFace.GameNet;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +17,7 @@ namespace ArcSoftFace.ADCoreSystem
     {
         public static NewGroupSys Instance;
         public bool IsCanCreateGroup = false;  // 是否可以创建
-        static NewGroupWindows newGroupWindow;
+        static NewGroup newGroupWindow;
         LocalNetClient localNetClient = new LocalNetClient();
 
 
@@ -37,14 +39,14 @@ namespace ArcSoftFace.ADCoreSystem
             {
                 if (newGroupWindow == null)
                 {
-                    newGroupWindow = new NewGroupWindows();
+                    newGroupWindow = new NewGroup();
                     newGroupWindow.Show();
                 }
                 else
                 {
                     if (newGroupWindow.IsDisposed)
                     {
-                        newGroupWindow = new NewGroupWindows();
+                        newGroupWindow = new NewGroup();
                         newGroupWindow.Show();
                     }
                     else
@@ -132,8 +134,48 @@ namespace ArcSoftFace.ADCoreSystem
                 return;
             }
         }
+        /// <summary>
+        ///  人脸注册通过输入
+        /// </summary>
+        /// <param name="faceData">key 是组号， var字典，对应学生信息中的名字以及人脸信息</param>
+        
+        public  void Req_RegisterFaceDataByInput(Dictionary<string, Dictionary<string, FaceFeature>> faceData)
+        {
+            string groupid = null ;
+            string name = null ;
+            FaceFeature faceFeature = new FaceFeature();
+            foreach(string key in faceData.Keys)
+            {
+                groupid = key;  
+            }
+            Dictionary<string, FaceFeature> value = new Dictionary<string, FaceFeature>();
+            faceData.TryGetValue(groupid, out value);
+            foreach(var names in value.Keys)
+            {
+                name = names;
+            }
+            value.TryGetValue(name, out faceFeature);
+             
+            FaceData face = new FaceData()
+            {
+               GroupID = groupid,
+               Name= name ,
+               FaceFeature=faceFeature.feature,
+            }; 
+            GameMsg game = new GameMsg()
+            {
+                cmd = CMD.Req_NewGroupFaceRegister,
+                req_NewGroupFaceRegister = new Req_NewGroupFaceRegister()
+                {
+                     faces = face,
+                }
+            };
+            localNetClient.SendMsg(game);
 
 
+
+
+        }
     }
 }
 

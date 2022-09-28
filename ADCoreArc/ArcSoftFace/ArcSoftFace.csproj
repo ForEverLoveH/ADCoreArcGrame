@@ -232,6 +232,7 @@
     <Compile Include="ADCoreSystem\ADCoreGameWindow\VerificationWindow.Designer.cs">
       <DependentUpon>VerificationWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ADCoreSystem\ADCoreModel\FaceDataModel\FaceData.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\FaceDataModel\FaceDataModel.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\GroupData\GroupDataModel.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\StartTestingExamData\StartTestingExamDataModel.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="ADCoreSystem\Image\ImageData.cs" />
     <Compile Include="ADCoreSystem\Loading\LoadingDot.cs" />
     <Compile Include="ADCoreSystem\Loading\LoadingHelper.cs" />
+    <Compile Include="ADCoreSystem\OpenLocalFile\LocalFile.cs" />
     <Compile Include="ADCoreSystem\OpenLocalFile\OpenDialogFile.cs" />
     <Compile Include="Arcsoft\ArcsoftManager.cs" />
     <Compile Include="Entity\DictionaryUnit.cs" />
@@ -284,6 +286,7 @@
       <DependentUpon>FaceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GameCommon\ExportGrade\ExportGradeSql.cs" />
+    <Compile Include="GameCommon\FaceRegister\FaceRegisterSql.cs" />
     <Compile Include="GameCommon\LoginSetting\LoginSettingSql.cs" />
     <Compile Include="GameCommon\Login\LoginSql.cs" />
     <Compile Include="GameCommon\ModeHelp.cs" />

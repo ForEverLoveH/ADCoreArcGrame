@@ -402,7 +402,7 @@ namespace ArcSoftFace
                                 {
                                     image = ImageUtil.ScaleImage(image, image.Width - (image.Width % 4), image.Height);
                                 }
-                                //提取特征判断
+                                //提取特征提取
                                 int featureCode = -1;
                                 SingleFaceInfo singleFaceInfo = new SingleFaceInfo();
                                 FaceFeature feature = FaceUtil.ExtractFeature(imageEngine, image, out singleFaceInfo, ref featureCode);

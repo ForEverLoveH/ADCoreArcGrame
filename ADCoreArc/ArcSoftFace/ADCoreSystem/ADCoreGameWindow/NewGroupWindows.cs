@@ -12,6 +12,7 @@ using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 using Sunny.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -29,21 +30,26 @@ using Image = System.Drawing.Image;
 
 namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 {
-    public partial class NewGroupWindows : Form
+    public partial class NewGroup : Form
     {
         FaceEngine FaceEngine = new FaceEngine();
         public string FaceDirectory = Application.StartupPath + GameConst.FaceDirectory;
         public string groupDirectory = null;
         public ImageData imageData = new ImageData();
-        bool isImportfacedata = false;
+        LocalFile localFile = new LocalFile();
+       
 
         /// <summary>
-        /// 用字典类型标记人脸数组 key 为 组号， value 为人脸数据列表
+        /// 用字典类型标记人脸数组 key 为 组号， value 为人脸数据字典包括人名 与特征值,即表示一组的所有学生数据的集合
         /// </summary>
-       // public Dictionary<string, List<string>> FaceData = new Dictionary<string, List<string>>();
-        List<string> featureData = new List<string>(); // 人脸特征值
+        private Dictionary<string, Dictionary<string, FaceFeature>> FaceData = new Dictionary<string, Dictionary<string, FaceFeature>>();
+        /// <summary>
+        /// 用字典来表示学生的人脸数据
+        /// </summary>.
+        private Dictionary<string, FaceFeature> studentData = new Dictionary<string, FaceFeature>();
 
-        public NewGroupWindows()
+
+        public NewGroup()
         {
             InitializeComponent();
         }
@@ -262,6 +268,42 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 GroupNumText.Text = groupid;
             }
         }
+        // <summary>
+        ///  导入数据库
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ImportSqliteBtn_Click(object sender, EventArgs e)
+        {
+            if (leftImageFeatureList == null || leftImageFeatureList.Count == 0)
+            {
+                MessageBox.Show("请先选择人脸图导入");
+                return;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(groupid))
+                {
+                    for (int i = 0; i < leftImageFeatureList.Count; i++)
+                    {
+                        string name = CurrentStudentUserExcel.Name;
+                        studentData.Add(name, leftImageFeatureList[i]);
+                        FaceData.Add(groupid, studentData);
+                    }
+                    if(FaceData.Count > 0)
+                    {
+                        NewGroupSys.Req_RegisterFaceDataByInput(FaceData);
+                    }
+
+
+
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
         /// <summary>
         /// 清空数据
         /// </summary>
@@ -278,31 +320,43 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             SesetionInput.Text = string.Empty;
             SchoolInput.Text = string.Empty;
         }
-        static int  index=0;
+        int  index=0;
         UserExcel CurrentStudentUserExcel = null;
         private void UserExcelData_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                if (e.RowIndex != -1 && e.ColumnIndex != -1)
-                {
-                    index = e.RowIndex;
-                    // 点击分为俩种一个是没有导入数据一个是导入了数据
-                    //查找是否已经导入了人脸数据
+                ControlsEnable(false, ContinueAddBtn, SucessAddStudent, ImportSqliteBtn);
+             
+                if (isLastClick == false) {
 
-                    if (SelectFaceDataInFaceView(index))
+                    if (e.RowIndex >= 0)
                     {
-                        CurrentStudentUserExcel = SetUserExcelDatas(UserExcelData, index);
+                        if (e.RowIndex != -1 && e.ColumnIndex != -1)
+                        {
+                            index = e.RowIndex;
+                            // 点击分为俩种一个是没有导入数据一个是导入了数据
+                            //查找是否已经导入了人脸数据
+
+                            if (SelectFaceDataInFaceView(index))
+                            {
+                                CurrentStudentUserExcel = SetUserExcelDatas(UserExcelData, index);
+                            }
+                            if (CurrentStudentUserExcel == null)
+                            {
+                                MessageBox.Show("请选择考生！！");
+                                return;
+                            }
+                        }
+
                     }
-                    if (CurrentStudentUserExcel == null)
-                    {
-                        MessageBox.Show("请选择考生！！");
-                        return;
-                    }
+                    isLastClick = true;
                     
                 }
+                else
+                {
+                    SetUserExcelData(UserExcelData, index);
+                }
                  
-            }
+            
             
         }
         /// <summary>
@@ -335,7 +389,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
             return false;
         }
-
 
         /// <summary>
         /// 上一位按钮
@@ -403,6 +456,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             {
                 imageLists.Images.RemoveAt(index);
                 GroupListFaceView.Refresh();
+
                 leftImageFeatureList.RemoveAt(index);
                 // 还得有一个操作，删除本地图片文件
                 if (groupDirectory == null)
@@ -432,6 +486,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="e"></param>
         private void ChooseFaceDataBtn_Click(object sender, EventArgs e)
         {
+
             if (CurrentStudentUserExcel == null)
             {
                 MessageBox.Show("清先选择人脸数据");
@@ -439,7 +494,9 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             else
             {
-                List< Sunny.UI.UIButton> btns = new List< Sunny.UI.UIButton>();
+                CheckImportBtnEnable();
+                 
+                List<Sunny.UI.UIButton> btns = new List< Sunny.UI.UIButton>();
                 btns.Add(NextStudentBtn);
                 btns.Add(AddStudentToListBtn);
                 btns.Add(TopStudentBtn);    
@@ -448,10 +505,22 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btns.Add(ChooseFaceDataBtn);
                 btns.Add(ClearFaceGroupBtn);
                 btns.Add(DelectCurrentStudentBtn);
-                var sl = ChooseLocalFile(false, uiTextBox2);
-                FaceRegister( sl, imageLists, GroupListFaceView, btns);
+                // btns.Add(ImportSqliteBtn);
+                //var sl = ChooseLocalFile(false, uiTextBox2);
+                var sl =   localFile.openLocalFile(false);
+                FaceRegister(sl, imageLists, GroupListFaceView, btns);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void CheckImportBtnEnable()
+        {
+            if (ImportSqliteBtn.Enabled==false)
+                ControlsEnable(true, ImportSqliteBtn);
+
+        }
+
         /// <summary>
         /// 禁用按钮
         /// </summary>
@@ -551,8 +620,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             {
                 NewGroupSys.Req_UpDateUserExcel(userExcels);
             }
-
-
         }
         #endregion
 
@@ -864,7 +931,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         }
 
         /// <summary>
-        /// /
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -913,6 +980,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             dataGridView.Rows[index].DefaultCellStyle.BackColor = Color.White;
             SetListGroupHightLight(index, false);
+            isLastClick=false;
         }
 
         /// <summary>
@@ -1037,6 +1105,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                                         continue;
                                     }
                                 }
+                                leftImageFeatureList.Add(feature);
                                 //人脸检测
                                 MultiFaceInfo multiFaceInfo;
                                 int retCode = imageEngine.ASFDetectFacesEx(image, out multiFaceInfo);
@@ -1074,17 +1143,12 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                                     listView.Refresh();
                                     Invoke(new Action(delegate
                                     {
-                                        foreach (var btn in btns)
-                                        {
-                                            ControlsEnable(true, btn);
-                                        }
-
+                                        ClearFaceGroupBtn.Enabled = true;
                                     }));
                                     string sls = $"left:{singleFaceInfo.faceRect.left},right:{singleFaceInfo.faceRect.right},top：{singleFaceInfo.faceRect.top},bottom:{singleFaceInfo.faceRect.bottom},orient:{singleFaceInfo.faceOrient}";
                                     // 拿到特征值之后要根据
                                     Console.WriteLine($"已提取{(numStart + isGoodImage)}号人脸特征值为:" + sls);
-
-
+                                    
                                     isGoodImage++;
                                     if (image != null)
                                     {
@@ -1093,12 +1157,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                                 }));
                             }
                         }));
-                    
                 }
             }
             catch (Exception ex)
             {
-                LogUtil.LogInfo(GetType(), ex);
+                 Console.WriteLine(ex.Message);
             }
 
         }
@@ -1106,9 +1169,9 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
 
         }
+
+        
         #endregion
-
-
     }
 }
 

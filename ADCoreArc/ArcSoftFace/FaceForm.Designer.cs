@@ -114,7 +114,7 @@
             this.imageList.LargeImageList = this.imageLists;
             this.imageList.Location = new System.Drawing.Point(14, 37);
             this.imageList.Name = "imageList";
-            this.imageList.Size = new System.Drawing.Size(527, 362);
+            this.imageList.Size = new System.Drawing.Size(557, 362);
             this.imageList.TabIndex = 33;
             this.imageList.UseCompatibleStateImageBehavior = false;
             // 

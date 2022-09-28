@@ -1,4 +1,5 @@
-﻿using ArcSoftFace.ADCoreSystem.ADcoreModel;
+﻿using ArcSoftFace.ADCoreSystem;
+using ArcSoftFace.ADCoreSystem.ADcoreModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,8 @@ namespace ArcSoftFace.GameNet
         public Rsp_QueryExaminationTime rsp_QueryExaminationTime;
         public Req_NewGroupUpdateUserExcel req_NewGroupUpdateUserExcel;
         public Rsp_NewGroupUpdateUserExcel rsp_NewGroupUpdateUserExcel;
+        public Req_NewGroupFaceRegister req_NewGroupFaceRegister;
+        public Rsp_NewGrroupFaceRegister rsp_NewGroupFaceRegister;
         public Req_GetGroupMent req_GetGroupMent;
         public Rsp_GetGroupMent rsp_GetGroupMent;
 
@@ -46,6 +49,20 @@ namespace ArcSoftFace.GameNet
         public Req_GetFaceFeature req_GetFaceFeature;
         public Rsp_GetFaceFeature rsp_GetFaceFeature;
 
+    }
+    /// <summary>
+    ///  人脸注册的返回
+    /// </summary>
+    public class Rsp_NewGrroupFaceRegister
+    {
+        public  int Issucess { get; set; }  
+    }
+    /// <summary>
+    /// 人脸注册的请求
+    /// </summary>
+    public class Req_NewGroupFaceRegister
+    {
+        public FaceData faces { get; set; }
     }
 
     public class Rsp_GetFaceFeature

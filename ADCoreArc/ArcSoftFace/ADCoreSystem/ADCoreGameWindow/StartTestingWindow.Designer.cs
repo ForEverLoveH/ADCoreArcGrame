@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -52,6 +53,7 @@
             this.uiLabel6 = new Sunny.UI.UILabel();
             this.uiLabel7 = new Sunny.UI.UILabel();
             this.FaceList = new System.Windows.Forms.ListView();
+            this.FaceImageList = new System.Windows.Forms.ImageList(this.components);
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.uiLabel8 = new Sunny.UI.UILabel();
             this.ExamNum = new Sunny.UI.UITextBox();
@@ -106,9 +108,12 @@
             this.uiLabel29 = new Sunny.UI.UILabel();
             this.GradeDroup = new Sunny.UI.UIComboBox();
             this.rgbVideoSource = new AForge.Controls.VideoSourcePlayer();
-            this.irVideoSource = new AForge.Controls.VideoSourcePlayer();
             this.uiLabel30 = new Sunny.UI.UILabel();
+            this.ChooseImageBtn = new Sunny.UI.UIButton();
             this.txtThreshold = new Sunny.UI.UITextBox();
+            this.uiButton3 = new Sunny.UI.UIButton();
+            this.picImageCompare = new System.Windows.Forms.PictureBox();
+            this.irVideoSource = new AForge.Controls.VideoSourcePlayer();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GroupDataView)).BeginInit();
@@ -118,6 +123,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picImageCompare)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -383,11 +389,18 @@
             // FaceList
             // 
             this.FaceList.HideSelection = false;
+            this.FaceList.LargeImageList = this.FaceImageList;
             this.FaceList.Location = new System.Drawing.Point(4, 594);
             this.FaceList.Name = "FaceList";
             this.FaceList.Size = new System.Drawing.Size(985, 307);
             this.FaceList.TabIndex = 18;
             this.FaceList.UseCompatibleStateImageBehavior = false;
+            // 
+            // FaceImageList
+            // 
+            this.FaceImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.FaceImageList.ImageSize = new System.Drawing.Size(50, 50);
+            this.FaceImageList.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // pictureBox3
             // 
@@ -594,12 +607,12 @@
             // 
             this.StartCameraBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.StartCameraBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.StartCameraBtn.Location = new System.Drawing.Point(1379, 53);
+            this.StartCameraBtn.Location = new System.Drawing.Point(503, 554);
             this.StartCameraBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.StartCameraBtn.Name = "StartCameraBtn";
-            this.StartCameraBtn.Size = new System.Drawing.Size(119, 35);
+            this.StartCameraBtn.Size = new System.Drawing.Size(107, 35);
             this.StartCameraBtn.TabIndex = 35;
-            this.StartCameraBtn.Text = "摄像机人脸识别";
+            this.StartCameraBtn.Text = "启用相机";
             this.StartCameraBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.StartCameraBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.StartCameraBtn.Click += new System.EventHandler(this.StartCameraBtn_Click);
@@ -1046,28 +1059,19 @@
             // 
             // rgbVideoSource
             // 
-            this.rgbVideoSource.Location = new System.Drawing.Point(995, 158);
+            this.rgbVideoSource.Location = new System.Drawing.Point(995, 154);
             this.rgbVideoSource.Name = "rgbVideoSource";
-            this.rgbVideoSource.Size = new System.Drawing.Size(524, 197);
+            this.rgbVideoSource.Size = new System.Drawing.Size(524, 208);
             this.rgbVideoSource.TabIndex = 75;
             this.rgbVideoSource.Text = "videoSource";
             this.rgbVideoSource.VideoSource = null;
-            // 
-            // irVideoSource
-            // 
-            this.irVideoSource.BackColor = System.Drawing.SystemColors.Control;
-            this.irVideoSource.Location = new System.Drawing.Point(1379, 158);
-            this.irVideoSource.Name = "irVideoSource";
-            this.irVideoSource.Size = new System.Drawing.Size(140, 107);
-            this.irVideoSource.TabIndex = 76;
-            this.irVideoSource.Text = "videoSource";
-            this.irVideoSource.VideoSource = null;
-            this.irVideoSource.Visible = false;
+            this.rgbVideoSource.PlayingFinished += new AForge.Video.PlayingFinishedEventHandler(this.rgbVideoSource_PlayingFinished);
+            this.rgbVideoSource.Paint += new System.Windows.Forms.PaintEventHandler(this.rgbVideoSource_Paint);
             // 
             // uiLabel30
             // 
             this.uiLabel30.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel30.Location = new System.Drawing.Point(1375, 11);
+            this.uiLabel30.Location = new System.Drawing.Point(860, 557);
             this.uiLabel30.Name = "uiLabel30";
             this.uiLabel30.Size = new System.Drawing.Size(66, 23);
             this.uiLabel30.TabIndex = 77;
@@ -1075,31 +1079,80 @@
             this.uiLabel30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel30.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
+            // ChooseImageBtn
+            // 
+            this.ChooseImageBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ChooseImageBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ChooseImageBtn.Location = new System.Drawing.Point(630, 554);
+            this.ChooseImageBtn.MinimumSize = new System.Drawing.Size(1, 1);
+            this.ChooseImageBtn.Name = "ChooseImageBtn";
+            this.ChooseImageBtn.Size = new System.Drawing.Size(100, 35);
+            this.ChooseImageBtn.TabIndex = 79;
+            this.ChooseImageBtn.Text = "选择识别图";
+            this.ChooseImageBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ChooseImageBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.ChooseImageBtn.Click += new System.EventHandler(this.ChooseImageBtn_Click);
+            // 
             // txtThreshold
             // 
             this.txtThreshold.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtThreshold.DoubleValue = 0.8D;
             this.txtThreshold.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtThreshold.Location = new System.Drawing.Point(1419, 11);
+            this.txtThreshold.Location = new System.Drawing.Point(916, 557);
             this.txtThreshold.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtThreshold.MinimumSize = new System.Drawing.Size(1, 16);
             this.txtThreshold.Name = "txtThreshold";
             this.txtThreshold.ShowText = false;
-            this.txtThreshold.Size = new System.Drawing.Size(88, 26);
-            this.txtThreshold.TabIndex = 78;
+            this.txtThreshold.Size = new System.Drawing.Size(72, 29);
+            this.txtThreshold.TabIndex = 80;
             this.txtThreshold.Text = "0.8";
             this.txtThreshold.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.txtThreshold.Watermark = "";
             this.txtThreshold.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiButton3
+            // 
+            this.uiButton3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.uiButton3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButton3.Location = new System.Drawing.Point(754, 554);
+            this.uiButton3.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiButton3.Name = "uiButton3";
+            this.uiButton3.Size = new System.Drawing.Size(100, 35);
+            this.uiButton3.TabIndex = 81;
+            this.uiButton3.Text = "开始匹配";
+            this.uiButton3.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButton3.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // picImageCompare
+            // 
+            this.picImageCompare.Location = new System.Drawing.Point(995, 154);
+            this.picImageCompare.Name = "picImageCompare";
+            this.picImageCompare.Size = new System.Drawing.Size(524, 208);
+            this.picImageCompare.TabIndex = 82;
+            this.picImageCompare.TabStop = false;
+            // 
+            // irVideoSource
+            // 
+            this.irVideoSource.BackColor = System.Drawing.SystemColors.Control;
+            this.irVideoSource.Location = new System.Drawing.Point(1379, 154);
+            this.irVideoSource.Name = "irVideoSource";
+            this.irVideoSource.Size = new System.Drawing.Size(140, 115);
+            this.irVideoSource.TabIndex = 83;
+            this.irVideoSource.Text = "videoSource";
+            this.irVideoSource.VideoSource = null;
+            this.irVideoSource.Visible = false;
             // 
             // StartTestingWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1520, 903);
-            this.Controls.Add(this.txtThreshold);
-            this.Controls.Add(this.uiLabel30);
             this.Controls.Add(this.irVideoSource);
+            this.Controls.Add(this.picImageCompare);
+            this.Controls.Add(this.uiButton3);
+            this.Controls.Add(this.txtThreshold);
+            this.Controls.Add(this.ChooseImageBtn);
+            this.Controls.Add(this.uiLabel30);
             this.Controls.Add(this.rgbVideoSource);
             this.Controls.Add(this.GradeDroup);
             this.Controls.Add(this.uiLabel29);
@@ -1185,6 +1238,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picImageCompare)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1264,8 +1318,12 @@
         private Sunny.UI.UILabel uiLabel29;
         private Sunny.UI.UIComboBox GradeDroup;
         private AForge.Controls.VideoSourcePlayer rgbVideoSource;
-        private AForge.Controls.VideoSourcePlayer irVideoSource;
         private Sunny.UI.UILabel uiLabel30;
+        private System.Windows.Forms.ImageList FaceImageList;
+        private Sunny.UI.UIButton ChooseImageBtn;
         private Sunny.UI.UITextBox txtThreshold;
+        private Sunny.UI.UIButton uiButton3;
+        private System.Windows.Forms.PictureBox picImageCompare;
+        private AForge.Controls.VideoSourcePlayer irVideoSource;
     }
 }

@@ -283,6 +283,14 @@ namespace ArcSoftFace.GameCommon
         {
             StartTestingSql.Instance.Req_GetFaceFeature(msg);
         }
+        /// <summary>
+        ///  人脸注册
+        /// </summary>
+        /// <param name="msg"></param>
+        public  void Req_NewGroupFaceRegister(GameMsg msg)
+        {
+            NewGroupSql.Instance.Req_NewGroupFaceRegister(msg);
+        }
     }
 }
 

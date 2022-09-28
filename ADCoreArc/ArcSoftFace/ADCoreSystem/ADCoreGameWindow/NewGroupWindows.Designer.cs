@@ -1,6 +1,6 @@
 ﻿namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 {
-    partial class NewGroupWindows
+    partial class NewGroup
     {
         /// <summary>
         /// Required designer variable.
@@ -62,7 +62,7 @@
             this.GroupNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.uiTabControl1 = new Sunny.UI.UITabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.uiTextBox2 = new Sunny.UI.UITextBox();
+            this.ImportSqliteBtn = new Sunny.UI.UIButton();
             this.ClearFaceGroupBtn = new Sunny.UI.UIButton();
             this.uiLabel19 = new Sunny.UI.UILabel();
             this.DelectCurrentStudentBtn = new Sunny.UI.UIButton();
@@ -316,7 +316,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.uiTextBox2);
+            this.tabPage1.Controls.Add(this.ImportSqliteBtn);
             this.tabPage1.Controls.Add(this.ClearFaceGroupBtn);
             this.tabPage1.Controls.Add(this.uiLabel19);
             this.tabPage1.Controls.Add(this.DelectCurrentStudentBtn);
@@ -362,26 +362,25 @@
             this.tabPage1.Text = "手动输入";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // uiTextBox2
+            // ImportSqliteBtn
             // 
-            this.uiTextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox2.Location = new System.Drawing.Point(1114, 506);
-            this.uiTextBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox2.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox2.Name = "uiTextBox2";
-            this.uiTextBox2.ShowText = false;
-            this.uiTextBox2.Size = new System.Drawing.Size(235, 29);
-            this.uiTextBox2.TabIndex = 38;
-            this.uiTextBox2.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox2.Watermark = "";
-            this.uiTextBox2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.ImportSqliteBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ImportSqliteBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ImportSqliteBtn.Location = new System.Drawing.Point(1114, 506);
+            this.ImportSqliteBtn.MinimumSize = new System.Drawing.Size(1, 1);
+            this.ImportSqliteBtn.Name = "ImportSqliteBtn";
+            this.ImportSqliteBtn.Size = new System.Drawing.Size(100, 35);
+            this.ImportSqliteBtn.TabIndex = 39;
+            this.ImportSqliteBtn.Text = "导入数据库";
+            this.ImportSqliteBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ImportSqliteBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.ImportSqliteBtn.Click += new System.EventHandler(this.ImportSqliteBtn_Click);
             // 
             // ClearFaceGroupBtn
             // 
             this.ClearFaceGroupBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ClearFaceGroupBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ClearFaceGroupBtn.Location = new System.Drawing.Point(822, 286);
+            this.ClearFaceGroupBtn.Location = new System.Drawing.Point(1250, 506);
             this.ClearFaceGroupBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.ClearFaceGroupBtn.Name = "ClearFaceGroupBtn";
             this.ClearFaceGroupBtn.Size = new System.Drawing.Size(100, 35);
@@ -406,7 +405,7 @@
             // 
             this.DelectCurrentStudentBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.DelectCurrentStudentBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.DelectCurrentStudentBtn.Location = new System.Drawing.Point(691, 286);
+            this.DelectCurrentStudentBtn.Location = new System.Drawing.Point(818, 286);
             this.DelectCurrentStudentBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.DelectCurrentStudentBtn.Name = "DelectCurrentStudentBtn";
             this.DelectCurrentStudentBtn.Size = new System.Drawing.Size(100, 35);
@@ -420,7 +419,7 @@
             // 
             this.NextStudentBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.NextStudentBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.NextStudentBtn.Location = new System.Drawing.Point(569, 286);
+            this.NextStudentBtn.Location = new System.Drawing.Point(698, 286);
             this.NextStudentBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.NextStudentBtn.Name = "NextStudentBtn";
             this.NextStudentBtn.Size = new System.Drawing.Size(100, 35);
@@ -434,7 +433,7 @@
             // 
             this.TopStudentBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.TopStudentBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TopStudentBtn.Location = new System.Drawing.Point(453, 289);
+            this.TopStudentBtn.Location = new System.Drawing.Point(592, 287);
             this.TopStudentBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.TopStudentBtn.Name = "TopStudentBtn";
             this.TopStudentBtn.Size = new System.Drawing.Size(100, 35);
@@ -763,7 +762,7 @@
             this.examTimeDroup.SymbolDropDown = 61555;
             this.examTimeDroup.SymbolNormal = 61555;
             this.examTimeDroup.TabIndex = 9;
-            this.examTimeDroup.Text = "2022/09/26 12:09";
+            this.examTimeDroup.Text = "2022/09/28 12:09";
             this.examTimeDroup.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.examTimeDroup.TimeFormat = "yyyy/MM/dd hh:MM";
             this.examTimeDroup.Value = new System.DateTime(2022, 9, 12, 16, 21, 8, 894);
@@ -1108,14 +1107,14 @@
             this.uiLabel15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel15.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
-            // NewGroupWindows
+            // NewGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1365, 681);
             this.Controls.Add(this.uiTabControl1);
-            //this.Name = "NewGroupWindows";
-            this.Text = "NewGroupWindows";
+           // this.Name = "NewGroup";
+            this.Text = "newGroupWindow";
             this.Load += new System.EventHandler(this.NewGroup_Load);
             ((System.ComponentModel.ISupportInitialize)(this.UserExcelData)).EndInit();
             this.uiTabControl1.ResumeLayout(false);
@@ -1205,6 +1204,6 @@
         private Sunny.UI.UIButton uiButton2;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ImageList imagelist2;
-        private Sunny.UI.UITextBox uiTextBox2;
+        private Sunny.UI.UIButton ImportSqliteBtn;
     }
 }

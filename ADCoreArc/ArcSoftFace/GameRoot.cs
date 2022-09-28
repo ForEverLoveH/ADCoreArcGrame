@@ -1,4 +1,5 @@
-﻿using ArcSoftFace.ADCoreSystem;
+﻿using ArcFaceSDK;
+using ArcSoftFace.ADCoreSystem;
 using ArcSoftFace.ADCoreSystem.ADCoreGameSys;
 using ArcSoftFace.Arcsoft;
 using ArcSoftFace.GameCommon;
@@ -47,8 +48,10 @@ namespace ArcSoftFace
 
         private  void Start()
         {
+             
             sqliteDB.Init();
             LoginSys.Init();
+             
 
         }
 

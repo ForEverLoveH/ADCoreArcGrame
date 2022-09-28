@@ -28,6 +28,7 @@ namespace ArcSoftFace.ADCoreSystem
         /// 人脸库
         /// </summary>
         public const string FaceDBPath = "/../Seve/FaceData.db";
+        public const string DBFaceData = "FaceData";
 
         public const int SqlNumber = 1000000;
 

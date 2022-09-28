@@ -29,9 +29,12 @@
         Rsp_NewGroupGetGroup,
         Req_QueryExaminationTime,
         Rsp_QueryExaminationTime,
+        Req_NewGroupFaceRegister,
+        Rsp_NewGrroupFaceRegister,
 
         Req_NewGroupUpdateUserExcel,
         Rsp_NewGroupUpdateUserExcel,
+
         Req_GetGroupMent,
         Rsp_GetGroupMent,
         Req_TestNumberInquriry,
