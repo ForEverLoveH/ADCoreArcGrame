@@ -27,6 +27,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         private CameraConnect cameraConnect= new CameraConnect();
         private ImageData ImageData = new ImageData();
         LocalFile localFile = new LocalFile();
+        string path = Application.StartupPath + GameConst.FaceDirectory;
 
 
         /// <summary>
@@ -116,7 +117,9 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     GroupIDDrop.Items.Add(item.Group_number);
                 }
             }
-            GetFaceList();
+
+             
+             
         }
         /// <summary>
         /// 根据组 的信息查找人脸数据
@@ -349,12 +352,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     }
                     Console.WriteLine(string.Format("------------------------------检测结束，时间:{0}------------------------------", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
                     
-
-                    //清空上次的匹配结果
-                    /*for (int i = 0; i < leftImageFeatureList.Count; i++)
-                    {
-                        .Items[i].Text = string.Format("{0}号", i);
-                    }*/
+                     
                     //获取缩放比例
                     float scaleRate = ImageUtil.GetWidthAndHeight(scrImage.Width, scrImage.Height, picImageCompare.Width, picImageCompare.Height);
                     //缩放图片
@@ -363,6 +361,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     scrImage = ImageUtil.MarkRectAndString(scrImage, mrectTemp, ageTemp, genderTemp, picImageCompare.Width, scaleRate, multiFaceInfo.faceNum);
                     //显示标记后的图像
                     picImageCompare.Image = scrImage;
+                    ChooseImageBtn.Enabled = false;
                 }
             }
             
@@ -371,6 +370,458 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 Console.WriteLine(ex.Message);
                 return;
             }
+        }
+        private UserExcelMode CurentUserExcelMode = null;
+        /// <summary>
+        /// 缺考按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MissingBtn_Click(object sender, EventArgs e)
+        {
+            string S  = GradeDroup.Text;
+            if (string.IsNullOrEmpty(S))
+            {
+                MessageBox.Show("请选择你需要设置的成绩选项！！");
+                return;
+
+            }
+            else
+            {
+                if(CurentUserExcelMode == null)
+                {
+                    MessageBox.Show("请先选择考生数据！！");
+                    return;
+                }
+                else
+                {
+                    SetUserGradeData(S, "缺考");
+                }
+            }
+        }
+
+        private void SetUserGradeData(string s, string v)
+        {
+             if(CurentUserExcelMode==null)
+            {
+                MessageBox.Show("请选择考生数据！！");
+                return;
+            }
+            else
+            {
+                switch(s)
+                {
+                    case "成绩1":
+                        CurentUserExcelMode.Achievement_one = v;
+                        break;
+                    case "成绩2":
+                        CurentUserExcelMode.Achievement_two = v;
+                        break;
+                    case "成绩3":
+                        CurentUserExcelMode.Achievement_three = v;
+                        break;
+                    case "成绩4":
+                        CurentUserExcelMode.Achievement_four = v;
+                        break;
+
+                }
+                StartTestingSys.ReqModify_Grades(CurentUserExcelMode);
+            }
+        }
+
+        /// <summary>
+        /// 犯规按钮点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FoulBtn_Click(object sender, EventArgs e)
+        {
+            var S = GradeDroup.Text;
+            if (string.IsNullOrEmpty(S))
+            {
+                MessageBox.Show("请先选择你需要设置的成绩数据！！");
+                return;
+            }
+            else
+            {
+                if (CurentUserExcelMode == null)
+                {
+                    MessageBox.Show("请选择考生数据！");
+                    return;
+                }
+                else
+                {
+                    SetUserGradeData(S, "犯规");
+                }
+            }
+        }
+        /// <summary>
+        /// 重置按钮点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetBtn_Click(object sender, EventArgs e)
+        {
+            var S = GradeDroup.Text;
+            if (string.IsNullOrEmpty(S))
+            {
+                MessageBox.Show("请先选择你需要设置的成绩数据！！");
+                return;
+            }
+            else
+            {
+                if (CurentUserExcelMode == null)
+                {
+                    MessageBox.Show("请选择考生数据！");
+                    return;
+                }
+                else
+                {
+                    SetUserGradeData(S, "null");
+                }
+
+            }
+        }
+        /// <summary>
+        /// 弃权按钮点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Waiverbtn_Click(object sender, EventArgs e)
+        {
+            var S = GradeDroup.Text;
+            if (string.IsNullOrEmpty(S))
+            {
+                MessageBox.Show("请先选择你需要设置的成绩数据！！");
+                return;
+            }
+            else
+            {
+                if (CurentUserExcelMode == null)
+                {
+                    MessageBox.Show("请选择考生数据！");
+                    return;
+                }
+                else
+                {
+                    SetUserGradeData(S, "弃权");
+                }
+            }
+        }
+            /// <summary>
+            /// 刷新按钮点击
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+        private void Refreshbtn_Click(object sender, EventArgs e)
+        {
+            StartTestingSys.GetCurrentGroupMsg(ExamTimeDrop.Text.Trim(), GroupIDDrop.Text.Trim());
+        }
+        /// <summary>
+        /// 下一位考生
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NextCandidateBtn_Click(object sender, EventArgs e)
+        {
+            if (CurentUserExcelMode == null)
+            {
+                MessageBox.Show("请先选择数据");
+                return;
+            }
+            else
+            {
+                if (btnName == userExcel.Count - 1)
+                {
+                    MessageBox.Show("当前已经是最后一个数据，无法下一位");
+                    return ;
+                }
+                else
+                {
+                    SetGroupDataGridViewWhite(btnName);
+                    btnName++;
+                    SetCurrentUserExcelData(btnName, GroupDataView);
+                }
+            }
+        }
+        /// <summary>
+        /// 设置 左侧list 处于不选中状态
+        /// </summary>
+        /// <param name="btnName"></param>
+        
+        private void SetGroupDataGridViewWhite(int index)
+        {
+             GroupDataView.Rows[index].DefaultCellStyle.BackColor = Color.Gray;
+             SetFaceGroupListWhite(index);
+        }
+        /// <summary>
+        ///  将人脸信息取消选中
+        /// </summary>
+        /// <param name="index"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void SetFaceGroupListWhite(int index)
+        {
+             
+        }
+
+        /// <summary>
+        /// 上一位考生
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LastCandidateBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+        private int btnName;
+        /// <summary>
+        /// 更新数据
+        /// </summary>
+        /// <param name="userExcelMode"></param>
+        public  void UpdateExcelDataModeInTable(UserExcelMode userExcelMode)
+        {
+            int index = btnName;
+            userExcel[index] = userExcelMode;
+            GroupDataView.DataSource = null;
+            StartTestingSys.GetCurrentGroupMsg(ExamTimeDrop.Text, GroupIDDrop.Text);
+
+
+        }
+        int index = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GroupDataView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (e.RowIndex >= -1 && e.ColumnIndex != -1)
+                {
+                    index = e.RowIndex;
+                    btnName = index;
+                    CurentUserExcelMode = SetCurrentUserExcelData(index , GroupDataView);
+                    ShowCurrentData(CurentUserExcelMode);
+                    // 还需要跟 人脸库中的人脸数据进行绑定
+                    SetFaceGroupListHight(index);
+                }
+
+            }
+
+        }
+
+        private void SetFaceGroupListHight(int index)
+        {
+             
+        }
+
+        int achieveMent;
+        private void ShowCurrentData(UserExcelMode curentUserExcelMode)
+        {
+            if (curentUserExcelMode == null)
+            {
+                MessageBox.Show("请先选择考生！！");
+                return;
+            }
+            else
+            {
+                ExamNumInput.Text = curentUserExcelMode.Exam_number;
+                SchoolInput.Text = curentUserExcelMode.School;
+                NameInput.Text = curentUserExcelMode.Name;
+                GradeTextInput.Text = curentUserExcelMode.Grade;
+                SexInput.Text = curentUserExcelMode.Sex;
+                ClassInput.Text = curentUserExcelMode.ClassName;
+                if (int.TryParse(curentUserExcelMode.Achievement_one, out achieveMent))
+                {
+                    GradeOneText.Text = achieveMent.ToString();
+                    GradeOneState.Text = "已测试";
+                }
+                else
+                {
+                    switch (curentUserExcelMode.Achievement_one)
+                    {
+                        case "缺考":
+                            GradeOneText.Text = "NULL";
+                            GradeOneState.Text = "缺考";
+                            break;
+                        case "弃权":
+                            GradeOneText.Text = "NULL";
+                            GradeOneState.Text = "弃权";
+                            break;
+                        case "犯规":
+                            GradeOneText.Text = "NULL";
+                            GradeOneState.Text = "犯规";
+                            break;
+                        default:
+                            GradeOneText.Text = "NULL";
+                            GradeOneState.Text = "没有测试";
+                            break;
+                    }
+                }
+                if (int.TryParse(curentUserExcelMode.Achievement_two, out achieveMent))
+                {
+                    GradeTwoText.Text = achieveMent.ToString();
+                    GradetwoState.Text = "已测试";
+                }
+                else
+                {
+                    switch (curentUserExcelMode.Achievement_two)
+                    {
+                        case "缺考":
+                            GradeTwoText.Text = "NULL";
+                            GradetwoState.Text = "缺考";
+                            break;
+                        case "弃权":
+                            GradeTwoText.Text = "NULL";
+                            GradetwoState.Text = "弃权";
+                            break;
+                        case "犯规":
+                            GradeTwoText.Text = "NULL";
+                            GradetwoState.Text = "犯规";
+                            break;
+                        default:
+                            GradeTwoText.Text = "NULL";
+                            GradetwoState.Text = "没有测试";
+                            break;
+
+
+                    }
+                }
+                if (int.TryParse(curentUserExcelMode.Achievement_three, out achieveMent))
+                {
+                    GradeThreeText.Text = achieveMent.ToString();
+                    GradeThreeState.Text = "已测试";
+
+                }
+                else
+                {
+                    switch (curentUserExcelMode.Achievement_one)
+                    {
+                        case "缺考":
+                            GradeThreeText.Text = "NULL";
+                            GradeThreeState.Text = "缺考";
+                            break;
+                        case "弃权":
+                            GradeThreeText.Text = "NULL";
+                            GradeThreeState.Text = "弃权";
+                            break;
+                        case "犯规":
+                            GradeThreeText.Text = "NULL";
+                            GradeThreeState.Text = "犯规";
+                            break;
+                        default:
+                            GradeThreeText.Text = "NULL";
+                            GradeThreeState.Text = "没有测试";
+                            break;
+
+
+                    }
+
+                }
+                if (int.TryParse(curentUserExcelMode.Achievement_four, out achieveMent))
+                {
+                    GradeFourText.Text = achieveMent.ToString();
+                    GradeFourState.Text = "已测试";
+
+                }
+                else
+                {
+                    switch (curentUserExcelMode.Achievement_four)
+                    {
+                        case "缺考":
+                            GradeFourState.Text = "NULL";
+                            GradeFourState.Text = "缺考";
+                            break;
+                        case "弃权":
+                            GradeFourState.Text = "NULL";
+                            GradeFourState.Text = "弃权";
+                            break;
+                        case "犯规":
+                            GradeFourState.Text = "NULL";
+                            GradeFourState.Text = "犯规";
+                            break;
+                        default:
+                            GradeFourState.Text = "NULL";
+                            GradeFourState.Text = "没有测试";
+                            break;
+                    }
+
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="dataTable"></param>
+        /// <returns></returns>
+        private UserExcelMode SetCurrentUserExcelData(int index, Sunny.UI.UIDataGridView dataTable)
+        {
+            if (index != -1)
+            {
+                GroupDataView.Rows[index].DefaultCellStyle.BackColor = Color.LightSkyBlue;
+
+            }
+            UserExcelMode userExcel = new UserExcelMode() 
+            {
+                Id = long.Parse(dataTable.Rows[btnName].Cells[0].Value.ToString()),
+                Exam_number = dataTable.Rows[btnName].Cells[1].Value.ToString(),
+                Region = dataTable.Rows[btnName].Cells[2].Value.ToString(),
+                Venue =dataTable.Rows[btnName].Cells[3].Value.ToString(),
+                Project_team = dataTable.Rows[btnName].Cells[4].Value.ToString(),
+                Name = dataTable.Rows[btnName].Cells[5].Value.ToString(),
+                Sex = dataTable.Rows[btnName].Cells[6].Value.ToString(),
+                School = dataTable.Rows[btnName].Cells[7].Value.ToString(),
+                Grade = dataTable.Rows[btnName].Cells[8].Value.ToString(),
+                ClassName = dataTable.Rows[btnName].Cells[9].Value.ToString(),
+                Project = dataTable.Rows[btnName].Cells[10].Value.ToString(),
+                Exam_date = dataTable.Rows[btnName].Cells[11].Value.ToString(),
+                Sessions = dataTable.Rows[btnName].Cells[12].Value.ToString(),
+                Group_number = dataTable.Rows[btnName].Cells[13].Value.ToString(),
+                Intra_group_serial_number = dataTable.Rows[btnName].Cells[14].Value.ToString(),
+                Achievement_one = dataTable.Rows[btnName].Cells[15].Value.ToString(),
+                Achievement_three = dataTable.Rows[btnName].Cells[16].Value.ToString(),
+                Achievement_four = dataTable.Rows[btnName].Cells[17].Value.ToString(),
+                Remarks = dataTable.Rows[btnName].Cells[18].Value.ToString(),
+            };
+            return userExcel;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="groupID"></param>
+        private void GetFaceImageDirectory(string groupID)
+        {
+            if (string.IsNullOrEmpty(groupID))
+            {
+                MessageBox.Show("请先确定组号！！");
+                return;
+            }
+            else
+            {
+                string paths = path + "/" + groupID;
+                var imageList =   ImageData.GetDirectoryImageFile(paths);
+                if(imageList != null)
+                {
+                   for(int i =0; i < imageList.Count; i++)
+                   {
+                        FaceImageList.Images.Add(imageList[i]);
+                   }
+                }
+                 
+
+            }
+        }
+
+        
+  
+        private void GroupIDDrop_TextChanged(object sender, EventArgs e)
+        {
+            string groupID = GroupIDDrop.Text;
+            GetFaceImageDirectory(groupID);
+
         }
     }
 }

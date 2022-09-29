@@ -101,7 +101,10 @@ namespace ArcSoftFace.ADCoreSystem
                 groupData = null;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
         public void Rsp_TestNumberInquiry(GameMsg msg)
         {
             if (msg.rsp_TestNumberInquriey.userExcelModes.Count > 0)
@@ -133,7 +136,15 @@ namespace ArcSoftFace.ADCoreSystem
 
         public void RspModify_Grades(GameMsg msg)
         {
-            
+            if (msg.errorType == ErrorType.Failed_to_modify_grade)
+            {
+                MessageBox.Show("操作失败！！！");
+            }
+            else
+            {
+                MessageBox.Show("操作成功！！");
+                startTestingWindow.UpdateExcelDataModeInTable(msg.rspModify_Grades.userExcelMode);
+            }
         }
         /// <summary>
         ///  获取组号
@@ -171,7 +182,10 @@ namespace ArcSoftFace.ADCoreSystem
             };
             localNetClient.SendMsg(msg);
         }
-
+        /// <summary>
+        ///  获取人脸信息
+        /// </summary>
+        /// <param name="groupid"></param>
         public void Req_GetFeature(string groupid)
         {
             GameMsg gameMsg = new GameMsg()
@@ -187,7 +201,7 @@ namespace ArcSoftFace.ADCoreSystem
 
         public void Rsp_GetFaceFeature(GameMsg msg)
         {
-            throw new NotImplementedException();
+            
         }
         /// <summary>
         /// 
@@ -206,6 +220,23 @@ namespace ArcSoftFace.ADCoreSystem
 
             };
             localNetClient.SendMsg(msg);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentUserExcelList"></param>
+        public void ReqModify_Grades(UserExcelMode currentUserExcelList)
+        {
+            GameMsg gameMsg = new GameMsg()
+            {
+                cmd = CMD.ReqModify_Grades,
+                reqModify_Grades = new ReqModify_Grades()
+                {
+                    userExcelModes = currentUserExcelList,
+                }
+            };
+            localNetClient.SendMsg(gameMsg);
+
         }
     }
 }

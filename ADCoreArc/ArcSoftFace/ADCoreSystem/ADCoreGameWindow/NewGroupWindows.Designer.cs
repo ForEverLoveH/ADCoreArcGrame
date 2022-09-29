@@ -102,6 +102,7 @@
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.uiButton1 = new Sunny.UI.UIButton();
             this.UserDataView = new Sunny.UI.UIDataGridView();
             this.listView1 = new System.Windows.Forms.ListView();
             this.imagelist2 = new System.Windows.Forms.ImageList(this.components);
@@ -762,7 +763,7 @@
             this.examTimeDroup.SymbolDropDown = 61555;
             this.examTimeDroup.SymbolNormal = 61555;
             this.examTimeDroup.TabIndex = 9;
-            this.examTimeDroup.Text = "2022/09/28 12:09";
+            this.examTimeDroup.Text = "2022/09/29 12:09";
             this.examTimeDroup.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.examTimeDroup.TimeFormat = "yyyy/MM/dd hh:MM";
             this.examTimeDroup.Value = new System.DateTime(2022, 9, 12, 16, 21, 8, 894);
@@ -871,6 +872,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.uiButton1);
             this.tabPage2.Controls.Add(this.UserDataView);
             this.tabPage2.Controls.Add(this.listView1);
             this.tabPage2.Controls.Add(this.uiButton2);
@@ -890,6 +892,19 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "文件导入";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // uiButton1
+            // 
+            this.uiButton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.uiButton1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButton1.Location = new System.Drawing.Point(611, 585);
+            this.uiButton1.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiButton1.Name = "uiButton1";
+            this.uiButton1.Size = new System.Drawing.Size(100, 35);
+            this.uiButton1.TabIndex = 18;
+            this.uiButton1.Text = "完成添加";
+            this.uiButton1.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButton1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
             // UserDataView
             // 
@@ -1205,5 +1220,6 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ImageList imagelist2;
         private Sunny.UI.UIButton ImportSqliteBtn;
+        private Sunny.UI.UIButton uiButton1;
     }
 }

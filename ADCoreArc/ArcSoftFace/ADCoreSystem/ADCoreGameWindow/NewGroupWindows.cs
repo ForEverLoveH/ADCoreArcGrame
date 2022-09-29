@@ -505,9 +505,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btns.Add(ChooseFaceDataBtn);
                 btns.Add(ClearFaceGroupBtn);
                 btns.Add(DelectCurrentStudentBtn);
-                // btns.Add(ImportSqliteBtn);
-                //var sl = ChooseLocalFile(false, uiTextBox2);
+                 
                 var sl =   localFile.openLocalFile(false);
+                // 存贮人脸图到指定的文件夹下
+                
+                SaveImageToFace(groupid, sl);
                 FaceRegister(sl, imageLists, GroupListFaceView, btns);
             }
         }
@@ -574,31 +576,19 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 return;
             }
         }
-        /// <summary>
-        ///  创建对应组的文件夹
-        /// </summary>
-        /// <param name="groupId"></param>
-        public string CreateFaceGroupFile(string groupId)
-        {
-            if (!System.IO.Directory.Exists(FaceDirectory))
-            {
-                Directory.CreateDirectory(FaceDirectory);
-            }
-
-            String path = FaceDirectory + "/" + groupid;
-            var l = Directory.CreateDirectory(path);
-            groupDirectory = l.FullName;
-            return groupDirectory;
-
-        }
+         
         /// <summary>
         /// 存贮人脸图
         /// </summary>
         /// <param name="groupid">组号</param>
         /// <param name="imagePath">图片路径</param>
-        private void SaveImageToFace(string groupid, List<string> imagePath)
+        private void SaveImageToFace(string groupid,  string[] imagePath)
         {
-            var dic = CreateFaceGroupFile(groupid);
+            if(imagePath == null || imagePath.Length == 0)
+            {
+                return;
+            }
+            var dic = imageData.CreateFaceGroupFile(groupid,FaceDirectory);
             imageData.SaveImageFileToDestion(dic, imagePath);
 
         }
@@ -867,7 +857,9 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btsn.Add(ChoosefileImageBtn);
                 btsn.Add(uiButton2);
                 //选择本地文件
-                var sl  =  ChooseLocalFile(true, uiTextBox1);
+                var sl = localFile.openLocalFile(true);
+                uiTextBox1.Text = sl.ToString();
+                SaveImageToFace(groupid, sl);
                 if (sl == null)
                 {
                     MessageBox.Show("请先选择图片文件！！");
@@ -905,30 +897,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             
         }
-        /// <summary>
-        ///  选择本地文件
-        /// </summary>
-        /// <param name="v"></param>
-        /// <param name="uITextBox"></param>
-        private string[]  ChooseLocalFile(bool a, Sunny.UI.UITextBox uITextBox)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "选择图片";
-            openFileDialog.Filter = "图片文件|*.bmp;*.jpg;*.jpeg;*.png";
-            openFileDialog.Multiselect = a;  // 是否可以选择多个
-            openFileDialog.FileName = string.Empty;
-            GroupListFaceView.Refresh();
-            if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
-            {
-                uITextBox.Text = openFileDialog.FileName;
-                var s = openFileDialog.FileNames;
-                return s;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        
 
         /// <summary>
         /// 
@@ -1169,8 +1138,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
 
         }
-
-        
         #endregion
     }
 }

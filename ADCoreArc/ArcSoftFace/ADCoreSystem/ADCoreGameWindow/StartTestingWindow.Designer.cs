@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.uiLabel2 = new Sunny.UI.UILabel();
@@ -107,12 +107,12 @@
             this.LastCandidateBtn = new Sunny.UI.UIButton();
             this.uiLabel29 = new Sunny.UI.UILabel();
             this.GradeDroup = new Sunny.UI.UIComboBox();
-            this.rgbVideoSource = new AForge.Controls.VideoSourcePlayer();
             this.uiLabel30 = new Sunny.UI.UILabel();
             this.ChooseImageBtn = new Sunny.UI.UIButton();
             this.txtThreshold = new Sunny.UI.UITextBox();
             this.uiButton3 = new Sunny.UI.UIButton();
             this.picImageCompare = new System.Windows.Forms.PictureBox();
+            this.rgbVideoSource = new AForge.Controls.VideoSourcePlayer();
             this.irVideoSource = new AForge.Controls.VideoSourcePlayer();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -198,6 +198,7 @@
             this.GroupIDDrop.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.GroupIDDrop.Watermark = "";
             this.GroupIDDrop.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.GroupIDDrop.TextChanged += new System.EventHandler(this.GroupIDDrop_TextChanged);
             this.GroupIDDrop.DoubleClick += new System.EventHandler(this.GroupIDDrop_DoubleClick);
             // 
             // ViewDataBtn
@@ -318,51 +319,53 @@
             // GroupDataView
             // 
             this.GroupDataView.AllowUserToAddRows = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
-            this.GroupDataView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle36.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.GroupDataView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle36;
             this.GroupDataView.BackgroundColor = System.Drawing.Color.White;
             this.GroupDataView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.GroupDataView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle37.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle37.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle37.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.GroupDataView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle37;
             this.GroupDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.GroupDataView.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle38.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle38.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle38.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.GroupDataView.DefaultCellStyle = dataGridViewCellStyle38;
             this.GroupDataView.EnableHeadersVisualStyles = false;
             this.GroupDataView.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.GroupDataView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.GroupDataView.Location = new System.Drawing.Point(0, 178);
             this.GroupDataView.Name = "GroupDataView";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.GroupDataView.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GroupDataView.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle39.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle39.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle39.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle39.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle39.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle39.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.GroupDataView.RowHeadersDefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle40.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle40.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GroupDataView.RowsDefaultCellStyle = dataGridViewCellStyle40;
             this.GroupDataView.RowTemplate.Height = 23;
             this.GroupDataView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.GroupDataView.SelectedIndex = -1;
+            this.GroupDataView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.GroupDataView.Size = new System.Drawing.Size(989, 328);
             this.GroupDataView.StripeOddColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             this.GroupDataView.Style = Sunny.UI.UIStyle.Custom;
             this.GroupDataView.TabIndex = 15;
             this.GroupDataView.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.GroupDataView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GroupDataView_CellMouseClick);
             // 
             // uiLabel6
             // 
@@ -390,11 +393,12 @@
             // 
             this.FaceList.HideSelection = false;
             this.FaceList.LargeImageList = this.FaceImageList;
-            this.FaceList.Location = new System.Drawing.Point(4, 594);
+            this.FaceList.Location = new System.Drawing.Point(0, 595);
             this.FaceList.Name = "FaceList";
-            this.FaceList.Size = new System.Drawing.Size(985, 307);
+            this.FaceList.Size = new System.Drawing.Size(988, 302);
             this.FaceList.TabIndex = 18;
             this.FaceList.UseCompatibleStateImageBehavior = false;
+            this.FaceList.View = System.Windows.Forms.View.Details;
             // 
             // FaceImageList
             // 
@@ -580,7 +584,7 @@
             // uiLabel15
             // 
             this.uiLabel15.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel15.Location = new System.Drawing.Point(1195, 14);
+            this.uiLabel15.Location = new System.Drawing.Point(1142, 11);
             this.uiLabel15.Name = "uiLabel15";
             this.uiLabel15.Size = new System.Drawing.Size(89, 23);
             this.uiLabel15.TabIndex = 33;
@@ -592,12 +596,12 @@
             // 
             this.CameraIDInput.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.CameraIDInput.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CameraIDInput.Location = new System.Drawing.Point(1291, 14);
+            this.CameraIDInput.Location = new System.Drawing.Point(1238, 14);
             this.CameraIDInput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CameraIDInput.MinimumSize = new System.Drawing.Size(1, 16);
             this.CameraIDInput.Name = "CameraIDInput";
             this.CameraIDInput.ShowText = false;
-            this.CameraIDInput.Size = new System.Drawing.Size(81, 23);
+            this.CameraIDInput.Size = new System.Drawing.Size(91, 23);
             this.CameraIDInput.TabIndex = 34;
             this.CameraIDInput.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.CameraIDInput.Watermark = "";
@@ -621,10 +625,10 @@
             // 
             this.uiButton4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButton4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton4.Location = new System.Drawing.Point(1379, 113);
+            this.uiButton4.Location = new System.Drawing.Point(1349, 116);
             this.uiButton4.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton4.Name = "uiButton4";
-            this.uiButton4.Size = new System.Drawing.Size(119, 31);
+            this.uiButton4.Size = new System.Drawing.Size(159, 31);
             this.uiButton4.TabIndex = 36;
             this.uiButton4.Text = "开始测试";
             this.uiButton4.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -946,6 +950,7 @@
             this.MissingBtn.Text = "缺考";
             this.MissingBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MissingBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.MissingBtn.Click += new System.EventHandler(this.MissingBtn_Click);
             // 
             // FoulBtn
             // 
@@ -959,6 +964,7 @@
             this.FoulBtn.Text = "犯规";
             this.FoulBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FoulBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.FoulBtn.Click += new System.EventHandler(this.FoulBtn_Click);
             // 
             // ResetBtn
             // 
@@ -972,6 +978,7 @@
             this.ResetBtn.Text = "重置";
             this.ResetBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ResetBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.ResetBtn.Click += new System.EventHandler(this.ResetBtn_Click);
             // 
             // Waiverbtn
             // 
@@ -985,6 +992,7 @@
             this.Waiverbtn.Text = "弃权";
             this.Waiverbtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Waiverbtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.Waiverbtn.Click += new System.EventHandler(this.Waiverbtn_Click);
             // 
             // Refreshbtn
             // 
@@ -998,6 +1006,7 @@
             this.Refreshbtn.Text = "刷新";
             this.Refreshbtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Refreshbtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.Refreshbtn.Click += new System.EventHandler(this.Refreshbtn_Click);
             // 
             // NextCandidateBtn
             // 
@@ -1011,6 +1020,7 @@
             this.NextCandidateBtn.Text = "下一位考生";
             this.NextCandidateBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.NextCandidateBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.NextCandidateBtn.Click += new System.EventHandler(this.NextCandidateBtn_Click);
             // 
             // LastCandidateBtn
             // 
@@ -1024,6 +1034,7 @@
             this.LastCandidateBtn.Text = "上一位考生";
             this.LastCandidateBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LastCandidateBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.LastCandidateBtn.Click += new System.EventHandler(this.LastCandidateBtn_Click);
             // 
             // uiLabel29
             // 
@@ -1056,17 +1067,6 @@
             this.GradeDroup.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.GradeDroup.Watermark = "";
             this.GradeDroup.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            // 
-            // rgbVideoSource
-            // 
-            this.rgbVideoSource.Location = new System.Drawing.Point(995, 154);
-            this.rgbVideoSource.Name = "rgbVideoSource";
-            this.rgbVideoSource.Size = new System.Drawing.Size(524, 208);
-            this.rgbVideoSource.TabIndex = 75;
-            this.rgbVideoSource.Text = "videoSource";
-            this.rgbVideoSource.VideoSource = null;
-            this.rgbVideoSource.PlayingFinished += new AForge.Video.PlayingFinishedEventHandler(this.rgbVideoSource_PlayingFinished);
-            this.rgbVideoSource.Paint += new System.Windows.Forms.PaintEventHandler(this.rgbVideoSource_Paint);
             // 
             // uiLabel30
             // 
@@ -1125,19 +1125,28 @@
             // 
             // picImageCompare
             // 
-            this.picImageCompare.Location = new System.Drawing.Point(995, 154);
+            this.picImageCompare.Location = new System.Drawing.Point(1336, 3);
             this.picImageCompare.Name = "picImageCompare";
-            this.picImageCompare.Size = new System.Drawing.Size(524, 208);
+            this.picImageCompare.Size = new System.Drawing.Size(183, 107);
             this.picImageCompare.TabIndex = 82;
             this.picImageCompare.TabStop = false;
+            // 
+            // rgbVideoSource
+            // 
+            this.rgbVideoSource.Location = new System.Drawing.Point(995, 163);
+            this.rgbVideoSource.Name = "rgbVideoSource";
+            this.rgbVideoSource.Size = new System.Drawing.Size(524, 208);
+            this.rgbVideoSource.TabIndex = 84;
+            this.rgbVideoSource.Text = "videoSource";
+            this.rgbVideoSource.VideoSource = null;
             // 
             // irVideoSource
             // 
             this.irVideoSource.BackColor = System.Drawing.SystemColors.Control;
-            this.irVideoSource.Location = new System.Drawing.Point(1379, 154);
+            this.irVideoSource.Location = new System.Drawing.Point(1379, 163);
             this.irVideoSource.Name = "irVideoSource";
             this.irVideoSource.Size = new System.Drawing.Size(140, 115);
-            this.irVideoSource.TabIndex = 83;
+            this.irVideoSource.TabIndex = 85;
             this.irVideoSource.Text = "videoSource";
             this.irVideoSource.VideoSource = null;
             this.irVideoSource.Visible = false;
@@ -1148,12 +1157,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1520, 903);
             this.Controls.Add(this.irVideoSource);
+            this.Controls.Add(this.rgbVideoSource);
             this.Controls.Add(this.picImageCompare);
             this.Controls.Add(this.uiButton3);
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.ChooseImageBtn);
             this.Controls.Add(this.uiLabel30);
-            this.Controls.Add(this.rgbVideoSource);
             this.Controls.Add(this.GradeDroup);
             this.Controls.Add(this.uiLabel29);
             this.Controls.Add(this.LastCandidateBtn);
@@ -1317,13 +1326,13 @@
         private Sunny.UI.UIButton LastCandidateBtn;
         private Sunny.UI.UILabel uiLabel29;
         private Sunny.UI.UIComboBox GradeDroup;
-        private AForge.Controls.VideoSourcePlayer rgbVideoSource;
         private Sunny.UI.UILabel uiLabel30;
         private System.Windows.Forms.ImageList FaceImageList;
         private Sunny.UI.UIButton ChooseImageBtn;
         private Sunny.UI.UITextBox txtThreshold;
         private Sunny.UI.UIButton uiButton3;
         private System.Windows.Forms.PictureBox picImageCompare;
+        private AForge.Controls.VideoSourcePlayer rgbVideoSource;
         private AForge.Controls.VideoSourcePlayer irVideoSource;
     }
 }

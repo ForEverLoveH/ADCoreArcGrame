@@ -29,7 +29,7 @@ namespace ArcSoftFace.ADCoreSystem
         /// 检查图片的宽高
         /// </summary>
         /// <param name="image"></param>
-        public  void CheckImageWidthAndHeight(ref Image image)
+        public void CheckImageWidthAndHeight(ref Image image)
         {
             if (image == null)
             {
@@ -108,23 +108,60 @@ namespace ArcSoftFace.ADCoreSystem
         /// </summary>
         /// <param name="destionDirectory"></param>
         /// <param name="ImagePath"></param>
-        public  void  SaveImageFileToDestion(string destionDirectory , List<string> ImagePath)
+        public void SaveImageFileToDestion(string destionDirectory, string[] ImagePath)
         {
+
             if (!Directory.Exists(destionDirectory))
             {
                 Directory.CreateDirectory(destionDirectory);
             }
-            if (ImagePath.Count > 0)
+            if (ImagePath.Length > 0)
             {
-                for(int i = 0; i < ImagePath.Count; i++)
+                for (int i = 0; i < ImagePath.Length; i++)
                 {
-                    Bitmap  m = GetImageToBitMap(ImagePath[i]);
-
-                    SaveBitMapImage(destionDirectory, m);
-                    //SaveImageToFace(destionDirectory, BitmapToBitmapImage(m));
+                    byte[] by = SetImageToByte(ImagePath[i]);
+                    SaveImageDataToDestion(destionDirectory, by, i);
                 }
             }
         }
+        /// <summary>
+        /// 保存图片到本地
+        /// </summary>
+        /// <param name="by"></param>
+
+        private void SaveImageDataToDestion(string path, byte[] by, int index)
+        {
+            try
+            {
+
+                using (MemoryStream ms = new MemoryStream(by))
+                {
+                    Image image = Image.FromStream(ms);
+
+                    image.Save(@path + "/" + index + ".png");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///  将图片转为字节的形式
+        /// </summary>
+        /// <param name="path"></param>
+
+        private byte[] SetImageToByte(string path)
+        {
+            FileStream fileStream = new FileStream(path, FileMode.Open);
+            byte[] data = new byte[fileStream.Length];
+            fileStream.Read(data, 0, data.Length);
+            fileStream.Close();
+            return data;
+        }
+
         /// <summary>
         /// 保存图片
         /// </summary>
@@ -135,48 +172,7 @@ namespace ArcSoftFace.ADCoreSystem
             bitmap.Save(destionDirectory, System.Drawing.Imaging.ImageFormat.Png);
         }
 
-        /// <summary>
-        /// bitmap 转bitmapImage
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <returns></returns>
-        /* private  BitmapImage BitmapToBitmapImage(Bitmap bitmap)
-         {
-             System.Drawing.Bitmap ImageOriginalBase = new System.Drawing.Bitmap(bitmap);
-             BitmapImage bitmapImage = new BitmapImage();
-             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
-             {
-                 ImageOriginalBase.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                 bitmapImage.BeginInit();
-                 bitmapImage.StreamSource = ms;
-                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                 bitmapImage.EndInit();
-                 bitmapImage.Freeze();
-             }
-             return bitmapImage;
-         }*/
 
-        /// <summary>
-        ///  将bitmap 文件存到本地文件中
-        /// </summary>
-        /// <param name="destionDirectory"></param>
-        /// <param name="m"></param>
-        /*  private void SaveImageToFace(string destionDirectory, BitmapImage m)
-          {
-              BitmapEncoder encoder = new PngBitmapEncoder();
-              encoder.Frames.Add((BitmapFrame.Create(m)));
-              using (var filestream = new System.IO.FileStream(destionDirectory, System.IO.FileMode.Create))
-              {
-                  encoder.Save(filestream);   
-              }
-          }*/
-
-        // <summary>
-        /// 
-        /// </summary>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         public Bitmap GetImageToBitMap(string image)
         {
             Bitmap b = null;
@@ -195,6 +191,79 @@ namespace ArcSoftFace.ADCoreSystem
                 throw new Exception(e.Message);
             }
             return b;
+        }
+        /// <summary>
+        ///  创建对应组的文件夹
+        /// </summary>
+        /// <param name="groupId"></param>
+        public string CreateFaceGroupFile(string groupId, string FaceDirectory)
+        {
+            if (!System.IO.Directory.Exists(FaceDirectory))
+            {
+                Directory.CreateDirectory(FaceDirectory);
+            }
+
+            String path = FaceDirectory + "/" + groupId;
+            var l = Directory.CreateDirectory(path);
+            string groupDirectory = l.FullName;
+            return groupDirectory;
+
+        }
+        /// <summary>
+        ///  获取文件中的所有图片文件
+        /// </summary>
+        /// <param name="paths"></param>
+        public List<Image> GetDirectoryImageFile(string paths)
+        {
+            if (!string.IsNullOrEmpty(paths))
+            {
+                List<Image> list = new List<Image>();
+                string[] imageFilePath = Directory.GetFiles(paths);
+                List<string> images = new List<string>();
+                foreach (string filePath in imageFilePath)
+                {
+                    if (filePath.EndsWith(".bmp") || filePath.EndsWith(".png") || filePath.EndsWith(".jpg") | filePath.EndsWith(".jpeg"))
+                    {
+                        images.Add(filePath);
+                    }
+                }
+                if (images.Count > 0)
+                {
+                    for (int i = 0; i < images.Count; i++)
+                    {
+                        byte[] by = SetImageToByte(images[i]);
+                        list.Add(SetByteToImage(by));
+
+                    }
+                }
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Imagebyte"></param>
+        /// <returns></returns>
+        private Image SetByteToImage(byte[] Imagebyte)
+        {
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(Imagebyte))
+                {
+                    Image image = Image.FromStream(ms);
+                    return image;
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
     }
 }
