@@ -234,6 +234,7 @@
     </Compile>
     <Compile Include="ADCoreSystem\ADCoreModel\FaceDataModel\FaceData.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\FaceDataModel\FaceDataModel.cs" />
+    <Compile Include="ADCoreSystem\ADCoreModel\FaceDataModel\StudentFaceData.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\GroupData\GroupDataModel.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\StartTestingExamData\StartTestingExamDataModel.cs" />
     <Compile Include="ADCoreSystem\Camera\CameraConnect.cs" />

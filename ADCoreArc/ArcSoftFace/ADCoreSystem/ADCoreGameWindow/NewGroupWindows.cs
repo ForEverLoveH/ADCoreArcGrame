@@ -294,9 +294,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     {
                         NewGroupSys.Req_RegisterFaceDataByInput(FaceData);
                     }
-
-
-
                 }
                 else
                 {
@@ -887,8 +884,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                         }
 
                     }
-                }
-                 
+                }   
             }
             else
             {
@@ -897,8 +893,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             
         }
-        
-
         /// <summary>
         /// 
         /// </summary>

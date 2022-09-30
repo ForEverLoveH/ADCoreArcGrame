@@ -155,12 +155,11 @@ namespace ArcSoftFace.ADCoreSystem
                 name = names;
             }
             value.TryGetValue(name, out faceFeature);
-             
             FaceData face = new FaceData()
             {
-               GroupID = groupid,
-               Name= name ,
-               FaceFeature=faceFeature.feature,
+               GroupID = groupid, // string类型
+               Name= name ,   // string 类型
+               FaceFeature=faceFeature.feature, // byte[] 类型 
             }; 
             GameMsg game = new GameMsg()
             {
@@ -171,10 +170,6 @@ namespace ArcSoftFace.ADCoreSystem
                 }
             };
             localNetClient.SendMsg(game);
-
-
-
-
         }
     }
 }

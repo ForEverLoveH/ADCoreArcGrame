@@ -1,4 +1,5 @@
-﻿using ArcSoftFace.GameCommon;
+﻿using ArcFaceSDK.Entity;
+using ArcSoftFace.GameCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,4 +25,6 @@ namespace ArcSoftFace.ADCoreSystem
             set { facefeature = value; }
         }
     }
+
+     
 }

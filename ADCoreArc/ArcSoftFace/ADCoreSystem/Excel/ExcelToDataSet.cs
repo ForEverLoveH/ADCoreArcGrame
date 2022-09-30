@@ -9,7 +9,6 @@ namespace ArcSoftFace.ADCoreSystem
         public DataTable GetExcelDatable(string filePath, string table)
         {
             const string cmdText = "Provider=Microsoft.Ace.OleDb.12.0;Data Source={0};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
-
             System.Data.DataTable dt = null;
             OleDbConnection dbConnection = new OleDbConnection(string.Format(cmdText, filePath));
             try
