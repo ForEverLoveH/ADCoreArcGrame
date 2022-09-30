@@ -1,0 +1,6 @@
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\bin\x64\Release\ArcFaceSDK.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\bin\x64\Release\ArcFaceSDK.pdb
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\obj\x64\Release\ArcFaceSDK.csproj.AssemblyReference.cache
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\obj\x64\Release\ArcFaceSDK.csproj.CoreCompileInputs.cache
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\obj\x64\Release\ArcFaceSDK.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\obj\x64\Release\ArcFaceSDK.pdb
