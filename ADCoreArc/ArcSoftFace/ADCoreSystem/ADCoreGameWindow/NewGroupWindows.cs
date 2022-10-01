@@ -4,6 +4,7 @@ using ArcFaceSDK.Entity;
 using ArcFaceSDK.SDKModels;
 using ArcFaceSDK.Utils;
 using ArcSoftFace.ADCoreSystem.ADcoreModel;
+using ArcSoftFace.ADCoreSystem.ADCoreModel;
 using ArcSoftFace.ADCoreSystem.Loading;
 using ArcSoftFace.Arcsoft;
 using ArcSoftFace.GameCommon;
@@ -42,11 +43,10 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <summary>
         /// 用字典类型标记人脸数组 key 为 组号， value 为人脸数据字典包括人名 与特征值,即表示一组的所有学生数据的集合
         /// </summary>
-        private Dictionary<string, Dictionary<string, FaceFeature>> FaceData = new Dictionary<string, Dictionary<string, FaceFeature>>();
-        /// <summary>
-        /// 用字典来表示学生的人脸数据
-        /// </summary>.
-        private Dictionary<string, FaceFeature> studentData = new Dictionary<string, FaceFeature>();
+        private Dictionary<string,  List<StudentFaceData>> FaceData = new Dictionary<string, List<StudentFaceData>>();
+
+         List<StudentFaceData> FaceDataList = new List<StudentFaceData>();
+         
 
 
         public NewGroup()
@@ -286,9 +286,16 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 {
                     for (int i = 0; i < leftImageFeatureList.Count; i++)
                     {
-                        string name = CurrentStudentUserExcel.Name;
-                        studentData.Add(name, leftImageFeatureList[i]);
-                        FaceData.Add(groupid, studentData);
+                        StudentFaceData studentFaceData = new StudentFaceData()
+                        {
+                            groupID = groupid,
+                            faceFeature = leftImageFeatureList[i],
+                            Name = CurrentStudentUserExcel.Name,
+                        };
+                        FaceDataList.Add(studentFaceData);
+                        FaceData.Add(groupid, FaceDataList);
+
+
                     }
                     if(FaceData.Count > 0)
                     {
@@ -404,8 +411,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             {
                 CurrentStudentUserExcel = null;
                 UserExcelData.Rows[index].DefaultCellStyle.BackColor = Color.White;
+                SetListGroupHightLight(index, false);
                 index = index - 1;
                 CurrentStudentUserExcel = SetUserExcelDatas(UserExcelData, index);
+
+
             }
         }
         /// <summary>
@@ -431,7 +441,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 {
                     CurrentStudentUserExcel = null;
                     UserExcelData.Rows[index].DefaultCellStyle.BackColor = Color.White;
-                    index += index;
+                    SetListGroupHightLight(index, false);
+                   index += index;
                     SetUserExcelDatas(UserExcelData, index);
 
                 }
@@ -472,10 +483,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// 人员库图片选择 锁对象
         /// </summary>
         private object chooseImgLocker = new object();
-        /// <summary>
-        /// 保存对比图片的列表
-        /// </summary>
-        private List<string> imagePathList = new List<string>();
+
+         
         /// <summary>
         /// 选择人脸数据
         /// </summary>
@@ -497,7 +506,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btns.Add(NextStudentBtn);
                 btns.Add(AddStudentToListBtn);
                 btns.Add(TopStudentBtn);    
-                btns.Add(SucessAddStudent);
+               
                 btns.Add(ContinueAddBtn);
                 btns.Add(ChooseFaceDataBtn);
                 btns.Add(ClearFaceGroupBtn);
@@ -508,6 +517,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 
                 SaveImageToFace(groupid, sl);
                 FaceRegister(sl, imageLists, GroupListFaceView, btns);
+
             }
         }
         /// <summary>
@@ -597,6 +607,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         private void SucessAddStudent_Click(object sender, EventArgs e)
         {
             IsEndOfAddUserDataToList = true;
+            
             groupid = String.Empty;
             GroupNumText.ReadOnly = false;
             if (userExcels == null)
@@ -852,7 +863,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btsn.Add(ChooseFileBtn);
                 btsn.Add(ViewDataBtn);
                 btsn.Add(ChoosefileImageBtn);
-                btsn.Add(uiButton2);
+                btsn.Add(ClearGroupListBtn);
                 //选择本地文件
                 var sl = localFile.openLocalFile(true);
                 uiTextBox1.Text = sl.ToString();
@@ -1000,6 +1011,10 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             return userExcel;
         }
         /// <summary>
+        /// 保存对比图片的列表
+        /// </summary>
+        private List<string> imagePathList = new List<string>();
+        /// <summary>
         ///  人脸注册
         /// </summary>
         /// <param name="uITextBox"></param>
@@ -1111,7 +1126,15 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                                     string sls = $"left:{singleFaceInfo.faceRect.left},right:{singleFaceInfo.faceRect.right},top：{singleFaceInfo.faceRect.top},bottom:{singleFaceInfo.faceRect.bottom},orient:{singleFaceInfo.faceOrient}";
                                     // 拿到特征值之后要根据
                                     Console.WriteLine($"已提取{(numStart + isGoodImage)}号人脸特征值为:" + sls);
-                                    
+                                    Invoke(new Action(delegate
+                                    {
+                                        foreach (var btn in btns)
+                                        {
+                                            ControlsEnable(true , btn);
+                                        }
+
+                                    }));
+
                                     isGoodImage++;
                                     if (image != null)
                                     {
@@ -1133,6 +1156,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
         }
         #endregion
+
+        private void uiButton1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

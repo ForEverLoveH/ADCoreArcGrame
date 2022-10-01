@@ -1,4 +1,5 @@
-﻿using ArcFaceSDK;
+﻿using AForge.Math.Metrics;
+using ArcFaceSDK;
 using ArcFaceSDK.Entity;
 using ArcFaceSDK.SDKModels;
 using ArcFaceSDK.Utils;
@@ -28,7 +29,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         private ImageData ImageData = new ImageData();
         LocalFile localFile = new LocalFile();
         string path = Application.StartupPath + GameConst.FaceDirectory;
-
+        FaceEngine FaceEngine = new FaceEngine();
 
         /// <summary>
         /// 人脸库人脸特征列表
@@ -192,6 +193,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         private void StartCameraBtn_Click(object sender, EventArgs e)
         {
             cameraConnect.CameraInit();
+            ChooseImageBtn.Enabled = false;
             StartCameraBtn.Enabled = false;
             cameraConnect.OtherCamera(rgbVideoSource, irVideoSource, txtThreshold, FaceList, leftImageFeatureList,FaceImageList);
 
@@ -233,13 +235,19 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="e"></param>
         private void ChooseImageBtn_Click(object sender, EventArgs e)
         {
+            ChooseImageBtn.Enabled = false;
+            StartCameraBtn.Enabled = false;
             try
             {
                if (!faceEngine.GetEngineStatus())
                 {
                     MessageBox.Show("请先初始化引擎!");
+                    ChooseImageBtn.Enabled = true;
+                    StartCameraBtn.Enabled = true;
+
                     return;
                 }
+               
                 var image1Path = localFile.openLocalFile(false);
                 foreach (var image in image1Path)
                 {
@@ -254,6 +262,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     if (fileInfo.Length > maxSize)
                     {
                         MessageBox.Show("图片文件最大为2MB,请先压缩后导入！！");
+                        ChooseImageBtn.Enabled = true;
+                        StartCameraBtn.Enabled = true;
                         return;
                     }
                     Image scrImage = ImageUtil.ReadFromFile(image);
@@ -261,6 +271,9 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     if (scrImage == null)
                     {
                         MessageBox.Show("图片获取失败，请稍后重试！！");
+                        ChooseImageBtn.Enabled = true;
+                        StartCameraBtn.Enabled = true;
+
                         return;
                     }//调整图片的宽度，为4 的倍数   
                     if (scrImage.Width % 4 != 0)
@@ -274,6 +287,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     if (retCode != 0)
                     {
                         MessageBox.Show("图像人脸检测失败，请稍后重试!");
+                        ChooseImageBtn.Enabled = true;
+                        StartCameraBtn.Enabled = true;
                         return;
                     }
                     if (multiFaceInfo.faceNum < 1)
@@ -352,7 +367,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     }
                     Console.WriteLine(string.Format("------------------------------检测结束，时间:{0}------------------------------", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
                     
-                     
                     //获取缩放比例
                     float scaleRate = ImageUtil.GetWidthAndHeight(scrImage.Width, scrImage.Height, picImageCompare.Width, picImageCompare.Height);
                     //缩放图片
@@ -361,7 +375,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     scrImage = ImageUtil.MarkRectAndString(scrImage, mrectTemp, ageTemp, genderTemp, picImageCompare.Width, scaleRate, multiFaceInfo.faceNum);
                     //显示标记后的图像
                     picImageCompare.Image = scrImage;
-                    ChooseImageBtn.Enabled = false;
+                    
                 }
             }
             
@@ -399,7 +413,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="v"></param>
         private void SetUserGradeData(string s, string v)
         {
              if(CurentUserExcelMode==null)
@@ -540,7 +558,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 {
                     SetGroupDataGridViewWhite(btnName);
                     btnName++;
-                    SetCurrentUserExcelData(btnName, GroupDataView);
+                    CurentUserExcelMode =  SetCurrentUserExcelData(btnName, GroupDataView);
                 }
             }
         }
@@ -558,7 +576,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         ///  将人脸信息取消选中
         /// </summary>
         /// <param name="index"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        
         private void SetFaceGroupListWhite(int index)
         {
              
@@ -610,7 +628,10 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
         private void SetFaceGroupListHight(int index)
         {
              
@@ -626,7 +647,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             else
             {
-                ExamNumInput.Text = curentUserExcelMode.Exam_number;
+                ExamNum.Text = curentUserExcelMode.Exam_number;
                 SchoolInput.Text = curentUserExcelMode.School;
                 NameInput.Text = curentUserExcelMode.Name;
                 GradeTextInput.Text = curentUserExcelMode.Grade;
@@ -787,7 +808,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             };
             return userExcel;
         }
-        
+        private List<Image> imageList = new List<Image>(); // 所有的图片
+
         /// <summary>
         /// 
         /// </summary>
@@ -802,26 +824,107 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             else
             {
                 string paths = path + "/" + groupID;
-                var imageList =   ImageData.GetDirectoryImageFile(paths);
-                if(imageList != null)
-                {
-                   for(int i =0; i < imageList.Count; i++)
-                   {
-                        FaceImageList.Images.Add(imageList[i]);
-                   }
-                }
-                 
+                imageList=   ImageData.GetDirectoryImageFile(paths);
+                GetImagelistFaceFeature(imageList);
+                ShowImageInFaceListView(imageList);
+
 
             }
         }
+        /// <summary>
+        ///  将图片显示在listview 上
+        /// </summary>
+        /// <param name="imageList"></param>
+        private void ShowImageInFaceListView(List<Image> imageList)
+        {
+             
+        }
+        /// <summary>
+        /// 获取图片的人脸特征值
+        /// </summary>
+        /// <param name="imageList"></param>
+       
+        private void GetImagelistFaceFeature(List<Image> imageList)
+        {
+            for (int i = 0; i < imageList.Count; i++) 
+            {
+                int featureCode = -1;
+                SingleFaceInfo singleFaceInfo = new SingleFaceInfo();
+                FaceFeature feature = FaceUtil.ExtractFeature(faceEngine, imageList[i], out singleFaceInfo, ref featureCode);
+                leftImageFeatureList.Add(feature);
+            }
+            
+        }
 
-        
-  
+        /// <summary>
+        /// 用于标记是否需要清除比对结果
+        /// </summary>
+        private bool isCompare = false;
+
         private void GroupIDDrop_TextChanged(object sender, EventArgs e)
         {
             string groupID = GroupIDDrop.Text;
             GetFaceImageDirectory(groupID);
 
+        }
+        /// <summary>
+        ///  对比
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartMatchingBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (leftImageFeatureList.Count == 0)
+                {
+                    return;
+
+                }
+                if (rightImageFeatureList.Count == 0 ||rightImageFeatureList==null)
+                {
+                    MessageBox.Show("没获取到人脸数据请重新 操作");
+                    return;
+                }
+                isCompare = true;
+                for(int i = 0; i < rightImageFeatureList.Count; i++)
+                {
+                    float compareSimilarity = 0;
+                    int compareNum = 0;
+                    FaceFeature faceFeature = rightImageFeatureList[i];
+                    if (faceFeature.featureSize <= 0)
+                    {
+                        Console.WriteLine(string.Format("对比第{0}张人脸特征值提取失败", i));
+                        continue;
+                    }
+                    for(int j = 0; j <  leftImageFeatureList.Count; j++)
+                    {
+                        FaceFeature faceFeatu = leftImageFeatureList[j];
+                        float sim = 0f;
+                        FaceEngine.ASFFaceFeatureCompare(faceFeature,faceFeatu,out sim);
+                        if (sim.ToString().IndexOf("E") > -1)
+                        {
+                            sim = 0F;
+                        }
+                        if (sim > compareSimilarity)
+                        {
+                            compareSimilarity = sim;
+                            compareNum = i;
+                        }
+                    }
+                    if(compareSimilarity > 0)
+                    {
+                        Console .WriteLine(String.Format("匹配结果为{0}",compareSimilarity));
+                    }
+                }
+                Console.WriteLine("对比结束！！");
+
+            }
+            catch(Exception ex )
+            {
+                Console.WriteLine("对比异常！！");
+                return;
+            }
         }
     }
 }

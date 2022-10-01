@@ -1,5 +1,6 @@
 ﻿using ArcFaceSDK.Utils;
 using ArcSoftFace.Utils;
+using NPOI.SS.Formula.UDF;
 using Sunny.UI.Win32;
 using System;
 using System.Collections.Generic;
@@ -204,9 +205,19 @@ namespace ArcSoftFace.ADCoreSystem
             }
 
             String path = FaceDirectory + "/" + groupId;
-            var l = Directory.CreateDirectory(path);
-            string groupDirectory = l.FullName;
-            return groupDirectory;
+            if (System.IO.Directory.Exists(path))
+            {
+                var l = Directory.CreateDirectory(path);
+                string groupDirect = l.FullName;
+                return groupDirect; 
+            }
+            else
+            {
+                return path;
+            }
+            
+            
+             
 
         }
         /// <summary>

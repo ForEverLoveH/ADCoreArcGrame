@@ -1,8 +1,10 @@
 ﻿using ArcFaceSDK.Entity;
 using ArcSoftFace.ADCoreSystem.ADCoreGameWindow;
 using ArcSoftFace.ADCoreSystem.ADcoreModel;
+using ArcSoftFace.ADCoreSystem.ADCoreModel;
 using ArcSoftFace.GameCommon;
 using ArcSoftFace.GameNet;
+using Org.BouncyCastle.Asn1.Pkcs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -138,39 +140,40 @@ namespace ArcSoftFace.ADCoreSystem
         ///  人脸注册通过输入
         /// </summary>
         /// <param name="faceData">key 是组号， var字典，对应学生信息中的名字以及人脸信息</param>
-        
-        public  void Req_RegisterFaceDataByInput(Dictionary<string, Dictionary<string, FaceFeature>> faceData)
+        public void Req_RegisterFaceDataByInput(Dictionary<string, List<StudentFaceData>> faceData)
         {
-            string groupid = null ;
-            string name = null ;
-            FaceFeature faceFeature = new FaceFeature();
-            foreach(string key in faceData.Keys)
+            if (faceData == null)
             {
-                groupid = key;  
+                return;
             }
-            Dictionary<string, FaceFeature> value = new Dictionary<string, FaceFeature>();
-            faceData.TryGetValue(groupid, out value);
-            foreach(var names in value.Keys)
+            else
             {
-                name = names;
-            }
-            value.TryGetValue(name, out faceFeature);
-            FaceData face = new FaceData()
-            {
-               GroupID = groupid, // string类型
-               Name= name ,   // string 类型
-               FaceFeature=faceFeature.feature, // byte[] 类型 
-            }; 
-            GameMsg game = new GameMsg()
-            {
-                cmd = CMD.Req_NewGroupFaceRegister,
-                req_NewGroupFaceRegister = new Req_NewGroupFaceRegister()
+                List<StudentFaceData> list = new List<StudentFaceData>();
+                List<string> keys = new List<string>();
+                for (int i = 0; i < faceData.Count; i++)
                 {
-                     faces = face,
+                    foreach (var key in faceData.Keys)
+                    {
+                        keys.Add(key);
+                    }
                 }
-            };
-            localNetClient.SendMsg(game);
-        }
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    faceData.TryGetValue(keys[i], out list);
+                }
+                for (int j = 0; j < list.Count; j++)
+                {
+                    StudentFaceData studentFaceData = new StudentFaceData()
+                    {
+                        groupID = list[j].groupID,
+                        faceFeature = list[j].faceFeature,
+                        Name = list[j].Name,
+                    };
+                }
+            }
+        }   
+             
+             
     }
 }
 

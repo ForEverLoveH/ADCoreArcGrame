@@ -121,7 +121,7 @@
             // matchBtn
             // 
             this.matchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.matchBtn.Location = new System.Drawing.Point(748, 431);
+            this.matchBtn.Location = new System.Drawing.Point(756, 436);
             this.matchBtn.Name = "matchBtn";
             this.matchBtn.Size = new System.Drawing.Size(104, 26);
             this.matchBtn.TabIndex = 34;
