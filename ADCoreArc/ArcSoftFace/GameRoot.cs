@@ -37,6 +37,7 @@ namespace ArcSoftFace
 
         static LocalNetClient localNetClient = new LocalNetClient();
         static LocalNetServer locaNetServer = new LocalNetServer();
+        static  NetPythonSvc localNetPythonSvc = new NetPythonSvc();
         static SqliteDB sqliteDB = new SqliteDB();
 
         public  void StartGame()
@@ -48,10 +49,12 @@ namespace ArcSoftFace
 
         private  void Start()
         {
-             
+            localNetPythonSvc.Start();
             sqliteDB.Init();
             LoginSys.Init();
-             
+            
+
+
 
         }
 

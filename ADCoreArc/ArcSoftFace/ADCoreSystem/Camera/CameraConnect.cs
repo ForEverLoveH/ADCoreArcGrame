@@ -115,8 +115,6 @@ namespace ArcSoftFace.ADCoreSystem
         {
             try
             {
-
-
                 //必须保证有可用摄像头
                 if (filterInfoCollection.Count == 0)
                 {
@@ -370,7 +368,7 @@ namespace ArcSoftFace.ADCoreSystem
         /// <summary>
         /// 
         /// </summary>
-        private void videoRGBLiveness()
+        public void videoRGBLiveness()
         {
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
             {

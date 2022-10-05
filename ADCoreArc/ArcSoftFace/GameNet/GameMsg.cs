@@ -1,5 +1,6 @@
 ﻿using ArcSoftFace.ADCoreSystem;
 using ArcSoftFace.ADCoreSystem.ADcoreModel;
+using ArcSoftFace.ADCoreSystem.ADCoreModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace ArcSoftFace.GameNet
     /// </summary>
     public class Req_NewGroupFaceRegister
     {
-        public FaceData faces { get; set; }
+        public StudentFaceData faces { get; set; }
     }
 
     public class Rsp_GetFaceFeature

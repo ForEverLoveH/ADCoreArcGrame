@@ -51,7 +51,7 @@ namespace ArcSoftFace.GameNet
                     if (client.Online)
                     {
                         int num;
-                        /*if (int.TryParse(StartTestingWindowm.cameraId.ToString(), out num))
+                        if (int.TryParse(StartTestingWindow.cameraId.ToString(), out num))
                          {
                              string str = "{ \"cmd\": \"SitUp_Start_VideoCapture\", \"msg\": \"" + num + "\"}\r\n";
 
@@ -61,7 +61,7 @@ namespace ArcSoftFace.GameNet
                          else
                          {
                              Console.WriteLine("相机名字不合理");
-                         }*/
+                         }
                     }
                 }
             };

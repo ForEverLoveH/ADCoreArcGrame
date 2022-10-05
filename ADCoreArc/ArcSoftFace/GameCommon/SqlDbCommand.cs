@@ -94,7 +94,7 @@ namespace ArcSoftFace.GameCommon
                                 {
                                     if (attribute.Type == "integer")
                                     {
-                                        sb.Append(" autoincrement");
+                                        sb.Append("autoincrement");
                                     }
                                 }
                             }

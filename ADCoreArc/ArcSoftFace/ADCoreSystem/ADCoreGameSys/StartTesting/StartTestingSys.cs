@@ -238,5 +238,21 @@ namespace ArcSoftFace.ADCoreSystem
             localNetClient.SendMsg(gameMsg);
 
         }
+
+        public  void GetScreenCount()
+        {
+            try
+            {
+                int num = Screen.AllScreens.Count();
+                for(int i=0; i < num; i++)
+                {
+                     
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("获取外接的显示器异常"+ex.Message);
+            }
+        }
     }
 }

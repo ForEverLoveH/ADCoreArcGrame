@@ -169,7 +169,17 @@ namespace ArcSoftFace.ADCoreSystem
                         faceFeature = list[j].faceFeature,
                         Name = list[j].Name,
                     };
+                    GameMsg gameMsg = new GameMsg()
+                    {
+                        cmd = CMD.Req_NewGroupFaceRegister,
+                        req_NewGroupFaceRegister = new Req_NewGroupFaceRegister()
+                        {
+                            faces = studentFaceData,
+                        }
+                    };
+                    localNetClient.SendMsg(gameMsg);
                 }
+                
             }
         }   
              

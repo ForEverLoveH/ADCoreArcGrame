@@ -45,7 +45,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             ArcFaceManage.Instance.InitEngines();
             var s = FaceEngine.pEngine;
             StartTestingSys.ReqGetExamTime();
-             
+            // 获取外接显示器的数量
+            StartTestingSys.GetScreenCount();
+
+
+
         }
         /// <summary>
         ///  查询按钮点击事件
@@ -212,6 +216,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             cameraConnect.rgbVideoSource_PlayingFinished();
         }
+        public  static int  cameraId= 0 ;
        
         /// <summary>
         /// 保存右侧图片路径
@@ -244,7 +249,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     MessageBox.Show("请先初始化引擎!");
                     ChooseImageBtn.Enabled = true;
                     StartCameraBtn.Enabled = true;
-
                     return;
                 }
                
@@ -358,12 +362,15 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                             pitch = face3DAngleInfo.pitch[i];
                             yaw = face3DAngleInfo.yaw[i];
                         }
+                        FaceFeature feature = FaceUtil.ExtractFeature(faceEngine, scrImage, out singleFaceInfo, ref retCode, i);
                         //提取人脸特征
-                        rightImageFeatureList.Add(FaceUtil.ExtractFeature(faceEngine, scrImage, out singleFaceInfo, ref retCode, i));
+                        rightImageFeatureList.Add(feature);
                         mrectTemp[i] = rect;
                         ageTemp[i] = age;
                         genderTemp[i] = gender;
-                       Console.WriteLine(string.Format("{0} - 第{12}人脸坐标:[left:{1},top:{2},right:{3},bottom:{4},orient:{5},roll:{6},pitch:{7},yaw:{8},status:{11}] Age:{9} Gender:{10}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), rect.left, rect.top, rect.right, rect.bottom, orient, roll, pitch, yaw, age, (gender >= 0 ? gender.ToString() : ""), face3DStatus, i));
+                       Console.WriteLine(string.Format("{0} - 第{12}人脸坐标:[left:{1},top:{2},right:{3},bottom:{4},orient:{5},roll:{6},pitch:{7},yaw:{8},status:{11}] Age:{9} Gender:{10}", 
+                           DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), rect.left, rect.top, rect.right, rect.bottom, orient, roll, pitch, yaw, age, (gender >= 0 ? gender.ToString() : ""), face3DStatus, i));
+                        
                     }
                     Console.WriteLine(string.Format("------------------------------检测结束，时间:{0}------------------------------", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
                     
@@ -622,19 +629,24 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     CurentUserExcelMode = SetCurrentUserExcelData(index , GroupDataView);
                     ShowCurrentData(CurentUserExcelMode);
                     // 还需要跟 人脸库中的人脸数据进行绑定
-                    SetFaceGroupListHight(index);
+                    SetFaceGroupListHight(index,true);
                 }
 
             }
 
         }
         /// <summary>
-        /// 
+        /// 设置facegroupList中的人脸数据选中状态
         /// </summary>
         /// <param name="index"></param>
-        private void SetFaceGroupListHight(int index)
+        private void SetFaceGroupListHight(int index , bool  s)
         {
-             
+            if (FaceList.Items.Count == 0)
+                return;
+            else
+            {
+                FaceList.Items[index].Selected = s;
+            }
         }
 
         int achieveMent;
@@ -824,7 +836,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             else
             {
                 string paths = path + "/" + groupID;
-                imageList=   ImageData.GetDirectoryImageFile(paths);
+                imageList =   ImageData.GetDirectoryImageFile(paths);
                 GetImagelistFaceFeature(imageList);
                 ShowImageInFaceListView(imageList);
 
@@ -837,6 +849,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="imageList"></param>
         private void ShowImageInFaceListView(List<Image> imageList)
         {
+            FaceList.Items.Clear();
+            for(int i = 0; i < imageList.Count; i++)
+            {
+                FaceImageList.Images.Add( imageList[i]); // 将现阶段的image 加入到 FaceImageList中
+
+            }
+
              
         }
         /// <summary>
@@ -859,7 +878,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <summary>
         /// 用于标记是否需要清除比对结果
         /// </summary>
-        private bool isCompare = false;
+       private bool isCompare = false;
 
         private void GroupIDDrop_TextChanged(object sender, EventArgs e)
         {
@@ -925,6 +944,29 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 Console.WriteLine("对比异常！！");
                 return;
             }
+        }
+        /// <summary>
+        /// 启动测试按钮执行事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void uiButton4_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(CameraIDInput.Text))
+            {
+                cameraId = int.Parse(CameraIDInput.Text);
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = Application.StartupPath + @"\..\Python\SitUp\SitUp.exe";
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.RedirectStandardOutput = false;
+                process.StartInfo.RedirectStandardError = false;
+                process.StartInfo.RedirectStandardInput = false;
+                process.StartInfo.CreateNoWindow = false;
+                process.StartInfo.WorkingDirectory = Application.StartupPath + @"\..\Video\";
+                process.Start();
+            }
+
+
         }
     }
 }

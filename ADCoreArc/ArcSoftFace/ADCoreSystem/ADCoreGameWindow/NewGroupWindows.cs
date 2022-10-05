@@ -292,10 +292,17 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                             faceFeature = leftImageFeatureList[i],
                             Name = CurrentStudentUserExcel.Name,
                         };
-                        FaceDataList.Add(studentFaceData);
-                        FaceData.Add(groupid, FaceDataList);
+                        if (FaceDataList.Contains(studentFaceData))
+                        {
+                            MessageBox.Show("成员已经存在列表中，无法添加");
+                            return;
+                        }
+                        else
+                        {
 
-
+                            FaceDataList.Add(studentFaceData);
+                            FaceData.Add(groupid, FaceDataList);
+                        }
                     }
                     if(FaceData.Count > 0)
                     {
@@ -704,7 +711,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 if (!string.IsNullOrEmpty(sl))
                 {
                     var dt = ViewListExamineeDataMode(s, sl);
-                    
                     if (dt != null)
                     {
                         GetFileImportData(dt);
@@ -803,8 +809,9 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             ViewDataBtn.Enabled = true;
             SheetDataTableDrop.Items.Clear();
             UserDataView.DataSource = null;
-            FilePathInput.Text= string.Empty;   
-
+            FilePathInput.Text = string.Empty;
+            imagelist2.Images.Clear();
+            listView1.Items.Clear();
         }
 
         /// <summary>
@@ -1151,16 +1158,49 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
 
         }
-        private void uiButton2_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 存贮到数据库
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveToDBbtn_Click(object sender, EventArgs e)
         {
+            if (leftImageFeatureList != null || leftImageFeatureList.Count > 0)
+            {
+                
+                for(int i = 0; i < leftImageFeatureList.Count; i++)
+                {
+                    var user = SetUserExcelDatas(UserDataView, i);
+                    groupid = user.Group_number;
+                    StudentFaceData studentFace = new StudentFaceData()
+                    {
+                        groupID = user.Group_number,
+                        faceFeature = leftImageFeatureList[i],
+                        Name = user.Name,
+
+                    };
+                    FaceDataList.Add(studentFace);
+                }
+                FaceData.Add(groupid, FaceDataList);
+                NewGroupSys.Req_RegisterFaceDataByInput(FaceData);
+
+            }
 
         }
+        /// <summary>
+        /// 删除当前组数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearGroupListBtn_Click(object sender, EventArgs e)
+        {
+
+
+        }
+        
         #endregion
 
-        private void uiButton1_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }
 

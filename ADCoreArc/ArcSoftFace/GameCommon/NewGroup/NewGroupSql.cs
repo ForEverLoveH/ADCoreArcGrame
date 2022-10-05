@@ -115,34 +115,10 @@ namespace ArcSoftFace.GameCommon
             {
                 cmd = CMD.Rsp_NewGrroupFaceRegister,
             };
-            FaceRegisterSql.IsExtenFaceData(GameConst.DBFaceData);
-            try
-            {
-                string path = Application.StartupPath + GameConst.FaceDBPath;
-                SqlDbCommand sqlcommand = new SqlDbCommand(path);
-                var sl = sqlcommand.Insert<FaceData>( msg.req_NewGroupFaceRegister.faces , GameConst.DBFaceData);
-                if (sl == 0)
-                {
-                    gameMsg.rsp_NewGroupFaceRegister = new Rsp_NewGrroupFaceRegister()
-                    {
-                        Issucess = 0
-                    };
-                }
-                else if (sl >= 1)
-                {
-                    gameMsg.rsp_NewGroupFaceRegister = new Rsp_NewGrroupFaceRegister()
-                    {
-                        Issucess = 1
-                    };
-                }
+            FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
+            faceRegisterSql.AddFaceData(msg.req_NewGroupFaceRegister.faces.groupID, msg.req_NewGroupFaceRegister.faces.Name, msg.req_NewGroupFaceRegister.faces.faceFeature.feature);
 
-
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine("数据插入错误！！");
-
-            }
+             
             netServer.SendMsg(gameMsg);
 
         }

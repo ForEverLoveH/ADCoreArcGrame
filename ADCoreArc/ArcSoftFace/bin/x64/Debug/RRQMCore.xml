@@ -16,6 +16,16 @@
             <param name="byteSize"></param>
             <param name="equalSize"></param>
         </member>
+        <member name="P:RRQMCore.ByteManager.ByteBlock.CanReadLen">
+            <summary>
+            还能读取的长度，计算为<see cref="P:RRQMCore.ByteManager.ByteBlock.Len"/>与<see cref="P:RRQMCore.ByteManager.ByteBlock.Pos"/>的差值。
+            </summary>
+        </member>
+        <member name="P:RRQMCore.ByteManager.ByteBlock.CanReadLength">
+            <summary>
+            还能读取的长度，计算为<see cref="P:RRQMCore.ByteManager.ByteBlock.Len"/>与<see cref="P:RRQMCore.ByteManager.ByteBlock.Pos"/>的差值。
+            </summary>
+        </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.#ctor(System.Byte[])">
             <summary>
             构造函数
@@ -28,11 +38,6 @@
             min：1.5
             </summary>
         </member>
-        <member name="P:RRQMCore.ByteManager.ByteBlock.FreeLength">
-            <summary>
-            空闲长度，准确掌握该值，可以避免内存扩展，计算为<see cref="P:RRQMCore.ByteManager.ByteBlock.Capacity"/>与<see cref="P:RRQMCore.ByteManager.ByteBlock.Pos"/>的差值。
-            </summary>
-        </member>
         <member name="P:RRQMCore.ByteManager.ByteBlock.Buffer">
             <summary>
             字节实例
@@ -40,17 +45,7 @@
         </member>
         <member name="P:RRQMCore.ByteManager.ByteBlock.CanRead">
             <summary>
-            仅当内存块可用，且<see cref="P:RRQMCore.ByteManager.ByteBlock.CanReadLen"/>>0时为True。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.ByteBlock.CanReadLen">
-            <summary>
-            还能读取的长度，计算为<see cref="P:RRQMCore.ByteManager.ByteBlock.Len"/>与<see cref="P:RRQMCore.ByteManager.ByteBlock.Pos"/>的差值。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.ByteBlock.CanReadLength">
-            <summary>
-            还能读取的长度，计算为<see cref="P:RRQMCore.ByteManager.ByteBlock.Len"/>与<see cref="P:RRQMCore.ByteManager.ByteBlock.Pos"/>的差值。
+            可读取
             </summary>
         </member>
         <member name="P:RRQMCore.ByteManager.ByteBlock.CanSeek">
@@ -105,9 +100,14 @@
         </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.Clear">
             <summary>
-            清空所有内存数据
+            清空数据
             </summary>
-            <exception cref="T:System.ObjectDisposedException">内存块已释放</exception>
+            <exception cref="T:RRQMCore.Exceptions.ByteBlockDisposedException">内存块已释放</exception>
+        </member>
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Dispose">
+            <summary>
+            回收资源
+            </summary>
         </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.Flush">
             <summary>
@@ -116,25 +116,20 @@
         </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.Read(System.Byte[],System.Int32,System.Int32)">
             <summary>
-            读取数据，然后递增Pos
+            读取
             </summary>
             <param name="buffer"></param>
             <param name="offset"></param>
-            <param name="length"></param>
+            <param name="count"></param>
             <returns></returns>
-            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.ByteBlockDisposedException"></exception>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadByte">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Read(System.Byte[])">
             <summary>
-            从当前流位置读取一个<see cref="T:System.Byte"/>值
+            读取数据
             </summary>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlock.Reset">
-            <summary>
-            将内存块初始化到刚申请的状态。
-            <para>仅仅重置<see cref="P:RRQMCore.ByteManager.ByteBlock.Position"/>和<see cref="P:RRQMCore.ByteManager.ByteBlock.Length"/>属性。</para>
-            </summary>
-            <exception cref="T:System.ObjectDisposedException">内存块已释放</exception>
+            <param name="buffer"></param>
+            <returns></returns>
         </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.Seek(System.Int64,System.IO.SeekOrigin)">
             <summary>
@@ -143,7 +138,7 @@
             <param name="offset"></param>
             <param name="origin"></param>
             <returns></returns>
-            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.ByteBlockDisposedException"></exception>
         </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.SetCapacity(System.Int32,System.Boolean)">
             <summary>
@@ -151,7 +146,7 @@
             </summary>
             <param name="size">新尺寸</param>
             <param name="retainedData">是否保留元数据</param>
-            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.ByteBlockDisposedException"></exception>
         </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.SetHolding(System.Boolean)">
             <summary>
@@ -159,14 +154,28 @@
             当为False时，会自动调用Dispose。
             </summary>
             <param name="holding"></param>
-            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.ByteBlockDisposedException"></exception>
         </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.SetLength(System.Int64)">
             <summary>
             设置实际长度
             </summary>
             <param name="value"></param>
-            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.ByteBlockDisposedException"></exception>
+        </member>
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ToArray">
+            <summary>
+            转换为有效内存
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ToArray(System.Int32)">
+            <summary>
+            从指定位置转化到有效内存
+            </summary>
+            <param name="offset"></param>
+            <returns></returns>
+            <exception cref="T:RRQMCore.Exceptions.ByteBlockDisposedException"></exception>
         </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.ToArray(System.Int32,System.Int32)">
             <summary>
@@ -176,27 +185,6 @@
             <param name="length"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlock.ToString">
-            <summary>
-            转换为UTF-8字符
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlock.ToString(System.Int32,System.Int32)">
-            <summary>
-            转换为UTF-8字符
-            </summary>
-            <param name="offset">偏移量</param>
-            <param name="length">长度</param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlock.ToString(System.Int32)">
-            <summary>
-            转换为UTF-8字符
-            </summary>
-            <param name="offset">偏移量</param>
-            <returns></returns>
-        </member>
         <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Byte[],System.Int32,System.Int32)">
             <summary>
             写入
@@ -204,279 +192,198 @@
             <param name="buffer"></param>
             <param name="offset"></param>
             <param name="count"></param>
-            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.ByteBlockDisposedException"></exception>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlock.Dispose(System.Boolean)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="disposing"></param>
-        </member>
-        <member name="T:RRQMCore.ByteManager.ByteBlockExtensions">
-            <summary>
-            ByteBlock扩展
-            </summary>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Read``1(``0,System.Byte[])">
-            <summary>
-            读取数据，然后递增Pos
-            </summary>
-            <param name="byteBlock"></param>
-            <param name="buffer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.SeekToEnd``1(``0)">
-            <summary>
-            设置游标到末位
-            </summary>
-            <param name="byteBlock"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Seek``1(``0,System.Int32)">
-            <summary>
-            移动游标
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="byteBlock"></param>
-            <param name="position"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.SeekToStart``1(``0)">
-            <summary>
-            设置游标到首位
-            </summary>
-            <param name="byteBlock"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Read``1(``0,System.Byte[]@,System.Int32)">
-            <summary>
-            读取数据，然后递增Pos
-            </summary>
-            <param name="byteBlock"></param>
-            <param name="buffer"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ToArray``1(``0)">
-            <summary>
-            转换为有效内存
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ToArray``1(``0,System.Int32)">
-            <summary>
-            从指定位置转化到有效内存
-            </summary>
-            <param name="byteBlock"></param>
-            <param name="offset"></param>
-            <returns></returns>
-            <exception cref="T:System.ObjectDisposedException"></exception>
-        </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Byte[])">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Byte[])">
             <summary>
             写入
             </summary>
-            <param name="byteBlock"></param>
             <param name="buffer"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadBytesPackage``1(``0)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadBytesPackage">
             <summary>
             从当前流位置读取一个独立的<see cref="T:System.Byte"/>数组包
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.TryReadBytesPackageInfo``1(``0,System.Int32@,System.Int32@)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.TryReadBytesPackageInfo(System.Int32@,System.Int32@)">
             <summary>
             尝试获取数据包信息，方便从Buffer操作数据
             </summary>
-            <param name="byteBlock"></param>
             <param name="pos"></param>
             <param name="len"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.WriteBytesPackage``1(``0,System.Byte[],System.Int32,System.Int32)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.WriteBytesPackage(System.Byte[],System.Int32,System.Int32)">
             <summary>
             写入一个独立的<see cref="T:System.Byte"/>数组包
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
             <param name="offset"></param>
             <param name="length"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.WriteBytesPackage``1(``0,System.Byte[])">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.WriteBytesPackage(System.Byte[])">
             <summary>
             写入一个独立的<see cref="T:System.Byte"/>数组包
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadInt32(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadInt32">
             <summary>
             从当前流位置读取一个<see cref="T:System.Int32"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Int32)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Int32)">
             <summary>
             写入<see cref="T:System.Int32"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadInt16(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadInt16">
             <summary>
             从当前流位置读取一个<see cref="T:System.Int16"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Int16)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Int16)">
             <summary>
             写入<see cref="T:System.Int16"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadInt64(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadInt64">
             <summary>
             从当前流位置读取一个<see cref="T:System.Int64"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Int64)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Int64)">
             <summary>
             写入<see cref="T:System.Int64"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadBoolean(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadBoolean">
             <summary>
             从当前流位置读取一个<see cref="T:System.Boolean"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Boolean)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Boolean)">
             <summary>
             写入<see cref="T:System.Boolean"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Byte)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadByte">
+            <summary>
+            从当前流位置读取一个<see cref="T:System.Byte"/>值
+            </summary>
+        </member>
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Byte)">
             <summary>
             写入<see cref="T:System.Byte"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadString(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadString">
             <summary>
             从当前流位置读取一个<see cref="T:System.String"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.String)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.String)">
             <summary>
-            写入<see cref="T:System.String"/>值。
-            <para>读取时必须使用ReadString</para>
+            写入<see cref="T:System.String"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadChar(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadChar">
             <summary>
             从当前流位置读取一个<see cref="T:System.Char"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Char)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Char)">
             <summary>
             写入<see cref="T:System.Char"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadDouble(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadDouble">
             <summary>
             从当前流位置读取一个<see cref="T:System.Double"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Double)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Double)">
             <summary>
             写入<see cref="T:System.Double"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadFloat(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadFloat">
             <summary>
             从当前流位置读取一个<see cref="T:System.Single"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.Single)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.Single)">
             <summary>
             写入<see cref="T:System.Single"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadUInt16(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadUInt16">
             <summary>
             从当前流位置读取一个<see cref="T:System.UInt16"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.UInt16)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.UInt16)">
             <summary>
             写入<see cref="T:System.UInt16"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadUInt32(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadUInt32">
             <summary>
             从当前流位置读取一个<see cref="T:System.UInt32"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.UInt32)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.UInt32)">
             <summary>
             写入<see cref="T:System.UInt32"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadUInt64(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadUInt64">
             <summary>
             从当前流位置读取一个<see cref="T:System.UInt64"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.UInt64)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.UInt64)">
             <summary>
             写入<see cref="T:System.UInt64"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadDateTime(RRQMCore.ByteManager.IByteBlock)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadDateTime">
             <summary>
             从当前流位置读取一个<see cref="T:System.DateTime"/>值
             </summary>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.Write``1(``0,System.DateTime)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.Write(System.DateTime)">
             <summary>
             写入<see cref="T:System.DateTime"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.ReadObject``1(RRQMCore.ByteManager.IByteBlock,RRQMCore.Serialization.SerializationType)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.ReadObject``1(RRQMCore.Serialization.SerializationType)">
             <summary>
              从当前流位置读取一个泛型值
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="byteBlock"></param>
             <param name="serializationType"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.ByteManager.ByteBlockExtensions.WriteObject``1(``0,System.Object,RRQMCore.Serialization.SerializationType)">
+        <member name="M:RRQMCore.ByteManager.ByteBlock.WriteObject(System.Object,RRQMCore.Serialization.SerializationType)">
             <summary>
             写入<see cref="T:System.Object"/>值
             </summary>
-            <param name="byteBlock"></param>
             <param name="value"></param>
             <param name="serializationType"></param>
         </member>
@@ -550,6 +457,12 @@
             <param name="byteSize"></param>
             <returns></returns>
         </member>
+        <member name="M:RRQMCore.ByteManager.BytePool.GetByteBlock">
+            <summary>
+            获取最大长度的ByteBlock
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:RRQMCore.ByteManager.BytePool.GetPoolSize">
             <summary>
             获取内存池容量
@@ -572,7 +485,7 @@
         </member>
         <member name="M:RRQMCore.ByteManager.BytePool.GetByteCore(System.Int32,System.Boolean)">
             <summary>
-            获取内存核心。获取的核心可以不用归还。
+            获取内存核心
             </summary>
             <param name="byteSize"></param>
             <param name="equalSize"></param>
@@ -606,144 +519,15 @@
             </summary>
             <param name="bytes"></param>
         </member>
-        <member name="T:RRQMCore.ByteManager.IByteBlock">
+        <member name="T:RRQMCore.Collections.Concurrent.IQueueData">
             <summary>
-            字节块流
+            队列数据
             </summary>
         </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.Buffer">
+        <member name="P:RRQMCore.Collections.Concurrent.IQueueData.Size">
             <summary>
-            字节实例
+            数据长度
             </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.CanRead">
-            <summary>
-            仅当内存块可用，且<see cref="P:RRQMCore.ByteManager.IByteBlock.CanReadLen"/>>0时为True。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.FreeLength">
-            <summary>
-            剩余的长度，准确掌握该值，可以避免内存扩展，计算为<see cref="P:RRQMCore.ByteManager.IByteBlock.Capacity"/>与<see cref="P:RRQMCore.ByteManager.IByteBlock.Pos"/>的差值。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.CanReadLen">
-            <summary>
-            还能读取的长度，计算为<see cref="P:RRQMCore.ByteManager.IByteBlock.Len"/>与<see cref="P:RRQMCore.ByteManager.IByteBlock.Pos"/>的差值。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.CanReadLength">
-            <summary>
-            还能读取的长度，计算为<see cref="P:RRQMCore.ByteManager.IByteBlock.Len"/>与<see cref="P:RRQMCore.ByteManager.IByteBlock.Pos"/>的差值。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.Capacity">
-            <summary>
-            容量
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.Holding">
-            <summary>
-            表示持续性持有，为True时，Dispose将调用无效。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.Len">
-            <summary>
-            Int真实长度
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.Length">
-            <summary>
-            真实长度
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.Pos">
-            <summary>
-            int型流位置
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.Position">
-            <summary>
-            流位置
-            </summary>
-        </member>
-        <member name="P:RRQMCore.ByteManager.IByteBlock.Using">
-            <summary>
-            使用状态
-            </summary>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.AbsoluteDispose">
-            <summary>
-            直接完全释放，游离该对象，然后等待GC
-            </summary>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.Clear">
-            <summary>
-            清空所有内存数据
-            </summary>
-            <exception cref="T:System.ObjectDisposedException">内存块已释放</exception>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.Reset">
-            <summary>
-            将内存块初始化到刚申请的状态。
-            <para>仅仅重置<see cref="P:RRQMCore.ByteManager.IByteBlock.Position"/>和<see cref="P:RRQMCore.ByteManager.IByteBlock.Length"/>属性。</para>
-            </summary>
-            <exception cref="T:System.ObjectDisposedException">内存块已释放</exception>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            读取数据，然后递增Pos
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <returns></returns>
-            <exception cref="T:System.ObjectDisposedException"></exception>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.ReadByte">
-            <summary>
-            读取一个字节
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.SetCapacity(System.Int32,System.Boolean)">
-            <summary>
-            重新设置容量
-            </summary>
-            <param name="size">新尺寸</param>
-            <param name="retainedData">是否保留元数据</param>
-            <exception cref="T:System.ObjectDisposedException"></exception>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.SetHolding(System.Boolean)">
-            <summary>
-            设置持续持有属性，当为True时，调用Dispose会失效，表示该对象将长期持有，直至设置为False。
-            当为False时，会自动调用Dispose。
-            </summary>
-            <param name="holding"></param>
-            <exception cref="T:System.ObjectDisposedException"></exception>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.SetLength(System.Int64)">
-            <summary>
-            设置实际长度
-            </summary>
-            <param name="value"></param>
-            <exception cref="T:System.ObjectDisposedException"></exception>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.ToArray(System.Int32,System.Int32)">
-            <summary>
-            从指定位置转化到指定长度的有效内存
-            </summary>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.ByteManager.IByteBlock.Write(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            写入
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="count"></param>
-            <exception cref="T:System.ObjectDisposedException"></exception>
         </member>
         <member name="T:RRQMCore.Collections.Concurrent.ConcurrentDoublyDictionary`2">
             <summary>
@@ -807,350 +591,101 @@
         </member>
         <member name="T:RRQMCore.Collections.Concurrent.ConcurrentList`1">
             <summary>
-            线程安全的List，其基本操作和List一致。
-            <para>该集合虽然是线程安全，但是不支持在foreach时修改集合，仅可以遍历成员。</para>
+            线程安全的List
             </summary>
             <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            构造函数
-            </summary>
-            <param name="collection"></param>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.#ctor">
             <summary>
             构造函数
             </summary>
         </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.#ctor(System.Int32)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="capacity"></param>
-        </member>
-        <member name="P:RRQMCore.Collections.Concurrent.ConcurrentList`1.Count">
-            <summary>
-            元素数量
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Collections.Concurrent.ConcurrentList`1.IsReadOnly">
-            <summary>
-            是否为只读
-            </summary>
-        </member>
         <member name="P:RRQMCore.Collections.Concurrent.ConcurrentList`1.Item(System.Int32)">
             <summary>
-            获取索引元素
+            获取或设置指定索引处的元素。
             </summary>
             <param name="index"></param>
             <returns></returns>
         </member>
+        <member name="P:RRQMCore.Collections.Concurrent.ConcurrentList`1.Count">
+            <summary>
+            获取集合中包含的元素数。
+            </summary>
+        </member>
+        <member name="P:RRQMCore.Collections.Concurrent.ConcurrentList`1.IsReadOnly">
+            <summary>
+            是否只读
+            </summary>
+        </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Add(`0)">
             <summary>
-            添加元素
+            将某项添加到 System.Collections.Generic.ICollection`1 中。
             </summary>
             <param name="item"></param>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Clear">
             <summary>
-            清空所有元素
+            从 System.Collections.Generic.ICollection`1 中移除所有项。
             </summary>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Contains(`0)">
             <summary>
-            是否包含某个元素
+            确定 System.Collections.Generic.ICollection`1 是否包含特定值。
             </summary>
             <param name="item"></param>
             <returns></returns>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.CopyTo(`0[],System.Int32)">
             <summary>
-            复制到
+            从特定的 System.Collections.Generic.ICollection`1 索引处开始，将 System.Array 的元素复制到一个 System.Array
             </summary>
             <param name="array"></param>
             <param name="arrayIndex"></param>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.GetEnumerator">
             <summary>
-            返回迭代器
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.System#Collections#IEnumerable#GetEnumerator">
-            <summary>
-            返回迭代器组合
+            返回一个循环访问集合的枚举器。
             </summary>
             <returns></returns>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.IndexOf(`0)">
             <summary>
-            索引
+            确定 System.Collections.Generic.IList`1 中特定项的索引。
             </summary>
             <param name="item"></param>
             <returns></returns>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Insert(System.Int32,`0)">
             <summary>
-            插入
+            在 System.Collections.Generic.IList`1 中的指定索引处插入一个项。
             </summary>
             <param name="index"></param>
             <param name="item"></param>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Remove(`0)">
             <summary>
-            移除元素
+            从 System.Collections.Generic.ICollection`1 中移除特定对象的第一个匹配项。
             </summary>
             <param name="item"></param>
             <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.RemoveAt(System.Int32)">
-            <summary>
-            按索引移除
-            </summary>
-            <param name="index"></param>
-        </member>
-        <member name="P:RRQMCore.Collections.Concurrent.ConcurrentList`1.Capacity">
-            <summary>
-            获取或设置容量
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.AddRange(System.Collections.Generic.IEnumerable{`0})"/>
-            </summary>
-            <param name="collection"></param>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.BinarySearch(`0)">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.BinarySearch(`0)"/>
-            </summary>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.BinarySearch(`0,System.Collections.Generic.IComparer{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.BinarySearch(`0,System.Collections.Generic.IComparer{`0})"/>
-            </summary>
-            <param name="item"></param>
-            <param name="comparer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.BinarySearch(System.Int32,System.Int32,`0,System.Collections.Generic.IComparer{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.BinarySearch(System.Int32,System.Int32,`0,System.Collections.Generic.IComparer{`0})"/>
-            </summary>
-            <param name="index"></param>
-            <param name="count"></param>
-            <param name="item"></param>
-            <param name="comparer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.ConvertAll``1(System.Converter{`0,``0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.ConvertAll``1(System.Converter{`0,``0})"/>
-            </summary>
-            <typeparam name="TOutput"></typeparam>
-            <param name="converter"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Find(System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.Find(System.Predicate{`0})"/>
-            </summary>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.FindAll(System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.FindAll(System.Predicate{`0})"/>
-            </summary>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.FindIndex(System.Int32,System.Int32,System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Int32,System.Predicate{`0})"/>
-            </summary>
-            <param name="startIndex"></param>
-            <param name="count"></param>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.FindIndex(System.Int32,System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Predicate{`0})"/>
-            </summary>
-            <param name="startIndex"></param>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.FindIndex(System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.FindIndex(System.Predicate{`0})"/>
-            </summary>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.FindLast(System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.FindLast(System.Predicate{`0})"/>
-            </summary>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.FindLastIndex(System.Int32,System.Int32,System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Int32,System.Predicate{`0})"/>
-            </summary>
-            <param name="startIndex"></param>
-            <param name="count"></param>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.FindLastIndex(System.Int32,System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Predicate{`0})"/>
-            </summary>
-            <param name="startIndex"></param>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.FindLastIndex(System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.FindLastIndex(System.Predicate{`0})"/>
-            </summary>
-            <param name="match"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.ForEach(System.Action{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.ForEach(System.Action{`0})"/>
-            </summary>
-            <param name="action"></param>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.GetRange(System.Int32,System.Int32)">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.GetRange(System.Int32,System.Int32)"/>
-            </summary>
-            <param name="index"></param>
-            <param name="count"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.IndexOf(`0,System.Int32)">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32)"/>
-            </summary>
-            <param name="item"></param>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.IndexOf(`0,System.Int32,System.Int32)">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32,System.Int32)"/>
-            </summary>
-            <param name="item"></param>
-            <param name="index"></param>
-            <param name="count"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})"/>
-            </summary>
-            <param name="index"></param>
-            <param name="collection"></param>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.LastIndexOf(`0)">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.LastIndexOf(`0)"/>
-            </summary>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.LastIndexOf(`0,System.Int32)">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32)"/>
-            </summary>
-            <param name="item"></param>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.LastIndexOf(`0,System.Int32,System.Int32)">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32,System.Int32)"/>
-            </summary>
-            <param name="item"></param>
-            <param name="index"></param>
-            <param name="count"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.RemoveAll(System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.RemoveAll(System.Predicate{`0})"/>
-            </summary>
-            <param name="match"></param>
         </member>
         <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.RemoveRange(System.Int32,System.Int32)">
             <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.RemoveRange(System.Int32,System.Int32)"/>
+             从 System.Collections.Generic.List`1 中移除一定范围的元素。
             </summary>
             <param name="index"></param>
             <param name="count"></param>
         </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Reverse">
+        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.RemoveAt(System.Int32)">
             <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.Reverse"/>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Reverse(System.Int32,System.Int32)">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.Reverse(System.Int32,System.Int32)"/>
+             移除位于指定索引处的 System.Collections.Generic.IList`1 项。
             </summary>
             <param name="index"></param>
-            <param name="count"></param>
         </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Sort">
+        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.ToString">
             <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.Sort"/>
+            重写ToString
             </summary>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Sort(System.Comparison{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.Sort(System.Comparison{`0})"/>
-            </summary>
-            <param name="comparison"></param>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Sort(System.Collections.Generic.IComparer{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.Sort(System.Collections.Generic.IComparer{`0})"/>
-            </summary>
-            <param name="comparer"></param>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.Sort(System.Int32,System.Int32,System.Collections.Generic.IComparer{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.Sort(System.Int32,System.Int32,System.Collections.Generic.IComparer{`0})"/>
-            </summary>
-            <param name="index"></param>
-            <param name="count"></param>
-            <param name="comparer"></param>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.ToArray">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.ToArray"/>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.TrimExcess">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.TrimExcess"/>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.ConcurrentList`1.TrueForAll(System.Predicate{`0})">
-            <summary>
-            <inheritdoc cref="M:System.Collections.Generic.List`1.TrueForAll(System.Predicate{`0})"/>
-            </summary>
-            <param name="match"></param>
             <returns></returns>
         </member>
         <member name="T:RRQMCore.Collections.Concurrent.IntelligentConcurrentQueue`1">
@@ -1248,116 +783,6 @@
             <param name="result"></param>
             <returns></returns>
         </member>
-        <member name="T:RRQMCore.Collections.Concurrent.IQueueData">
-            <summary>
-            队列数据
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Collections.Concurrent.IQueueData.Size">
-            <summary>
-            数据长度
-            </summary>
-        </member>
-        <member name="T:RRQMCore.Collections.Concurrent.QueueDataBytes">
-            <summary>
-            传输字节
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.QueueDataBytes.#ctor(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-        </member>
-        <member name="M:RRQMCore.Collections.Concurrent.QueueDataBytes.#ctor(System.Byte[])">
-            <summary>
-            构造函数
-            </summary>
-            <param name="buffer"></param>
-        </member>
-        <member name="P:RRQMCore.Collections.Concurrent.QueueDataBytes.Buffer">
-            <summary>
-            数据内存
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Collections.Concurrent.QueueDataBytes.Offset">
-            <summary>
-            偏移
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Collections.Concurrent.QueueDataBytes.Length">
-            <summary>
-            长度
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Collections.Concurrent.QueueDataBytes.Size">
-            <summary>
-            尺寸
-            </summary>
-        </member>
-        <member name="T:RRQMCore.AppConfigBase">
-            <summary>
-            运行配置类
-            </summary>
-        </member>
-        <member name="M:RRQMCore.AppConfigBase.#ctor(System.String)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="fullPath"></param>
-        </member>
-        <member name="M:RRQMCore.AppConfigBase.Save(System.Boolean,System.String@)">
-            <summary>
-            保存配置
-            </summary>
-            <param name="overwrite"></param>
-            <param name="msg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.AppConfigBase.Load(System.String@)">
-            <summary>
-            加载配置
-            </summary>
-            <param name="msg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.AppConfigBase.GetDefault``1">
-            <summary>
-            获取默认配置。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.AppConfigBase.GetNewDefault``1">
-            <summary>
-            获取默认配置，每次调用该方法时，都会重新加载配置。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.DisposableObject">
-            <summary>
-            具有释放的对象。
-            </summary>
-        </member>
-        <member name="F:RRQMCore.DisposableObject.disposedValue">
-            <summary>
-            判断是否已释放。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.DisposableObject.Dispose(System.Boolean)">
-            <summary>
-            释放
-            </summary>
-            <param name="disposing"></param>
-        </member>
-        <member name="M:RRQMCore.DisposableObject.Dispose">
-            <summary>
-            释放资源
-            </summary>
-        </member>
         <member name="T:RRQMCore.EndianType">
             <summary>
             大小端类型
@@ -1375,12 +800,12 @@
         </member>
         <member name="T:RRQMCore.ResType">
             <summary>
-            RRQM资源枚举
+            RRQMCore资源枚举
             </summary>
         </member>
         <member name="F:RRQMCore.ResType.UnknownError">
             <summary>
-            未知错误
+            未知知错误
             </summary>
         </member>
         <member name="F:RRQMCore.ResType.ArgumentNull">
@@ -1418,11 +843,6 @@
             文件已存在
             </summary>
         </member>
-        <member name="F:RRQMCore.ResType.FileNotExists">
-            <summary>
-            文件不存在
-            </summary>
-        </member>
         <member name="F:RRQMCore.ResType.RemoteFileNotExists">
             <summary>
             远程文件不存在
@@ -1433,12 +853,12 @@
             创建写入流失败
             </summary>
         </member>
-        <member name="F:RRQMCore.ResType.StreamNotFind">
+        <member name="F:RRQMCore.ResType.NotFindStream">
             <summary>
             没有找到流文件
             </summary>
         </member>
-        <member name="F:RRQMCore.ResType.ClientNotFind">
+        <member name="F:RRQMCore.ResType.NotFindClient">
             <summary>
             没有找到客户端
             </summary>
@@ -1478,34 +898,9 @@
             信息未找到
             </summary>
         </member>
-        <member name="F:RRQMCore.ResType.NullDataAdapter">
+        <member name="F:RRQMCore.ResType.ByteBlockDisposed">
             <summary>
-            数据处理适配器为空
-            </summary>
-        </member>
-        <member name="F:RRQMCore.ResType.Overtime">
-            <summary>
-            操作超时
-            </summary>
-        </member>
-        <member name="F:RRQMCore.ResType.EventExisted">
-            <summary>
-            名称为“{0}”的事件已存在
-            </summary>
-        </member>
-        <member name="F:RRQMCore.ResType.EventNotExist">
-            <summary>
-            名称为“{0}”的事件不存在
-            </summary>
-        </member>
-        <member name="F:RRQMCore.ResType.NotConnected">
-            <summary>
-            客户端没有连接
-            </summary>
-        </member>
-        <member name="F:RRQMCore.ResType.LicenceKeyInvalid">
-            <summary>
-            授权密钥无效
+            内存块已释放
             </summary>
         </member>
         <member name="T:RRQMCore.ResultCode">
@@ -1538,32 +933,6 @@
             操作取消
             </summary>
         </member>
-        <member name="T:RRQMCore.FlowGate">
-            <summary>
-            流量控制
-            </summary>
-        </member>
-        <member name="M:RRQMCore.FlowGate.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="P:RRQMCore.FlowGate.Maximum">
-            <summary>
-            最大值
-            </summary>
-        </member>
-        <member name="M:RRQMCore.FlowGate.AddCheckWait(System.Int32)">
-            <summary>
-            检测等待
-            </summary>
-        </member>
-        <member name="M:RRQMCore.FlowGate.GetNowTick">
-            <summary>
-            获取当前时间帧
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:RRQMCore.IResult">
             <summary>
             返回通知接口
@@ -1577,38 +946,6 @@
         <member name="P:RRQMCore.IResult.Message">
             <summary>
             消息
-            </summary>
-        </member>
-        <member name="T:RRQMCore.ReadLock">
-            <summary>
-            读取锁
-            </summary>
-        </member>
-        <member name="M:RRQMCore.ReadLock.#ctor(System.Threading.ReaderWriterLockSlim)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="locks"></param>
-        </member>
-        <member name="M:RRQMCore.ReadLock.Dispose">
-            <summary>
-            释放
-            </summary>
-        </member>
-        <member name="T:RRQMCore.WriteLock">
-            <summary>
-            写入锁
-            </summary>
-        </member>
-        <member name="M:RRQMCore.WriteLock.#ctor(System.Threading.ReaderWriterLockSlim)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="locks"></param>
-        </member>
-        <member name="M:RRQMCore.WriteLock.Dispose">
-            <summary>
-            释放
             </summary>
         </member>
         <member name="T:RRQMCore.Metadata">
@@ -1850,7 +1187,25 @@
             <param name="offset"></param>
             <returns></returns>
         </member>
-        <member name="T:RRQMCore.RRQMCoreUtility">
+        <member name="T:RRQMCore.Common.RRQMCoreTools">
+            <summary>
+            RRQMCoreTools
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Common.RRQMCoreTools.GetStringCount(System.String,System.String)">
+            <summary>
+            判断字符串compare 在 input字符串中出现的次数
+            </summary>
+            <param name="input">源字符串</param>
+            <param name="compare">用于比较的字符串</param>
+            <returns>字符串compare 在 input字符串中出现的次数</returns>
+        </member>
+        <member name="T:RRQMCore.RRQMObject">
+            <summary>
+            RRQM系对象基类
+            </summary>
+        </member>
+        <member name="T:RRQMCore.RRQMReadonly">
             <summary>
             常量
             </summary>
@@ -1900,7 +1255,14 @@
             字符串资源字典
             </summary>
         </member>
-        <member name="M:RRQMCore.StringResStore.GetDescription(System.Enum,System.Object[])">
+        <member name="M:RRQMCore.StringResStore.GetResString(System.Enum)">
+            <summary>
+            获取资源字符
+            </summary>
+            <param name="enum"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMCore.StringResStore.GetResString(System.Enum,System.Object[])">
             <summary>
             获取资源字符
             </summary>
@@ -1908,380 +1270,54 @@
             <param name="objs"></param>
             <returns></returns>
         </member>
-        <member name="T:RRQMCore.Converter.IConverter`1">
+        <member name="T:RRQMCore.Data.Converter.CollectionConvert">
             <summary>
-            转换器接口
+            集合转换器
             </summary>
         </member>
-        <member name="P:RRQMCore.Converter.IConverter`1.Order">
+        <member name="T:RRQMCore.Data.Converter.ValueConvert">
             <summary>
-            转换器执行顺序
-            <para>该属性值越小，越靠前执行。值相等时，按添加先后顺序</para>
-            <para>该属性效果，仅在<see cref="M:RRQMCore.Converter.RRQMConverter`1.Add(RRQMCore.Converter.IConverter{`0})"/>之前设置有效。</para>
+            值转换器
             </summary>
         </member>
-        <member name="M:RRQMCore.Converter.IConverter`1.TryConvertFrom(`0,System.Type,System.Object@)">
+        <member name="M:RRQMCore.Data.Converter.ValueConvert.IntConvert(System.String,System.Int32)">
             <summary>
-            尝试将源数据转换目标类型对象
+            int型转换器
             </summary>
-            <param name="source"></param>
-            <param name="targetType"></param>
-            <param name="target"></param>
+            <param name="valueString">数字字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns>返回值结果</returns>
+        </member>
+        <member name="M:RRQMCore.Data.Converter.ValueConvert.IntConvert(System.Object)">
+            <summary>
+            int型转换器
+            </summary>
+            <param name="valueObject"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Converter.IConverter`1.TryConvertTo(System.Object,`0@)">
+        <member name="M:RRQMCore.Data.Converter.ValueConvert.LongConvert(System.Object)">
             <summary>
-            尝试将目标类型对象转换源数据
+            long值转换器
             </summary>
-            <param name="target"></param>
-            <param name="source"></param>
+            <param name="valueObject"></param>
             <returns></returns>
         </member>
-        <member name="T:RRQMCore.Converter.RRQMConverter`1">
+        <member name="M:RRQMCore.Data.Converter.ValueConvert.DoubleConvert(System.String,System.Double)">
             <summary>
-            转换器
+            双精度值转换
             </summary>
+            <param name="valueString">数字字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns>返回值结果</returns>
         </member>
-        <member name="M:RRQMCore.Converter.RRQMConverter`1.Add(RRQMCore.Converter.IConverter{`0})">
+        <member name="M:RRQMCore.Data.Converter.ValueConvert.EnumConvert``1(System.String,``0)">
             <summary>
-            添加插件
+            枚举类型转换
             </summary>
-            <param name="converter">插件</param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:RRQMCore.Converter.RRQMConverter`1.Clear">
-            <summary>
-            清除所有转化器
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Converter.RRQMConverter`1.ConvertFrom(`0,System.Type)">
-            <summary>
-            将源数据转换目标类型对象
-            </summary>
-            <param name="source"></param>
-            <param name="targetType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Converter.RRQMConverter`1.ConvertTo(System.Object)">
-            <summary>
-            将目标类型对象转换源数据
-            </summary>
-            <param name="target"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Converter.RRQMConverter`1.Remove(RRQMCore.Converter.IConverter{`0})">
-            <summary>
-            移除插件
-            </summary>
-            <param name="converter"></param>
-        </member>
-        <member name="M:RRQMCore.Converter.RRQMConverter`1.Remove(System.Type)">
-            <summary>
-            移除插件
-            </summary>
-            <param name="type"></param>
-        </member>
-        <member name="T:RRQMCore.Converter.StringConverter">
-            <summary>
-            String类型数据转换器
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Converter.StringConverter.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="T:RRQMCore.Converter.StringToPrimitiveConverter">
-            <summary>
-            String值转换为基础类型。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Converter.StringToPrimitiveConverter.Order">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Converter.StringToPrimitiveConverter.TryConvertFrom(System.String,System.Type,System.Object@)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="source"></param>
-            <param name="targetType"></param>
-            <param name="target"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Converter.StringToPrimitiveConverter.TryConvertTo(System.Object,System.String@)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="target"></param>
-            <param name="source"></param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Converter.JsonStringToClassConverter">
-            <summary>
-            Json字符串转到对应类
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Converter.JsonStringToClassConverter.Order">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Converter.JsonStringToClassConverter.TryConvertFrom(System.String,System.Type,System.Object@)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="source"></param>
-            <param name="targetType"></param>
-            <param name="target"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Converter.JsonStringToClassConverter.TryConvertTo(System.Object,System.String@)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="target"></param>
-            <param name="source"></param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Data.Crc">
-            <summary>
-            Crc相关。
-            <para>该代码来源于网络</para>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc1(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-4/ITU    x4+x+1
-             Poly: 0x03
-             Init: 0x00
-             Refin: true
-             Refout: true
-             Xorout: 0x00
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc2(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-5/EPC    x5+x3+1
-             Poly: 0x09
-             Init: 0x09
-             Refin: false
-             Refout: false
-             Xorout: 0x00
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc3(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-5/ITU    x5+x4+x2+1
-             Poly: 0x15
-             Init: 0x00
-             Refin: true
-             Refout: true
-             Xorout: 0x00
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc4(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-5/USB    x5+x2+1
-             Poly: 0x05
-             Init: 0x1F
-             Refin: true
-             Refout: true
-             Xorout: 0x1F
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc5(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-6/ITU    x6+x+1
-             Poly: 0x03
-             Init: 0x00
-             Refin: true
-             Refout: true
-             Xorout: 0x00
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc6(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-7/MMC    x7+x3+1
-             Poly: 0x09
-             Init: 0x00
-             Refin: false
-             Refout: false
-             Xorout: 0x00
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc7(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC8    x8+x2+x+1
-             Poly: 0x07
-             Init: 0x00
-             Refin: false
-             Refout: false
-             Xorout: 0x00
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc8(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-8/ITU    x8+x2+x+1
-             Poly: 0x07
-             Init: 0x00
-             Refin: false
-             Refout: false
-             Xorout: 0x55
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc9(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-8/MAXIM    x8+x5+x4+1
-             Poly: 0x31
-             Init: 0x00
-             Refin: true
-             Refout: true
-             Xorout: 0x00
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc10(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-8/ROHC    x8+x2+x+1
-             Poly: 0x07
-             Init: 0xFF
-             Refin: true
-             Refout: true
-             Xorout: 0x00
-            *************************************************************************
-        </member>
-        <member name="F:RRQMCore.Data.Crc.table">
-            Z1协议校验码计算
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc11(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            Crc11
-            </summary>
-            <param name="buffer"></param>
-            <param name="start"></param>
-            <param name="len"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc12(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-12    x16+x12+x5+1
-             Poly: 0x80
-             Init: 0x0000
-             Refin: true
-             Refout: true
-             Xorout: 0x0000
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc13(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/CCITT    x16+x12+x5+1
-             Poly: 0x1021
-             Init: 0x0000
-             Refin: true
-             Refout: true
-             Xorout: 0x0000
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc14(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/CCITT FALSE    x16+x12+x5+1
-             Poly: 0x1021
-             Init: 0xFFFF
-             Refin: false
-             Refout: false
-             Xorout: 0x0000
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc15(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/DNP    x16+x13+x12+x11+x10+x8+x6+x5+x2+1
-             Poly: 0x3D65
-             Init: 0x0000
-             Refin: true
-             Refout: true
-             Xorout: 0xFFFF
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc16(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/IBM    x16+x15+x2+1
-             Poly: 0x8005
-             Init: 0x0000
-             Refin: true
-             Refout: true
-             Xorout: 0x0000
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc17(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/MAXIM    x16+x15+x2+1
-             Poly: 0x8005
-             Init: 0x0000
-             Refin: true
-             Refout: true
-             Xorout: 0xFFFF
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc18(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/MODBUS    x16+x15+x2+1
-             Poly: 0x8005
-             Init: 0xFFFF
-             Refin: true
-             Refout: true
-             Xorout: 0x0000
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc19(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/USB    x16+x15+x2+1
-             Poly: 0x8005
-             Init: 0xFFFF
-             Refin: true
-             Refout: true
-             Xorout: 0xFFFF
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc20(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/X25    x16+x12+x5+1
-             Poly: 0x1021
-             Init: 0xFFFF
-             Refin: true
-             Refout: true
-             Xorout: 0xFFFF
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc21(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC-16/XMODEM    x16+x12+x5+1
-             Poly: 0x1021
-             Init: 0x0000
-             Refin: false
-             Refout: false
-             Xorout: 0x0000
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc22(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC32    x32+x26+x23+x22+x16+x12+x11+x10+x8+x7+x5+x4+x2+x+1
-             Poly: 0x04C11DB7
-             Init: 0xFFFFFFFF
-             Refin: true
-             Refout: true
-             Xorout: 0xFFFFFFFF
-            *************************************************************************
-        </member>
-        <member name="M:RRQMCore.Data.Crc.Crc23(System.Byte[],System.Int32,System.Int32)">
-             **********************************************************************
-             Name: CRC32/MPEG-2    x32+x26+x23+x22+x16+x12+x11+x10+x8+x7+x5+x4+x2+x+1
-             Poly: 0x04C11DB7
-             Init: 0xFFFFFFFF
-             Refin: false
-             Refout: false
-             Xorout: 0x00000000
-            *************************************************************************
+            <typeparam name="T">枚举类型</typeparam>
+            <param name="valueString">枚举字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns>返回值结果</returns>
         </member>
         <member name="T:RRQMCore.Data.Security.DataLock">
             <summary>
@@ -2460,300 +1496,6 @@
             依赖属性数据验证
             </summary>
         </member>
-        <member name="T:RRQMCore.Dependency.DependencyTypeAttribute">
-            <summary>
-            指定依赖类型。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.DependencyTypeAttribute.#ctor(RRQMCore.Dependency.DependencyType)">
-            <summary>
-            初始化一个依赖类型。当确定某个类型仅以某种特定方式注入时，可以过滤不必要的注入操作，以提高效率。
-            </summary>
-            <param name="type">可以叠加位域</param>
-        </member>
-        <member name="P:RRQMCore.Dependency.DependencyTypeAttribute.Type">
-            <summary>
-            支持类型。
-            </summary>
-        </member>
-        <member name="T:RRQMCore.Dependency.DependencyType">
-            <summary>
-            依赖注入类型。
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Dependency.DependencyType.Constructor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Dependency.DependencyType.Property">
-            <summary>
-            属性
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Dependency.DependencyType.Method">
-            <summary>
-            方法
-            </summary>
-        </member>
-        <member name="T:RRQMCore.Dependency.DependencyInjectAttribute">
-            <summary>
-            指定依赖构造函数，可用于构造函数，属性，方法。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.DependencyInjectAttribute.#ctor(System.Object[])">
-            <summary>
-            初始化一个依赖注入对象。并且指定构造参数。
-            <para>当创建时也指定参数时，会覆盖该设定。</para>
-            </summary>
-            <param name="ps"></param>
-        </member>
-        <member name="P:RRQMCore.Dependency.DependencyInjectAttribute.Ps">
-            <summary>
-            构造参数
-            </summary>
-        </member>
-        <member name="T:RRQMCore.Dependency.DependencyParamterInjectAttribute">
-            <summary>
-            参数，属性指定性注入。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.DependencyParamterInjectAttribute.#ctor(System.String,System.Object[])">
-            <summary>
-            参数，属性指定性注入。
-            </summary>
-            <param name="key"></param>
-            <param name="ps"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.DependencyParamterInjectAttribute.#ctor(System.Type,System.String,System.Object[])">
-            <summary>
-            类型，参数，属性指定性注入。
-            </summary>
-            <param name="type"></param>
-            <param name="key"></param>
-            <param name="ps"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.DependencyParamterInjectAttribute.#ctor(System.Type,System.Object[])">
-            <summary>
-            类型，参数，属性指定性注入。
-            </summary>
-            <param name="type"></param>
-            <param name="ps"></param>
-        </member>
-        <member name="P:RRQMCore.Dependency.DependencyParamterInjectAttribute.Type">
-            <summary>
-            注入类型
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Dependency.DependencyParamterInjectAttribute.Key">
-            <summary>
-            指定键。
-            </summary>
-        </member>
-        <member name="T:RRQMCore.Dependency.Container">
-            <summary>
-            IOC容器
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.Container.Register(RRQMCore.Dependency.DependencyDescriptor,System.String)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="descriptor"></param>
-            <param name="key"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.Container.Resolve(System.Type,System.Object[],System.String)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="fromType"></param>
-            <param name="ps"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Dependency.Container.Create(System.Type,System.Object[])">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="toType"></param>
-            <param name="ops"></param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Dependency.ContainerExtensions">
-            <summary>
-            IContainerExtensions
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterSingleton``2(RRQMCore.Dependency.IContainer,``1)">
-            <summary>
-            注册单例
-            </summary>
-            <typeparam name="TFrom"></typeparam>
-            <typeparam name="TTo"></typeparam>
-            <param name="container"></param>
-            <param name="instance"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterSingleton``2(RRQMCore.Dependency.IContainer,System.String,``1)">
-            <summary>
-            注册单例
-            </summary>
-            <typeparam name="TFrom"></typeparam>
-            <typeparam name="TTo"></typeparam>
-            <param name="container"></param>
-            <param name="key"></param>
-            <param name="instance"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterSingleton(RRQMCore.Dependency.IContainer,System.Type,System.Object,System.String)">
-            <summary>
-            注册单例
-            </summary>
-            <param name="container"></param>
-            <param name="fromType"></param>
-            <param name="instance"></param>
-            <param name="key"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterSingleton(RRQMCore.Dependency.IContainer,System.Type,System.Type,System.String)">
-            <summary>
-            注册单例
-            </summary>
-            <param name="container"></param>
-            <param name="fromType"></param>
-            <param name="toType"></param>
-            <param name="key"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterSingleton``2(RRQMCore.Dependency.IContainer)">
-            <summary>
-            注册单例
-            </summary>
-            <typeparam name="TFrom"></typeparam>
-            <typeparam name="TTO"></typeparam>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterSingleton``2(RRQMCore.Dependency.IContainer,System.String)">
-            <summary>
-            注册单例
-            </summary>
-            <typeparam name="TFrom"></typeparam>
-            <typeparam name="TTO"></typeparam>
-            <param name="container"></param>
-            <param name="key"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterTransient``2(RRQMCore.Dependency.IContainer)">
-            <summary>
-            注册临时映射
-            </summary>
-            <typeparam name="TFrom"></typeparam>
-            <typeparam name="TTO"></typeparam>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterTransient``2(RRQMCore.Dependency.IContainer,System.String)">
-            <summary>
-            注册临时映射
-            </summary>
-            <typeparam name="TFrom"></typeparam>
-            <typeparam name="TTO"></typeparam>
-            <param name="container"></param>
-            <param name="key"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterTransient(RRQMCore.Dependency.IContainer,System.Type,System.Type,System.String)">
-            <summary>
-            注册单例
-            </summary>
-            <param name="container"></param>
-            <param name="fromType"></param>
-            <param name="toType"></param>
-            <param name="key"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterScoped``2(RRQMCore.Dependency.IContainer)">
-            <summary>
-            注册区域映射
-            </summary>
-            <typeparam name="TFrom"></typeparam>
-            <typeparam name="TTO"></typeparam>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterScoped``2(RRQMCore.Dependency.IContainer,System.String)">
-            <summary>
-            注册区域映射
-            </summary>
-            <typeparam name="TFrom"></typeparam>
-            <typeparam name="TTO"></typeparam>
-            <param name="container"></param>
-            <param name="key"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.RegisterScoped(RRQMCore.Dependency.IContainer,System.Type,System.Type,System.String)">
-            <summary>
-            注册区域映射
-            </summary>
-            <param name="container"></param>
-            <param name="fromType"></param>
-            <param name="toType"></param>
-            <param name="key"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.Resolve``1(RRQMCore.Dependency.IScopedContainer,System.Object[],System.String)">
-            <summary>
-            创建类型对应的实例
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="container"></param>
-            <param name="ps"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.Resolve``1(RRQMCore.Dependency.IScopedContainer)">
-            <summary>
-            创建类型对应的实例
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="container"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Dependency.ContainerExtensions.Resolve``1(RRQMCore.Dependency.IScopedContainer,System.String)">
-            <summary>
-            创建类型对应的实例
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="container"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Dependency.DependencyDescriptor">
-            <summary>
-            注入依赖对象
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.DependencyDescriptor.#ctor(System.Type,System.Object)">
-            <summary>
-            初始化一个单例实例。
-            </summary>
-            <param name="fromType"></param>
-            <param name="instance"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.DependencyDescriptor.#ctor(System.Type,System.Type,RRQMCore.Dependency.Lifetime)">
-            <summary>
-            初始化一个完整的服务注册
-            </summary>
-            <param name="fromType"></param>
-            <param name="toType"></param>
-            <param name="lifetime"></param>
-        </member>
-        <member name="P:RRQMCore.Dependency.DependencyDescriptor.ToType">
-            <summary>
-            实例类型
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Dependency.DependencyDescriptor.ToInstance">
-            <summary>
-            实例
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Dependency.DependencyDescriptor.Lifetime">
-            <summary>
-            生命周期
-            </summary>
-        </member>
-        <member name="P:RRQMCore.Dependency.DependencyDescriptor.FromType">
-            <summary>
-            注册类型
-            </summary>
-        </member>
         <member name="T:RRQMCore.Dependency.DependencyProperty">
             <summary>
             依赖项属性
@@ -2789,83 +1531,9 @@
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="T:RRQMCore.Dependency.IContainer">
-            <summary>
-            注入容器接口
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.IContainer.Register(RRQMCore.Dependency.DependencyDescriptor,System.String)">
-            <summary>
-            添加类型描述符。
-            </summary>
-            <param name="key"></param>
-            <param name="descriptor"></param>
-        </member>
-        <member name="T:RRQMCore.Dependency.IScopedContainer">
-            <summary>
-            具有区域效应的容器。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.IScopedContainer.Resolve(System.Type,System.Object[],System.String)">
-            <summary>
-            创建目标类型的对应实例。
-            </summary>
-            <param name="fromType"></param>
-            <param name="ps"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Dependency.Lifetime">
-            <summary>
-            注入项的生命周期。
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Dependency.Lifetime.Singleton">
-            <summary>
-            单例对象
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Dependency.Lifetime.Scoped">
-            <summary>
-            以<see cref="T:RRQMCore.Dependency.IScopedContainer"/>接口为区域实例单例。
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Dependency.Lifetime.Transient">
-            <summary>
-            瞬时对象
-            </summary>
-        </member>
-        <member name="T:RRQMCore.Dependency.IRRQMDependencyObject">
-            <summary>
-            依赖对象接口
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Dependency.IRRQMDependencyObject.GetValue(RRQMCore.Dependency.DependencyProperty)">
-            <summary>
-            获取依赖注入的值
-            </summary>
-            <param name="dependencyProperty"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Dependency.IRRQMDependencyObject.GetValue``1(RRQMCore.Dependency.DependencyProperty)">
-            <summary>
-            获取依赖注入的值
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="dependencyProperty"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Dependency.IRRQMDependencyObject.SetValue(RRQMCore.Dependency.DependencyProperty,System.Object)">
-            <summary>
-            设置依赖注入的值
-            </summary>
-            <param name="dependencyProperty"></param>
-            <param name="value"></param>
-        </member>
         <member name="T:RRQMCore.Dependency.RRQMDependencyObject">
             <summary>
-            依赖项对象.
-            非线程安全。
+            依赖项对象
             </summary>
         </member>
         <member name="M:RRQMCore.Dependency.RRQMDependencyObject.#ctor">
@@ -2875,14 +1543,14 @@
         </member>
         <member name="M:RRQMCore.Dependency.RRQMDependencyObject.GetValue(RRQMCore.Dependency.DependencyProperty)">
             <summary>
-            获取依赖注入的值
+            获取值
             </summary>
             <param name="dependencyProperty"></param>
             <returns></returns>
         </member>
         <member name="M:RRQMCore.Dependency.RRQMDependencyObject.GetValue``1(RRQMCore.Dependency.DependencyProperty)">
             <summary>
-            获取依赖注入的值
+            获取值
             </summary>
             <typeparam name="T"></typeparam>
             <param name="dependencyProperty"></param>
@@ -2890,16 +1558,10 @@
         </member>
         <member name="M:RRQMCore.Dependency.RRQMDependencyObject.SetValue(RRQMCore.Dependency.DependencyProperty,System.Object)">
             <summary>
-            设置依赖注入的值
+            设置值
             </summary>
             <param name="dependencyProperty"></param>
             <param name="value"></param>
-        </member>
-        <member name="M:RRQMCore.Dependency.RRQMDependencyObject.Dispose(System.Boolean)">
-            <summary>
-            释放
-            </summary>
-            <param name="disposing"></param>
         </member>
         <member name="T:RRQMCore.Diagnostics.TimeMeasurer">
             <summary>
@@ -2920,467 +1582,209 @@
             <param name="action"></param>
             <returns></returns>
         </member>
-        <member name="T:RRQMCore.Operation">
-            <summary>
-            操作
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Operation.None">
-            <summary>
-            无任何状态
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Operation.Handled">
-            <summary>
-            已处理
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Operation.Permit">
-            <summary>
-            允许该操作
-            </summary>
-        </member>
-        <member name="T:RRQMCore.RRQMEventArgs">
+        <member name="T:RRQMCore.Event.RRQMEventArgs">
             <summary>
             若汝棋茗所有事件基类
             </summary>
         </member>
-        <member name="P:RRQMCore.RRQMEventArgs.IsPermitOperation">
+        <member name="T:RRQMCore.Exceptions.ByteBlockDisposedException">
             <summary>
-            是否允许操作
+            内存块已释放
             </summary>
         </member>
-        <member name="P:RRQMCore.RRQMEventArgs.Handled">
-            <summary>
-            是否已处理
-            </summary>
-        </member>
-        <member name="P:RRQMCore.RRQMEventArgs.Operation">
-            <summary>
-            操作类型。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.RRQMEventArgs.AddOperation(RRQMCore.Operation)">
-            <summary>
-            添加操作
-            </summary>
-            <param name="operation"></param>
-        </member>
-        <member name="M:RRQMCore.RRQMEventArgs.RemoveOperation(RRQMCore.Operation)">
-            <summary>
-            移除操作
-            </summary>
-            <param name="operation"></param>
-        </member>
-        <member name="T:RRQMCore.RRQMException">
-            <summary>
-            若汝棋茗程序集异常类基类
-            </summary>
-        </member>
-        <member name="M:RRQMCore.RRQMException.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="M:RRQMCore.RRQMException.#ctor(RRQMCore.ResType,System.Object[])">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="M:RRQMCore.RRQMException.#ctor(System.String)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="message"></param>
-        </member>
-        <member name="M:RRQMCore.RRQMException.#ctor(System.String,System.Exception)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="message"></param>
-            <param name="inner"></param>
-        </member>
-        <member name="M:RRQMCore.RRQMException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="info"></param>
-            <param name="context"></param>
-        </member>
-        <member name="T:RRQMCore.MessageRegisteredException">
-            <summary>
-            消息已注册
-            </summary>
-        </member>
-        <member name="M:RRQMCore.MessageRegisteredException.#ctor(System.String)">
-             <summary>
-            构造函数
-             </summary>
-             <param name="mes"></param>
-        </member>
-        <member name="T:RRQMCore.MessageNotFoundException">
+        <member name="T:RRQMCore.Exceptions.MessageNotFoundException">
             <summary>
             未找到消息异常类
             </summary>
         </member>
-        <member name="M:RRQMCore.MessageNotFoundException.#ctor(System.String)">
+        <member name="M:RRQMCore.Exceptions.MessageNotFoundException.#ctor(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="mes"></param>
+        </member>
+        <member name="T:RRQMCore.Exceptions.MessageRegisteredException">
+            <summary>
+            消息已注册
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Exceptions.MessageRegisteredException.#ctor(System.String)">
              <summary>
             构造函数
              </summary>
              <param name="mes"></param>
         </member>
-        <member name="T:RRQMCore.LicenceKeyInvalidException">
+        <member name="T:RRQMCore.Exceptions.RRQMException">
+            <summary>
+            若汝棋茗程序集异常类基类
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Exceptions.RRQMException.#ctor">
             <summary>
             构造函数
             </summary>
         </member>
-        <member name="F:RRQMCore.LicenceKeyInvalidException.i">
-            <summary>
-            7ashd7ashd7ashdahsd77
-            </summary>
-        </member>
-        <member name="M:RRQMCore.LicenceKeyInvalidException.#ctor">
+        <member name="M:RRQMCore.Exceptions.RRQMException.#ctor(RRQMCore.ResType,System.Object[])">
             <summary>
             构造函数
             </summary>
         </member>
-        <member name="M:RRQMCore.LicenceKeyInvalidException.#ctor(System.String)">
+        <member name="M:RRQMCore.Exceptions.RRQMException.#ctor(System.String)">
             <summary>
             构造函数
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:RRQMCore.LicenceKeyInvalidException.#ctor(System.String,System.Exception)">
+        <member name="M:RRQMCore.Exceptions.RRQMException.#ctor(System.String,System.Exception)">
             <summary>
             构造函数
             </summary>
             <param name="message"></param>
             <param name="inner"></param>
         </member>
-        <member name="M:RRQMCore.LicenceKeyInvalidException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name="M:RRQMCore.Exceptions.RRQMException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
             构造函数
             </summary>
             <param name="info"></param>
             <param name="context"></param>
         </member>
-        <member name="T:RRQMCore.Exceptions.ThrowHelper">
+        <member name="T:RRQMCore.Extensions.Tools.NetTools">
             <summary>
-            异常助手
+            网络工具
             </summary>
         </member>
-        <member name="P:RRQMCore.Exceptions.ThrowHelper.Default">
+        <member name="M:RRQMCore.Extensions.Tools.NetTools.GetMacByNetworkInterface">
             <summary>
-            默认实例
+            获取MAC地址
             </summary>
-        </member>
-        <member name="T:RRQMCore.Log.LoggerExtensions">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerExtensions.Message(RRQMCore.Log.ILog,System.String)">
-            <summary>
-            输出消息日志
-            </summary>
-            <param name="logger"></param>
-            <param name="msg"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerExtensions.Warning(RRQMCore.Log.ILog,System.String)">
-            <summary>
-            输出警示日志
-            </summary>
-            <param name="logger"></param>
-            <param name="msg"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerExtensions.Error(RRQMCore.Log.ILog,System.String)">
-            <summary>
-            输出错误日志
-            </summary>
-            <param name="logger"></param>
-            <param name="msg"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerExtensions.Exception(RRQMCore.Log.ILog,System.Exception)">
-            <summary>
-            输出异常日志
-            </summary>
-            <param name="logger"></param>
-            <param name="ex"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerExtensions.Message(RRQMCore.Log.ILog,System.Object,System.String)">
-            <summary>
-            输出消息日志
-            </summary>
-            <param name="logger"></param>
-            <param name="source"></param>
-            <param name="msg"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerExtensions.Warning(RRQMCore.Log.ILog,System.Object,System.String)">
-            <summary>
-            输出警示日志
-            </summary>
-            <param name="logger"></param>
-            <param name="source"></param>
-            <param name="msg"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerExtensions.Error(RRQMCore.Log.ILog,System.Object,System.String)">
-            <summary>
-            输出错误日志
-            </summary>
-            <param name="logger"></param>
-            <param name="source"></param>
-            <param name="msg"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerExtensions.Exception(RRQMCore.Log.ILog,System.Object,System.Exception)">
-            <summary>
-            输出异常日志
-            </summary>
-            <param name="logger"></param>
-            <param name="source"></param>
-            <param name="ex"></param>
-        </member>
-        <member name="T:RRQMCore.Log.ConsoleLogger">
-            <summary>
-            控制台日志记录器
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Log.ConsoleLogger.Debug(RRQMCore.Log.LogType,System.Object,System.String)">
-            <summary>
-            记录日志
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-        </member>
-        <member name="M:RRQMCore.Log.ConsoleLogger.Debug(RRQMCore.Log.LogType,System.Object,System.String,System.Exception)">
-            <summary>
-            记录日志
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-            <param name="exception"></param>
-        </member>
-        <member name="T:RRQMCore.Log.EasyLogger">
-            <summary>
-            快捷日志
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Log.EasyLogger.#ctor(System.Action{RRQMCore.Log.LogType,System.Object,System.String,System.Exception})">
-            <summary>
-            构造函数
-            </summary>
-            <param name="action">参数依次为：日志类型，触发源，消息，异常</param>
-        </member>
-        <member name="M:RRQMCore.Log.EasyLogger.#ctor(System.Action{System.String})">
-            <summary>
-            构造函数
-            </summary>
-            <param name="action">参数为日志消息输出。</param>
-        </member>
-        <member name="M:RRQMCore.Log.EasyLogger.Debug(RRQMCore.Log.LogType,System.Object,System.String)">
-            <summary>
-            记录日志
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-        </member>
-        <member name="M:RRQMCore.Log.EasyLogger.Debug(RRQMCore.Log.LogType,System.Object,System.String,System.Exception)">
-            <summary>
-            记录日志
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-            <param name="exception"></param>
-        </member>
-        <member name="T:RRQMCore.Log.FileLogger">
-            <summary>
-            文件日志记录器
-            <para>会在指定目录下，生成logs文件夹，然后按[yyyy-MM-dd].log的形式，每日生成日志</para>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Log.FileLogger.#ctor(System.String)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="rootPath">日志根目录</param>
-        </member>
-        <member name="M:RRQMCore.Log.FileLogger.Debug(RRQMCore.Log.LogType,System.Object,System.String)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-        </member>
-        <member name="M:RRQMCore.Log.FileLogger.Debug(RRQMCore.Log.LogType,System.Object,System.String,System.Exception)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-            <param name="exception"></param>
-        </member>
-        <member name="T:RRQMCore.Log.ILog">
-            <summary>
-            日志接口
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Log.ILog.Debug(RRQMCore.Log.LogType,System.Object,System.String,System.Exception)">
-            <summary>
-            日志记录
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-            <param name="exception"></param>
-        </member>
-        <member name="M:RRQMCore.Log.ILog.Debug(RRQMCore.Log.LogType,System.Object,System.String)">
-            <summary>
-            日志记录
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-        </member>
-        <member name="T:RRQMCore.Log.LoggerGroup">
-            <summary>
-            一组日志记录器
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerGroup.#ctor(RRQMCore.Log.ILog[])">
-            <summary>
-            构造函数
-            </summary>
-            <param name="logs"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerGroup.Debug(RRQMCore.Log.LogType,System.Object,System.String,System.Exception)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-            <param name="exception"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerGroup.Debug(RRQMCore.Log.LogType,System.Object,System.String)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerGroup.Debug``1(RRQMCore.Log.LogType,System.Object,System.String,System.Exception)">
-            <summary>
-            使用指定类型的记录器输出
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-            <param name="exception"></param>
-        </member>
-        <member name="M:RRQMCore.Log.LoggerGroup.Debug``1(RRQMCore.Log.LogType,System.Object,System.String)">
-            <summary>
-            使用指定类型的记录器输出
-            </summary>
-            <param name="logType"></param>
-            <param name="source"></param>
-            <param name="message"></param>
-        </member>
-        <member name="T:RRQMCore.Log.LogType">
-            <summary>
-            日志类型
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Log.LogType.Message">
-            <summary>
-            一般消息
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Log.LogType.Warning">
-            <summary>
-            警示消息
-            </summary>
-        </member>
-        <member name="F:RRQMCore.Log.LogType.Error">
-            <summary>
-            错误消息
-            </summary>
-        </member>
-        <member name="T:RRQMCore.Extensions.RRQMCoreExtensions">
-            <summary>
-            辅助扩展类
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToJsonBytes(System.Object)">
-            <summary>
-            序列化成Json数据
-            </summary>
-            <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToJsonString(System.Object)">
+        <member name="T:RRQMCore.Helper.ByteBlockHelper">
             <summary>
-            转换为json字符串。
+            字节块扩展
             </summary>
-            <param name="obj"></param>
-            <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToJsonObject``1(System.Byte[],System.Int32,System.Int32)">
+        <member name="M:RRQMCore.Helper.ByteBlockHelper.ToUtf8String(RRQMCore.ByteManager.ByteBlock,System.Int32,System.Int32)">
             <summary>
-             反序列化成Json数据
+            转utf-8字符串
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="buffer"></param>
+            <param name="byteBlock"></param>
             <param name="offset"></param>
-            <param name="len"></param>
+            <param name="length"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToJsonObject``1(System.Byte[])">
+        <member name="T:RRQMCore.Helper.ByteHelper">
             <summary>
-             反序列化成Json数据
+            Byte辅助扩展类
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Helper.ByteHelper.GetBit(System.Byte,System.Int16)">
+            <summary>
+            获取字节中的指定Bit的值
+            </summary>
+            <param name="this">字节</param>
+            <param name="index">Bit的索引值(0-7)</param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMCore.Helper.ByteHelper.SetBit(System.Byte,System.Int16,System.Int32)">
+            <summary>
+            设置字节中的指定Bit的值
+            </summary>
+            <param name="this">字节</param>
+            <param name="index">Bit的索引值(0-7)</param>
+            <param name="bitvalue">Bit值(0,1)</param>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMCore.Helper.BytesHelper">
+            <summary>
+            字节数组扩展类
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Helper.BytesHelper.IndexOfInclude(System.Byte[],System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            索引包含数组
+            </summary>
+            <param name="srcByteArray"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="subByteArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMCore.Helper.BytesHelper.IndexOfFirst(System.Byte[],System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            索引第一个包含数组的索引位置，例如：在{0,1,2,3,1,2,3}中索引{2,3}，则返回3。
+            </summary>
+            <param name="srcByteArray"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="subByteArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMCore.Helper.BytesHelper.ToBase64(System.Byte[])">
+            <summary>
+            转Base64。
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMCore.Helper.CollectionsHelper">
+            <summary>
+            集合助手
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Helper.CollectionsHelper.Clear``1(System.Collections.Concurrent.ConcurrentQueue{``0})">
+            <summary>
+            清除所有成员
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="buffer"></param>
+            <param name="queue"></param>
+        </member>
+        <member name="T:RRQMCore.Helper.DateTimeHelper">
+            <summary>
+            日期扩展
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Helper.DateTimeHelper.ToGMTString(System.DateTime,System.String)">
+            <summary>
+            格林尼治标准时间
+            </summary>
+            <param name="dt"></param>
+            <param name="v"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToJsonObject``1(System.String)">
+        <member name="T:RRQMCore.Helper.EnumHelper">
             <summary>
-             反序列化成Json数据
+            枚举
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Helper.EnumHelper.GetAttribute``1(System.Enum)">
+            <summary>
+            获取自定义attribute
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="jsonString"></param>
+            <param name="enumObj"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToJsonObject(System.String,System.Type)">
+        <member name="T:RRQMCore.Helper.SerializationHelper">
             <summary>
-            反序列化成Json数据
+            序列化辅助
             </summary>
-            <param name="jsonString"></param>
-            <param name="type"></param>
+        </member>
+        <member name="M:RRQMCore.Helper.SerializationHelper.ToBytes(System.Object,RRQMCore.Serialization.SerializationType)">
+            <summary>
+            序列化成数据
+            </summary>
+            <param name="obj"></param>
+            <param name="serializationType"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.HitStringCount(System.String,System.String)">
+        <member name="T:RRQMCore.Helper.StringHelper">
             <summary>
-            判断字符串compare 在 input字符串中出现的次数
+            字符串扩展
             </summary>
-            <param name="input">源字符串</param>
-            <param name="compare">用于比较的字符串</param>
-            <returns>字符串compare 在 input字符串中出现的次数</returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ParseToType(System.String,System.Type)">
-            <summary>
-            将字符转换为对应类型。
-            </summary>
-            <param name="value"></param>
-            <param name="destinationType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.SplitFirst(System.String,System.Char)">
+        <member name="M:RRQMCore.Helper.StringHelper.SplitFirst(System.String,System.Char)">
             <summary>
             只按第一个匹配项分割
             </summary>
@@ -3388,7 +1792,7 @@
             <param name="split"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.Split(System.String,System.String)">
+        <member name="M:RRQMCore.Helper.StringHelper.Split(System.String,System.String)">
             <summary>
             按字符串分割
             </summary>
@@ -3396,7 +1800,7 @@
             <param name="pattern"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.SplitLast(System.String,System.Char)">
+        <member name="M:RRQMCore.Helper.StringHelper.SplitLast(System.String,System.Char)">
             <summary>
             只按最后一个匹配项分割
             </summary>
@@ -3404,7 +1808,15 @@
             <param name="split"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.Format(System.String,System.Object[])">
+        <member name="M:RRQMCore.Helper.StringHelper.ParseToType(System.String,System.Type)">
+            <summary>
+            将字符串转换为指定类型
+            </summary>
+            <param name="str"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMCore.Helper.StringHelper.Format(System.String,System.Object[])">
             <summary>
             按格式填充
             </summary>
@@ -3412,7 +1824,7 @@
             <param name="ps"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToSha1(System.String,System.Text.Encoding)">
+        <member name="M:RRQMCore.Helper.StringHelper.ToSha1(System.String,System.Text.Encoding)">
             <summary>
             转换为SHA1。
             </summary>
@@ -3420,274 +1832,31 @@
             <param name="encoding"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToUTF8Bytes(System.String)">
+        <member name="T:RRQMCore.Helper.TypeHelper">
             <summary>
-            转换为UTF-8数据，效果等于<see cref="P:System.Text.Encoding.UTF8"/>
+            Type扩展累类
             </summary>
-            <param name="value"></param>
-            <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ByHexStringToBytes(System.String,System.String)">
-            <summary>
-            将16进制的字符转换为数组。
-            </summary>
-            <param name="hexString"></param>
-            <param name="splite"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ByHexStringToInt32(System.String)">
-            <summary>
-            将16进制的字符转换为int32。
-            </summary>
-            <param name="hexString"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ByBase64ToBytes(System.String)">
-            <summary>
-            从Base64转到数组。
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ToBase64(System.Byte[])">
-            <summary>
-            转Base64。
-            </summary>
-            <param name="data"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.IndexOfInclude(System.Byte[],System.Int32,System.Int32,System.Byte[])">
-            <summary>
-            索引包含数组。
-            <para>
-            例如：在{0,1,2,3,1,2,3}中搜索{1,2}，则会返回list:[2,5]，均为最后索引的位置。
-            </para>
-            </summary>
-            <param name="srcByteArray"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <param name="subByteArray"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.IndexOfFirst(System.Byte[],System.Int32,System.Int32,System.Byte[])">
-            <summary>
-            索引第一个包含数组的索引位置，例如：在{0,1,2,3,1,2,3}中索引{2,3}，则返回3。
-            <para>如果目标数组为null或长度为0，则直接返回offset的值</para>
-            </summary>
-            <param name="srcByteArray"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <param name="subByteArray"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.ByBytesToHexString(System.Byte[],System.Int32,System.Int32,System.String)">
-            <summary>
-            字节数组转16进制字符
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <param name="splite"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.GetRefOutType(System.Type)">
+        <member name="M:RRQMCore.Helper.TypeHelper.GetRefOutType(System.Type)">
             <summary>
             获取类型
             </summary>
             <param name="type"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.GetDefault(System.Type)">
+        <member name="M:RRQMCore.Helper.TypeHelper.GetDefault(System.Type)">
             <summary>
             获取默认值
             </summary>
             <param name="targetType"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.IsStruct(System.Type)">
+        <member name="M:RRQMCore.Helper.TypeHelper.IsStruct(System.Type)">
             <summary>
             判断为结构体
             </summary>
             <param name="targetType"></param>
             <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.IsNullableType(System.Type)">
-            <summary>
-            判断该类型是否为可空类型
-            </summary>
-            <param name="theType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.TryParseToType(System.String,System.Type,System.Object@,System.Char[])">
-            <summary> 
-              将字符串格式化成指定的数据类型
-            </summary> 
-            <param name="str"></param> 
-            <param name="type"></param>
-             <param name="value"></param>
-             <param name="splits"></param> 
-               <returns></returns> 
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.Remove``2(System.Collections.Concurrent.ConcurrentDictionary{``0,``1},System.Func{System.Collections.Generic.KeyValuePair{``0,``1},System.Boolean})">
-            <summary>
-            移除满足条件的项目。
-            </summary>
-            <typeparam name="TKey"></typeparam>
-            <typeparam name="TValue"></typeparam>
-            <param name="pairs"></param>
-            <param name="func"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.TryAdd``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1)">
-            <summary>
-            尝试添加
-            </summary>
-            <typeparam name="Tkey"></typeparam>
-            <typeparam name="TValue"></typeparam>
-            <param name="dictionary"></param>
-            <param name="tkey"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Extensions.RRQMCoreExtensions.AddOrUpdate``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1)">
-            <summary>
-            尝试添加
-            </summary>
-            <typeparam name="Tkey"></typeparam>
-            <typeparam name="TValue"></typeparam>
-            <param name="dictionary"></param>
-            <param name="tkey"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.IO.BlockReader">
-            <summary>
-            阻塞式读取。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReader.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.BlockReader.CanRead">
-            <summary>
-            可读
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.BlockReader.CanWrite">
-            <summary>
-            可写
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.BlockReader.ReadTimeout">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReader.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            阻塞读取。
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="count"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReader.Input(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            传输输入.
-            必须以length为0结束。读取端会超时。
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReader.Dispose(System.Boolean)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="disposing"></param>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReader.Finalize">
-            <summary>
-            析构函数
-            </summary>
-        </member>
-        <member name="T:RRQMCore.IO.BlockReadStream">
-            <summary>
-            阻塞式单项读取流。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReadStream.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.BlockReadStream.CanRead">
-            <summary>
-            可读
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.BlockReadStream.CanSeek">
-            <summary>
-            不可使用
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.BlockReadStream.Length">
-            <summary>
-            不可使用
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.BlockReadStream.Position">
-            <summary>
-             不可使用
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.BlockReadStream.ReadTimeout">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReadStream.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            阻塞读取。
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="count"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReadStream.Seek(System.Int64,System.IO.SeekOrigin)">
-            <summary>
-            不可使用
-            </summary>
-            <param name="offset"></param>
-            <param name="origin"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReadStream.SetLength(System.Int64)">
-            <summary>
-            不可使用
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReadStream.Input(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            传输输入.
-            必须以length为0结束。读取端会超时。
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.BlockReadStream.Dispose(System.Boolean)">
-            <summary>
-            <inheritdoc/>
-            </summary>
-            <param name="disposing"></param>
         </member>
         <member name="T:RRQMCore.IO.ConsoleAction">
             <summary>
@@ -3699,11 +1868,6 @@
             构造函数
             </summary>
             <param name="helpOrder">帮助信息指令，如："h|help|?"</param>
-        </member>
-        <member name="M:RRQMCore.IO.ConsoleAction.ShowAll">
-            <summary>
-            显示所有注册指令
-            </summary>
         </member>
         <member name="P:RRQMCore.IO.ConsoleAction.HelpOrder">
             <summary>
@@ -3738,297 +1902,26 @@
             <param name="description"></param>
             <param name="fullOrder"></param>
         </member>
-        <member name="T:RRQMCore.IO.FilePool">
-            <summary>
-            文件池。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FilePool.GetReader(System.String)">
-            <summary>
-            获取一个文件读取访问器
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FilePool.GetReferenceCount(System.String)">
-            <summary>
-            获取引用次数。
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FilePool.GetWriter(System.String,System.Boolean)">
-            <summary>
-            获取一个文件写入访问器
-            </summary>
-            <param name="path">路径</param>
-            <param name="singleRef">单一访问，当为true时，只能有一个引用访问。</param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FilePool.LoadFileForCacheRead(System.String)">
-            <summary>
-            加载文件为缓存读取流
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FilePool.LoadFileForRead(System.String)">
-            <summary>
-            加载文件为读取流
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FilePool.LoadFileForWrite(System.String)">
-            <summary>
-            加载文件为读取流
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FilePool.TryReleaseFile(System.String,System.Int32)">
-            <summary>
-            减少引用次数，并尝试释放流。
-            </summary>
-            <param name="path"></param>
-            <param name="delayTime">延迟释放时间，默认5000ms。当设置为0时，立即释放。</param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.IO.FileStorage">
-            <summary>
-            文件存储器。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorage.Finalize">
-            <summary>
-            析构函数
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorage.Access">
-            <summary>
-            访问属性
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorage.Cache">
-            <summary>
-            是否为缓存型。为false时，意味着该文件句柄正在被该程序占用。
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorage.FileInfo">
-            <summary>
-            文件信息
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorage.Path">
-            <summary>
-            文件路径
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorage.Reference">
-            <summary>
-            引用次数。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorage.TryCreateCacheFileStorage(System.String,RRQMCore.IO.FileStorage@,System.String@)">
-            <summary>
-            创建一个只读的、已经缓存的文件信息。该操作不会占用文件句柄。
-            </summary>
-            <param name="path"></param>
-            <param name="fileStorage"></param>
-            <param name="msg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorage.TryCreateFileStorage(System.String,System.IO.FileAccess,RRQMCore.IO.FileStorage@,System.String@)">
-            <summary>
-            创建一个文件流句柄
-            </summary>
-            <param name="path"></param>
-            <param name="fileAccess"></param>
-            <param name="fileStorage"></param>
-            <param name="msg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorage.Dispose">
-            <summary>
-            释放资源
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorage.Read(System.Int64,System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            从指定位置，读取数据到缓存区。线程安全。
-            </summary>
-            <param name="stratPos"></param>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorage.Write(System.Int64,System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            从指定位置，写入数据到存储区。线程安全。
-            </summary>
-            <param name="stratPos"></param>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorage.Dispose(System.Boolean)">
-            <summary>
-            释放
-            </summary>
-            <param name="disposing"></param>
-        </member>
-        <member name="T:RRQMCore.IO.FileStorageReader">
-            <summary>
-            文件读取器
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageReader.#ctor(RRQMCore.IO.FileStorage)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="fileStorage"></param>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorageReader.FileStorage">
-            <summary>
-            文件存储器
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorageReader.Position">
-            <summary>
-            游标位置
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorageReader.Pos">
-            <summary>
-            游标位置
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageReader.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            读取数据到缓存区
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageReader.Dispose(System.Boolean)">
-            <summary>
-            释放资源
-            </summary>
-            <param name="disposing"></param>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageReader.Finalize">
-            <summary>
-            析构函数
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageReader.Dispose">
-            <summary>
-            释放资源
-            </summary>
-        </member>
-        <member name="T:RRQMCore.IO.FileStorageWriter">
-            <summary>
-            文件写入器。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageWriter.#ctor(RRQMCore.IO.FileStorage,System.Boolean)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="fileStorage"></param>
-            <param name="singleRef"></param>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageWriter.Finalize">
-            <summary>
-            析构函数
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorageWriter.FileStorage">
-            <summary>
-            文件存储器
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorageWriter.Pos">
-            <summary>
-            游标位置
-            </summary>
-        </member>
-        <member name="P:RRQMCore.IO.FileStorageWriter.Position">
-            <summary>
-            游标位置
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageWriter.Dispose">
-            <summary>
-            释放资源
-            </summary>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageWriter.Write(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            读取数据到缓存区
-            </summary>
-            <param name="buffer"></param>
-            <param name="offset"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileStorageWriter.Dispose(System.Boolean)">
-            <summary>
-            释放资源
-            </summary>
-            <param name="disposing"></param>
-        </member>
-        <member name="T:RRQMCore.IO.FileUtility">
+        <member name="T:RRQMCore.IO.FileControler">
             <summary>
             文件操作
             </summary>
         </member>
-        <member name="M:RRQMCore.IO.FileUtility.GetDuplicateFileName(System.String)">
-            <summary>
-            获取不重复文件名
-            </summary>
-            <param name="fileName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileUtility.ToFileLengthString(System.Int64)">
-            <summary>
-            转化为文件大小的字符串，类似10B，10Kb，10Mb，10Gb。
-            </summary>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileUtility.GetFileMD5(System.String)">
-            <summary>
-            获取文件MD5
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileUtility.GetStreamMD5(System.IO.Stream)">
-            <summary>
-            获取流MD5
-            </summary>
-            <param name="fileStream"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.IO.FileUtility.GetFileHash256(System.String)">
+        <member name="M:RRQMCore.IO.FileControler.GetFileHash(System.String)">
             <summary>
             获得文件Hash值
             </summary>
             <param name="filePath">文件路径</param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.IO.FileUtility.GetStreamHash256(System.IO.Stream)">
+        <member name="M:RRQMCore.IO.FileControler.GetStreamHash(System.IO.Stream)">
             <summary>
             获得流Hash值
             </summary>
             <param name="stream"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.IO.FileUtility.GetFileHash(System.String,System.Security.Cryptography.HashAlgorithm)">
+        <member name="M:RRQMCore.IO.FileControler.GetFileHash(System.String,System.Security.Cryptography.HashAlgorithm)">
             <summary>
             获得文件Hash值
             </summary>
@@ -4036,7 +1929,7 @@
             <param name="hash"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.IO.FileUtility.GetStreamHash(System.IO.Stream,System.Security.Cryptography.HashAlgorithm)">
+        <member name="M:RRQMCore.IO.FileControler.GetStreamHash(System.IO.Stream,System.Security.Cryptography.HashAlgorithm)">
             <summary>
             获得流Hash值
             </summary>
@@ -4044,12 +1937,54 @@
             <param name="hash"></param>
             <returns></returns>
         </member>
-        <member name="M:RRQMCore.IO.FileUtility.FileIsOpen(System.String)">
+        <member name="M:RRQMCore.IO.FileControler.FileIsOpen(System.String)">
             <summary>
             判断文件是否被已打开
             </summary>
             <param name="fileFullName"></param>
             <returns></returns>
+        </member>
+        <member name="T:RRQMCore.Log.ILog">
+            <summary>
+            日志接口
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Log.ILog.Debug(RRQMCore.Log.LogType,System.Object,System.String,System.Exception)">
+            <summary>
+            日志记录
+            </summary>
+            <param name="logType"></param>
+            <param name="source"></param>
+            <param name="message"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="M:RRQMCore.Log.ILog.Debug(RRQMCore.Log.LogType,System.Object,System.String)">
+            <summary>
+            日志记录
+            </summary>
+            <param name="logType"></param>
+            <param name="source"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:RRQMCore.Log.LogType">
+            <summary>
+            日志类型
+            </summary>
+        </member>
+        <member name="F:RRQMCore.Log.LogType.Message">
+            <summary>
+            一般消息
+            </summary>
+        </member>
+        <member name="F:RRQMCore.Log.LogType.Warning">
+            <summary>
+            警示消息
+            </summary>
+        </member>
+        <member name="F:RRQMCore.Log.LogType.Error">
+            <summary>
+            错误消息
+            </summary>
         </member>
         <member name="T:RRQMCore.Pool.IObjectPool">
             <summary>
@@ -4157,221 +2092,151 @@
             释放对象
             </summary>
         </member>
-        <member name="T:RRQMCore.Reflection.ExpressionMapper">
+        <member name="T:RRQMCore.Resource">
             <summary>
-            表达式复制
+              一个强类型的资源类，用于查找本地化的字符串等。
             </summary>
         </member>
-        <member name="M:RRQMCore.Reflection.ExpressionMapper.Trans``2(``0)">
+        <member name="P:RRQMCore.Resource.ResourceManager">
             <summary>
-            字典缓存表达式树
+              返回此类使用的缓存的 ResourceManager 实例。
             </summary>
         </member>
-        <member name="T:RRQMCore.Reflection.Method">
+        <member name="P:RRQMCore.Resource.Culture">
             <summary>
-            表示方法
+              重写当前线程的 CurrentUICulture 属性，对
+              使用此强类型资源类的所有资源查找执行重写。
             </summary>
         </member>
-        <member name="F:RRQMCore.Reflection.Method.m_invoker">
+        <member name="P:RRQMCore.Resource.ArgumentNull">
             <summary>
-            方法执行委托
+              查找类似 参数‘{0}’为空。 的本地化字符串。
             </summary>
         </member>
-        <member name="M:RRQMCore.Reflection.Method.#ctor(System.Reflection.MethodInfo)">
+        <member name="P:RRQMCore.Resource.ByteBlockDisposed">
             <summary>
-            方法
-            </summary>
-            <param name="method">方法信息</param>
-        </member>
-        <member name="P:RRQMCore.Reflection.Method.HasReturn">
-            <summary>
-            是否具有返回值
+              查找类似 内存块已释放。 的本地化字符串。
             </summary>
         </member>
-        <member name="P:RRQMCore.Reflection.Method.Info">
+        <member name="P:RRQMCore.Resource.Canceled">
             <summary>
-            方法信息
+              查找类似 取消操作 的本地化字符串。
             </summary>
         </member>
-        <member name="P:RRQMCore.Reflection.Method.IsByRef">
+        <member name="P:RRQMCore.Resource.CreateWriteStreamFail">
             <summary>
-            是否有引用类型
+              查找类似 从‘{0}’创建写入流失败，信息：{1}。 的本地化字符串。
             </summary>
         </member>
-        <member name="P:RRQMCore.Reflection.Method.Name">
+        <member name="P:RRQMCore.Resource.Default">
             <summary>
-            获取方法名
+              查找类似 默认设置值。 的本地化字符串。
             </summary>
         </member>
-        <member name="P:RRQMCore.Reflection.Method.ReturnType">
+        <member name="P:RRQMCore.Resource.Error">
             <summary>
-            返回值类型。
-            <para>当方法为void或task时，为null</para>
-            <para>当方法为task泛型时，为泛型元素类型</para>
+              查找类似 发生未知错误。 的本地化字符串。
             </summary>
         </member>
-        <member name="P:RRQMCore.Reflection.Method.ShouldWait">
+        <member name="P:RRQMCore.Resource.Exception">
             <summary>
-            应当等待
+              查找类似 其他异常消息。 的本地化字符串。
             </summary>
         </member>
-        <member name="M:RRQMCore.Reflection.Method.Invoke(System.Object,System.Object[])">
+        <member name="P:RRQMCore.Resource.FileExists">
             <summary>
-            执行方法。
-            <para>当方法为void或task时，会返回null</para>
-            <para>当方法为task泛型时，会wait后的值</para>
-            <para>注意：当调用方为UI主线程时，调用异步方法，则极有可能发生死锁。</para>
-            </summary>
-            <param name="instance">实例</param>
-            <param name="parameters">参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Reflection.Method.InvokeAsync(System.Object,System.Object[])">
-            <summary>
-            调用异步结果
-            </summary>
-            <param name="instance"></param>
-            <param name="parameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Reflection.Method.CreateInvoker(System.Reflection.MethodInfo)">
-            <summary>
-            生成方法的调用委托
-            </summary>
-            <param name="method">方法成员信息</param>
-            <exception cref="T:System.ArgumentException"></exception>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Reflection.Property">
-            <summary>
-            表示属性
+              查找类似 文件‘{0}’已存在。 的本地化字符串。
             </summary>
         </member>
-        <member name="F:RRQMCore.Reflection.Property.geter">
+        <member name="P:RRQMCore.Resource.GetEventArgsFail">
             <summary>
-            获取器
+              查找类似 事件操作器异常。 的本地化字符串。
             </summary>
         </member>
-        <member name="F:RRQMCore.Reflection.Property.seter">
+        <member name="P:RRQMCore.Resource.LoadStreamFail">
             <summary>
-            设置器
+              查找类似 从‘{0}’路径加载流异常，信息：‘{1}’。 的本地化字符串。
             </summary>
         </member>
-        <member name="P:RRQMCore.Reflection.Property.Name">
+        <member name="P:RRQMCore.Resource.MessageNotFound">
             <summary>
-            获取属性名称
+              查找类似 Token消息为‘{0}’的未注册。 的本地化字符串。
             </summary>
         </member>
-        <member name="P:RRQMCore.Reflection.Property.Info">
+        <member name="P:RRQMCore.Resource.NoResponse">
             <summary>
-            获取属性信息
+              查找类似 长时间没有响应。 的本地化字符串。
             </summary>
         </member>
-        <member name="M:RRQMCore.Reflection.Property.#ctor(System.Reflection.PropertyInfo)">
+        <member name="P:RRQMCore.Resource.NotFindClient">
             <summary>
-            属性
-            </summary>
-            <param name="property">属性信息</param>
-        </member>
-        <member name="M:RRQMCore.Reflection.Property.GetValue(System.Object)">
-            <summary>
-            获取属性的值
-            </summary>
-            <param name="instance">实例</param>
-            <exception cref="T:System.NotSupportedException"></exception>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Reflection.Property.SetValue(System.Object,System.Object)">
-            <summary>
-            设置属性的值
-            </summary>
-            <param name="instance">实例</param>
-            <param name="value">值</param>
-            <exception cref="T:System.NotSupportedException"></exception>
-        </member>
-        <member name="F:RRQMCore.Reflection.Property.cached">
-            <summary>
-            类型属性的Setter缓存
+              查找类似 没有找到ID为{0}的客户端。 的本地化字符串。
             </summary>
         </member>
-        <member name="M:RRQMCore.Reflection.Property.GetProperties(System.Type)">
+        <member name="P:RRQMCore.Resource.NotFindStream">
             <summary>
-            从类型的属性获取属性
-            </summary>
-            <param name="type">类型</param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Reflection.PropertyGetter">
-            <summary>
-            表示属性的Getter
+              查找类似 没有找到路径‘{0}’对应的流文件。 的本地化字符串。
             </summary>
         </member>
-        <member name="F:RRQMCore.Reflection.PropertyGetter.getFunc">
+        <member name="P:RRQMCore.Resource.Overtime">
             <summary>
-            get方法委托
+              查找类似 操作超时 的本地化字符串。
             </summary>
         </member>
-        <member name="M:RRQMCore.Reflection.PropertyGetter.#ctor(System.Reflection.PropertyInfo)">
+        <member name="P:RRQMCore.Resource.PathInvalid">
             <summary>
-            表示属性的Getter
-            </summary>
-            <param name="property">属性</param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:RRQMCore.Reflection.PropertyGetter.#ctor(System.Type,System.String)">
-            <summary>
-            表示类型字段或属性的Getter
-            </summary>
-            <param name="declaringType">声名属性的类型</param>
-            <param name="propertyName">属性的名称</param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:RRQMCore.Reflection.PropertyGetter.Invoke(System.Object)">
-            <summary>
-            获取属性的值
-            </summary>
-            <param name="instance">实例</param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Reflection.PropertyGetter.CreateGetterDelegate(System.Type,System.String)">
-            <summary>
-            创建declaringType类型获取property值的委托
-            </summary>
-            <param name="declaringType">实例的类型</param>
-            <param name="propertyName">属性的名称</param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Reflection.PropertySetter">
-            <summary>
-            表示属性的设置器
+              查找类似 参数‘{0}’设置的路径‘{1}’不合法。 的本地化字符串。
             </summary>
         </member>
-        <member name="F:RRQMCore.Reflection.PropertySetter.setFunc">
+        <member name="P:RRQMCore.Resource.RemoteException">
             <summary>
-            set方法委托
+              查找类似 远程终端异常，信息：{0}。 的本地化字符串。
             </summary>
         </member>
-        <member name="M:RRQMCore.Reflection.PropertySetter.#ctor(System.Reflection.PropertyInfo)">
+        <member name="P:RRQMCore.Resource.RemoteFileNotExists">
             <summary>
-            表示属性的Getter
+              查找类似 远程文件‘{0}’不存在。 的本地化字符串。
             </summary>
-            <param name="property">属性</param>
-            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:RRQMCore.Reflection.PropertySetter.Invoke(System.Object,System.Object)">
+        <member name="P:RRQMCore.Resource.RemoteNotSupported">
             <summary>
-            设置属性的值
+              查找类似 远程终端不支持响应该操作。 的本地化字符串。
             </summary>
-            <param name="instance">实例</param>
-            <param name="value">值</param>
-            <returns></returns>
         </member>
-        <member name="M:RRQMCore.Reflection.PropertySetter.CreateSetterDelegate(System.Reflection.PropertyInfo)">
+        <member name="P:RRQMCore.Resource.RemoteRefuse">
             <summary>
-            创建属性的Set委托
+              查找类似 远程终端拒绝该操作，反馈信息：{0}。 的本地化字符串。
             </summary>
-            <param name="property">属性</param>
-            <returns></returns>
+        </member>
+        <member name="P:RRQMCore.Resource.SetChannelFail">
+            <summary>
+              查找类似 通道设置失败。 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:RRQMCore.Resource.StreamBucketNull">
+            <summary>
+              查找类似 接收流容器为空。 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:RRQMCore.Resource.StreamReferencing">
+            <summary>
+              查找类似 路径‘{0}’对应的流文件，仍然被‘{1}’对象应用。 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:RRQMCore.Resource.Success">
+            <summary>
+              查找类似 操作成功。 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:RRQMCore.Resource.TokenExist">
+            <summary>
+              查找类似 Token消息为‘{0}’的已注册。 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:RRQMCore.Resource.UnknownError">
+            <summary>
+              查找类似 未知原因错误。 的本地化字符串。
+            </summary>
         </member>
         <member name="T:RRQMCore.Run.EasyAction">
             <summary>
@@ -4383,30 +2248,14 @@
             延迟执行
             </summary>
             <param name="action"></param>
-            <param name="delayTimeSpan"></param>
-        </member>
-        <member name="M:RRQMCore.Run.EasyAction.DelayRun``1(System.TimeSpan,``0,System.Action{``0})">
-            <summary>
-            延迟执行
-            </summary>
-            <param name="action"></param>
-            <param name="delayTimeSpan"></param>
-            <param name="status"></param>
+            <param name="timeSpan"></param>
         </member>
         <member name="M:RRQMCore.Run.EasyAction.DelayRun(System.Int32,System.Action)">
             <summary>
             延迟执行
             </summary>
             <param name="action"></param>
-            <param name="delay"></param>
-        </member>
-        <member name="M:RRQMCore.Run.EasyAction.DelayRun``1(System.Int32,``0,System.Action{``0})">
-            <summary>
-            延迟执行
-            </summary>
-            <param name="action"></param>
-            <param name="delay"></param>
-            <param name="status"></param>
+            <param name="ticks"></param>
         </member>
         <member name="M:RRQMCore.Run.EasyAction.TaskRun``1(``0,System.Action{``0})">
             <summary>
@@ -4633,7 +2482,7 @@
             <param name="messageObject"></param>
             <param name="token"></param>
             <param name="action"></param>
-            <exception cref="T:RRQMCore.MessageRegisteredException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.MessageRegisteredException"></exception>
         </member>
         <member name="M:RRQMCore.Run.AppMessenger`1.Register(`0)">
             <summary>
@@ -4648,7 +2497,7 @@
             <param name="messageObject"></param>
             <param name="token"></param>
             <param name="methodInfo"></param>
-            <exception cref="T:RRQMCore.MessageRegisteredException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.MessageRegisteredException"></exception>
         </member>
         <member name="M:RRQMCore.Run.AppMessenger`1.Register``1(`0,System.Action{``0})">
             <summary>
@@ -4666,7 +2515,7 @@
             <param name="messageObject"></param>
             <param name="token"></param>
             <param name="action"></param>
-            <exception cref="T:RRQMCore.MessageRegisteredException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.MessageRegisteredException"></exception>
         </member>
         <member name="M:RRQMCore.Run.AppMessenger`1.Register``2(`0,System.String,System.Func{``0,``1})">
             <summary>
@@ -4693,7 +2542,7 @@
             </summary>
             <param name="token"></param>
             <param name="parameters"></param>
-            <exception cref="T:RRQMCore.MessageNotFoundException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.MessageNotFoundException"></exception>
         </member>
         <member name="M:RRQMCore.Run.AppMessenger`1.Send``1(System.String,System.Object[])">
             <summary>
@@ -4703,7 +2552,7 @@
             <param name="token"></param>
             <param name="parameters"></param>
             <returns></returns>
-            <exception cref="T:RRQMCore.MessageNotFoundException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.MessageNotFoundException"></exception>
         </member>
         <member name="M:RRQMCore.Run.AppMessenger`1.Unregister(`0)">
             <summary>
@@ -4751,6 +2600,52 @@
             状态
             </summary>
         </member>
+        <member name="T:RRQMCore.Run.RRQMWaitHandlePool`1">
+            <summary>
+            等待处理数据
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:RRQMCore.Run.RRQMWaitHandlePool`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Run.RRQMWaitHandlePool`1.Destroy(RRQMCore.Run.WaitData{`0})">
+            <summary>
+            销毁
+            </summary>
+            <param name="waitData"></param>
+        </member>
+        <member name="M:RRQMCore.Run.RRQMWaitHandlePool`1.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Run.RRQMWaitHandlePool`1.GetWaitData(`0)">
+            <summary>
+            获取一个可等待对象
+            </summary>
+        </member>
+        <member name="M:RRQMCore.Run.RRQMWaitHandlePool`1.SetRun(System.Int32)">
+            <summary>
+            让等待对象恢复运行
+            </summary>
+            <param name="sign"></param>
+        </member>
+        <member name="M:RRQMCore.Run.RRQMWaitHandlePool`1.SetRun(System.Int32,`0)">
+            <summary>
+            让等待对象恢复运行
+            </summary>
+            <param name="sign"></param>
+            <param name="waitResult"></param>
+        </member>
+        <member name="M:RRQMCore.Run.RRQMWaitHandlePool`1.SetRun(`0)">
+            <summary>
+            让等待对象恢复运行
+            </summary>
+            <param name="waitResult"></param>
+        </member>
         <member name="T:RRQMCore.Run.WaitData`1">
             <summary>
             等待数据对象
@@ -4789,8 +2684,7 @@
         </member>
         <member name="M:RRQMCore.Run.WaitData`1.Reset">
             <summary>
-            Reset。
-            设置<see cref="P:RRQMCore.Run.WaitData`1.WaitResult"/>为null。然后重置状态为<see cref="F:RRQMCore.Run.WaitDataStatus.Default"/>，waitHandle.Reset()
+            Reset
             </summary>
         </member>
         <member name="M:RRQMCore.Run.WaitData`1.Set">
@@ -4851,55 +2745,6 @@
             已释放
             </summary>
         </member>
-        <member name="T:RRQMCore.Run.WaitHandlePool`1">
-            <summary>
-            等待处理数据
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:RRQMCore.Run.WaitHandlePool`1.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Run.WaitHandlePool`1.Destroy(RRQMCore.Run.WaitData{`0})">
-            <summary>
-            销毁
-            </summary>
-            <param name="waitData"></param>
-        </member>
-        <member name="M:RRQMCore.Run.WaitHandlePool`1.Dispose">
-            <summary>
-            释放
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Run.WaitHandlePool`1.GetWaitData(`0,System.Boolean)">
-            <summary>
-             获取一个可等待对象
-            </summary>
-            <param name="result"></param>
-            <param name="autoSign">设置为false时，不会生成sign</param>
-            <returns></returns>
-        </member>
-        <member name="M:RRQMCore.Run.WaitHandlePool`1.SetRun(System.Int64)">
-            <summary>
-            让等待对象恢复运行
-            </summary>
-            <param name="sign"></param>
-        </member>
-        <member name="M:RRQMCore.Run.WaitHandlePool`1.SetRun(System.Int64,`0)">
-            <summary>
-            让等待对象恢复运行
-            </summary>
-            <param name="sign"></param>
-            <param name="waitResult"></param>
-        </member>
-        <member name="M:RRQMCore.Run.WaitHandlePool`1.SetRun(`0)">
-            <summary>
-            让等待对象恢复运行
-            </summary>
-            <param name="waitResult"></param>
-        </member>
         <member name="T:RRQMCore.Run.WaitResult">
             <summary>
             等待返回类
@@ -4937,33 +2782,8 @@
         </member>
         <member name="T:RRQMCore.Serialization.RRQMNonSerializedAttribute">
             <summary>
-            忽略的RRQM序列化
+            忽略的RRQN序列化
             </summary>
-        </member>
-        <member name="T:RRQMCore.Serialization.JsonParser">
-            <summary>
-            Json解析器。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Serialization.JsonParser.FromJson``1(System.String)">
-            <summary>
-            从字符串到json
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="T:RRQMCore.Serialization.JsonWriter">
-            <summary>
-            Json解析器。
-            </summary>
-        </member>
-        <member name="M:RRQMCore.Serialization.JsonWriter.ToJson(System.Object)">
-            <summary>
-            转换为Json
-            </summary>
-            <param name="item"></param>
-            <returns></returns>
         </member>
         <member name="T:RRQMCore.Serialization.RRQMBinaryFormatter">
             <summary>
@@ -7780,6 +5600,12 @@
             Gets or sets the equality comparer used by the serializer when comparing references.
             </summary>
             <value>The equality comparer.</value>
+        </member>
+        <member name="P:RRQMCore.XREF.Newtonsoft.Json.JsonSerializerSettings.ReferenceResolver">
+            <summary>
+            Gets or sets the <see cref="T:RRQMCore.XREF.Newtonsoft.Json.Serialization.IReferenceResolver"/> used by the serializer when resolving references.
+            </summary>
+            <value>The reference resolver.</value>
         </member>
         <member name="P:RRQMCore.XREF.Newtonsoft.Json.JsonSerializerSettings.ReferenceResolverProvider">
             <summary>
@@ -14746,58 +12572,6 @@
             <summary>
             A <see cref="T:RRQMCore.XREF.Newtonsoft.Json.JsonWriter"/> write method has not been called.
             </summary>
-        </member>
-        <member name="T:System.SystemExtensions">
-            <summary>
-            为System提供扩展。
-            </summary>
-        </member>
-        <member name="M:System.SystemExtensions.SafeDispose(System.IDisposable)">
-            <summary>
-            安全性释放（不用判断对象是否为空）
-            </summary>
-            <param name="dis"></param>
-            <returns></returns>
-        </member>
-        <member name="M:System.SystemExtensions.GetAttribute``1(System.Enum)">
-            <summary>
-            获取自定义attribute
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="enumObj"></param>
-            <returns></returns>
-        </member>
-        <member name="M:System.SystemExtensions.ToGMTString(System.DateTime,System.String)">
-            <summary>
-            格林尼治标准时间
-            </summary>
-            <param name="dt"></param>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:System.SystemExtensions.Clear``1(System.Collections.Concurrent.ConcurrentQueue{``0})">
-            <summary>
-            清除所有成员
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="queue"></param>
-        </member>
-        <member name="M:System.SystemExtensions.GetBit(System.Byte,System.Int16)">
-            <summary>
-            获取字节中的指定Bit的值
-            </summary>
-            <param name="this">字节</param>
-            <param name="index">Bit的索引值(0-7)</param>
-            <returns></returns>
-        </member>
-        <member name="M:System.SystemExtensions.SetBit(System.Byte,System.Int16,System.Int32)">
-            <summary>
-            设置字节中的指定Bit的值
-            </summary>
-            <param name="this">字节</param>
-            <param name="index">Bit的索引值(0-7)</param>
-            <param name="bitvalue">Bit值(0,1)</param>
-            <returns></returns>
         </member>
         <member name="T:System.Runtime.CompilerServices.ExtensionAttribute">
             <remarks>
