@@ -820,7 +820,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             };
             return userExcel;
         }
-        private List<Image> imageList = new List<Image>(); // 所有的图片
+       
 
         /// <summary>
         /// 
@@ -835,10 +835,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             else
             {
+                ImageModel imageList = new ImageModel();
                 string paths = path + "/" + groupID;
                 imageList =   ImageData.GetDirectoryImageFile(paths);
-                GetImagelistFaceFeature(imageList);
                 ShowImageInFaceListView(imageList);
+                leftImageFeatureList = GetImagelistFaceFeature(imageList.images);
 
 
             }
@@ -847,15 +848,24 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         ///  将图片显示在listview 上
         /// </summary>
         /// <param name="imageList"></param>
-        private void ShowImageInFaceListView(List<Image> imageList)
+        private void ShowImageInFaceListView( ImageModel imageModel)
         {
-            FaceList.Items.Clear();
-            for(int i = 0; i < imageList.Count; i++)
+            if(imageModel == null)
             {
-                FaceImageList.Images.Add( imageList[i]); // 将现阶段的image 加入到 FaceImageList中
-
+                return;
             }
-
+            else
+            {
+                for(int i = 0; i < imageModel.images.Count; i++)
+                {
+                    string imagePath = imageModel.ImagePath[i];// 图片路径
+                    Image image = imageModel.images[i];
+                    FaceImageList.Images.Add(imagePath,image);
+                    FaceList.Items.Add(i.ToString()+"号", imagePath);
+                    
+                }
+                FaceList.Refresh();
+            }
              
         }
         /// <summary>
@@ -863,15 +873,18 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// </summary>
         /// <param name="imageList"></param>
        
-        private void GetImagelistFaceFeature(List<Image> imageList)
+        private List<FaceFeature> GetImagelistFaceFeature(List<Image> imageList)
         {
+            List<FaceFeature> features = new List<FaceFeature>();
             for (int i = 0; i < imageList.Count; i++) 
             {
                 int featureCode = -1;
                 SingleFaceInfo singleFaceInfo = new SingleFaceInfo();
                 FaceFeature feature = FaceUtil.ExtractFeature(faceEngine, imageList[i], out singleFaceInfo, ref featureCode);
-                leftImageFeatureList.Add(feature);
+                features.Add(feature);
+
             }
+            return features;
             
         }
 

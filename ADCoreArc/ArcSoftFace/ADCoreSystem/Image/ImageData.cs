@@ -224,7 +224,7 @@ namespace ArcSoftFace.ADCoreSystem
         ///  获取文件中的所有图片文件
         /// </summary>
         /// <param name="paths"></param>
-        public List<Image> GetDirectoryImageFile(string paths)
+        public ImageModel GetDirectoryImageFile(string paths)
         {
             if (!string.IsNullOrEmpty(paths))
             {
@@ -247,7 +247,12 @@ namespace ArcSoftFace.ADCoreSystem
 
                     }
                 }
-                return list;
+                ImageModel imageModel = new ImageModel()
+                {
+                    ImagePath = images,
+                    images = list
+                };
+                return imageModel;
             }
             else
             {

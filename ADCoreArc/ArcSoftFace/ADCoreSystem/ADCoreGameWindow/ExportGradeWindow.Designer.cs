@@ -36,6 +36,7 @@
             this.filename = new Sunny.UI.UITextBox();
             this.ChooseBtn = new Sunny.UI.UIButton();
             this.ExportBtn = new Sunny.UI.UIButton();
+            
             this.SuspendLayout();
             // 
             // uiLabel1
@@ -144,12 +145,14 @@
             this.ExportBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ExportBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.ExportBtn.Click += new System.EventHandler(this.ExportBtn_Click);
+            
             // 
             // ExportGradeWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1229, 450);
+            
             this.Controls.Add(this.ExportBtn);
             this.Controls.Add(this.ChooseBtn);
             this.Controls.Add(this.filename);
@@ -164,8 +167,9 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ExportGradeWindow_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.ExportGradeWindow_DragEnter);
             this.ResumeLayout(false);
-
         }
+
+        
 
         #endregion
 

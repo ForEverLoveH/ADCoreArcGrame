@@ -34,6 +34,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartTestingWindow));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.uiLabel2 = new Sunny.UI.UILabel();
@@ -402,9 +403,11 @@
             // 
             // FaceImageList
             // 
-            this.FaceImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.FaceImageList.ImageSize = new System.Drawing.Size(50, 50);
+            this.FaceImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("FaceImageList.ImageStream")));
             this.FaceImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.FaceImageList.Images.SetKeyName(0, "0.png");
+            this.FaceImageList.Images.SetKeyName(1, "1.png");
+            this.FaceImageList.Images.SetKeyName(2, "2.png");
             // 
             // pictureBox3
             // 
