@@ -42,7 +42,6 @@ namespace ArcSoftFace
 
         public  void StartGame()
         {
-
             Awake();
             Start();
         }
@@ -52,10 +51,7 @@ namespace ArcSoftFace
             localNetPythonSvc.Start();
             sqliteDB.Init();
             LoginSys.Init();
-            
-
-
-
+           
         }
 
         private  void Awake()
@@ -70,13 +66,9 @@ namespace ArcSoftFace
             LoginSettingOfUserSys.Awake();
             ExportGradeSys.Awake();
             StartTestingSys.Awake();
-
-
-
             localNetClient.Awake();
             locaNetServer.Awake();
             sqliteDB .Awake();
-            
             LoginSql .Awake();
             Personnel_Import_Sql.Awake();
             NewGroupSql .Awake();
