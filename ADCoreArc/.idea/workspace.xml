@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7d832c27-8a86-4a16-b0c5-5418a042961b" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/ADCoreGame.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/App.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Form1.Designer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Form1.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Form1.resx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/MysqlConnection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Properties/AssemblyInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Properties/Resources.Designer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Properties/Resources.resx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Properties/Settings.Designer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/Properties/Settings.settings" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/ADCoreGame.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/ADCoreGame.exe.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/ADCoreGame.pdb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/BouncyCastle.Crypto.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/BouncyCastle.Crypto.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/Google.Protobuf.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/Google.Protobuf.pdb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/Google.Protobuf.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/K4os.Compression.LZ4.Streams.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/K4os.Compression.LZ4.Streams.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/K4os.Compression.LZ4.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/K4os.Compression.LZ4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/K4os.Hash.xxHash.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/K4os.Hash.xxHash.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/MySql.Data.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/MySql.Data.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/SunnyUI.Common.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/SunnyUI.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/System.Buffers.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/System.Buffers.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/System.Memory.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/System.Memory.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/System.Numerics.Vectors.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/System.Numerics.Vectors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/System.Runtime.CompilerServices.Unsafe.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/System.Runtime.CompilerServices.Unsafe.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/Ubiety.Dns.Core.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/bin/Debug/ZstdNet.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/.NETFramework,Version=v4.8.AssemblyAttributes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.Properties.Resources.resources" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.csproj.AssemblyReference.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.csproj.CopyComplete" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.csproj.GenerateResource.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.csproj.SuggestedBindingRedirects.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/obj/Debug/ADCoreGame.pdb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ADCore/ADCoreArc/ADCoreGame/ADCoreGame/packages.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ArcSoftFace/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ArcSoftFace/v17/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArcSoftFace/GameCommon/NewGroup/NewGroupSql.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ArcSoftFace/GameCommon/NewGroup/NewGroupSql.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FncaizHDF2iTSabt1YZF4afVPm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/Python project"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="7d832c27-8a86-4a16-b0c5-5418a042961b" name="变更" comment="" />
+      <created>1665131354300</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665131354300</updated>
+      <workItem from="1665131357087" duration="10000" />
+      <workItem from="1665218453844" duration="45000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
