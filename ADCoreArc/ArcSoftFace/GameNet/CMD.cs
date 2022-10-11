@@ -47,8 +47,9 @@
         Rsp_GetKeyByExportGrade,
         Req_GetFaceFeature,
         Rsp_GetFaceFeature,
-
-
-
+        Req_DelectFaceData,
+        Rsp_DelectFaceData,
+        Req_NewGroupUpdateUserExcelByFile,
+        Rsp_NewGroupUpdateUserExcelByFile,
     }
 }

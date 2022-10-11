@@ -3,6 +3,7 @@ using ArcSoftFace.ADCoreSystem;
 using ArcSoftFace.GameNet;
 using System.Windows.Forms;
 using System;
+using System.Data;
 
 namespace ArcSoftFace.GameCommon
 {
@@ -136,6 +137,19 @@ namespace ArcSoftFace.GameCommon
             {
                 cmd = CMD.Rsp_GetFaceFeature,
             };
+            string path = Application.StartupPath+ GameConst.FaceDBPath;
+            ;
+            FaceRegisterSql sql = new FaceRegisterSql();
+            DataSet dataSet = sql.Req_GetFaceFeature(msg,path); 
+            if (dataSet != null)
+            {
+                 DataTable  table = dataSet.Tables[0];
+                 for(int i = 0; i < table.Rows.Count; i++)
+                 {
+
+                 }
+
+            }
         }
     }
 }

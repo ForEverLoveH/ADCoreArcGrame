@@ -88,10 +88,18 @@ namespace ArcSoftFace.GameNet
                 case CMD.Rsp_NewGroupUpdateUserExcel:
                     NewGroupSys.Instance.Rsp_NewGroupUpdateUserExcel(msg);
                     break;
+                case CMD .Rsp_NewGroupUpdateUserExcelByFile:
+                    NewGroupSys.Instance.Rsp_NewGroupUpdateUserExcelByFile(msg);
+                    break;
                 case CMD.Rsp_QueryExaminationTime:
                     StartTestingSys.Instance.Rsp_QueryExaminationTime(msg);
                     break;
-
+                case CMD.Rsp_NewGrroupFaceRegister:
+                    NewGroupSys.Instance.Rsp_NewGrroupFaceRegister(msg);
+                    break;
+                case CMD.Rsp_DelectFaceData:
+                    NewGroupSys.Instance.Rsp_DelectFaceData(msg);
+                    break;
                 case CMD.Rsp_GetGroupMent:
                    StartTestingSys.Instance.Rsp_GetGroupMent(msg);
                     break;

@@ -4,6 +4,7 @@ using ArcSoftFace.GameNet;
 using System.Collections.Generic;
 using System;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace ArcSoftFace.GameCommon
 {
@@ -95,6 +96,7 @@ namespace ArcSoftFace.GameCommon
                         IsSucess = 1 
                     };
                 }
+                sqlcommand.Dispose();
 
             }
             catch (Exception e)
@@ -102,27 +104,11 @@ namespace ArcSoftFace.GameCommon
                 Console.WriteLine("数据插入异常" + e.Message);
 
             }
+            
             netServer.SendMsg(gameMsg);
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="msg"></param>
-        public  void Req_NewGroupFaceRegister(GameMsg msg)
-        {
-            GameMsg gameMsg = new GameMsg()
-            {
-                cmd = CMD.Rsp_NewGrroupFaceRegister,
-            };
-            FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
-            faceRegisterSql.AddFaceData(msg.req_NewGroupFaceRegister.faces.groupID, msg.req_NewGroupFaceRegister.faces.Name, msg.req_NewGroupFaceRegister.faces.faceFeature.feature);
-
-             
-            netServer.SendMsg(gameMsg);
-
-        }
-
+         
         /// <summary>
         /// 
         /// </summary>
@@ -145,5 +131,85 @@ namespace ArcSoftFace.GameCommon
                 return false;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        public void Req_NewGroupFaceRegister(GameMsg msg)
+        {
+            GameMsg gameMsg = new GameMsg()
+            {
+                cmd = CMD.Rsp_NewGrroupFaceRegister,
+            };
+            FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
+            bool s = faceRegisterSql.AddFaceData(msg.req_NewGroupFaceRegister .faces);
+            gameMsg.rsp_NewGroupFaceRegister = new Rsp_NewGrroupFaceRegister()
+            {
+                Issucess = s,
+            };
+            netServer.SendMsg(gameMsg);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        public void Req_DelectFaceData(GameMsg msg)
+        {
+            GameMsg gameMsg = new GameMsg()
+            {
+                cmd = CMD.Rsp_DelectFaceData,
+
+            };
+            FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
+            int S =  faceRegisterSql.DelectFaceFeature(msg);
+            gameMsg.rsp_DelectFaceData = new Rsp_DelectFaceData()
+            {
+                IsSucess = S,
+            };
+            netServer .SendMsg(gameMsg);
+        }
+
+        public  void Req_NewGroupUpdateUserExcelByFile(GameMsg msg)
+        {
+            GameMsg gameMsg = new GameMsg()
+            {
+                cmd = CMD.Rsp_NewGroupUpdateUserExcelByFile,
+            };
+            IsExitenceUserExcelData(GameConst.DBUserExcel);
+            try
+            {
+                string path = Application.StartupPath + GameConst.SaveDBPath;
+                SqlDbCommand sqlcommand = new SqlDbCommand(path);
+                var sl = sqlcommand.Insert<UserExcel>(msg.req_NewGroupUpdateUserExcelByFile.userExcelModes, GameConst.DBUserExcel);
+                if (sl == 0)
+                {
+                    gameMsg.rsp_NewGroupUpdateUserExcelByFile = new  Rsp_NewGroupUpdateUserExcelByFile()
+                    {
+                        IsSucess = 0
+                    };
+
+                }
+                else if (sl >= 1)
+                {
+                    gameMsg.rsp_NewGroupUpdateUserExcelByFile = new Rsp_NewGroupUpdateUserExcelByFile()
+                    {
+                        IsSucess = 1
+                    };
+                }
+                sqlcommand.Dispose();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("数据插入异常" + e.Message);
+
+            }
+
+            netServer.SendMsg(gameMsg);
+
+        }
     }
+    
 }

@@ -76,8 +76,14 @@ namespace ArcSoftFace.GameNet
                 case CMD.Req_NewGroupUpdateUserExcel:
                     SqliteDB.Instance.Req_NewGroupUpdateUserExcel(msg);
                     break;
+                case CMD.Req_NewGroupUpdateUserExcelByFile:
+                    SqliteDB.Instance.Req_NewGroupUpdateUserExcelByFile(msg);
+                    break;
                 case CMD.Req_NewGroupFaceRegister:
                     SqliteDB.Instance.Req_NewGroupFaceRegister(msg);
+                    break;
+                case CMD.Req_DelectFaceData:
+                    SqliteDB.Instance.Req_DelectFaceData(msg);
                     break;
                 case CMD.Req_QueryExaminationTime:
                     SqliteDB.Instance.Req_QueryExaminationTime(msg);

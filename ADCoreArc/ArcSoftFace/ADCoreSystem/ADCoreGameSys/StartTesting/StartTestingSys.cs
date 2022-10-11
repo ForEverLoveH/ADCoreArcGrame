@@ -254,5 +254,30 @@ namespace ArcSoftFace.ADCoreSystem
                 MessageBox.Show("获取外接的显示器异常"+ex.Message);
             }
         }
+        /// <summary>
+        ///  根据组号获取人脸特征值
+        /// </summary>
+        /// <param name="groupID"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void Req_GetFacefeature(string groupID)
+        {
+            if (string.IsNullOrEmpty(groupID))
+            {
+                MessageBox.Show("请确定组号！！");
+                return;
+            }
+            else
+            {
+                GameMsg gameMsg = new GameMsg() { 
+                    cmd  = CMD.Req_GetFaceFeature,
+                    req_GetFaceFeature = new Req_GetFaceFeature()
+                    {
+                        groupID = groupID,
+                    }
+                };
+                localNetClient.SendMsg(gameMsg);
+
+            }
+        }
     }
 }

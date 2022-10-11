@@ -98,8 +98,33 @@ namespace ArcSoftFace.ADCoreSystem
 
             }
         }
+        public void Req_UpDateUserExcelByFile(List<UserExcel> userExcels)
+        {
+            GameMsg msg = new GameMsg()
+            {
+                cmd = CMD.Req_NewGroupUpdateUserExcelByFile,
+                req_NewGroupUpdateUserExcelByFile = new Req_NewGroupUpdateUserExcelByFile()
+                {
+                    userExcelModes = userExcels,
+                },
+            };
+            localNetClient.SendMsg(msg);
+        }
 
+        public void Rsp_NewGroupUpdateUserExcelByFile(GameMsg msg)
+        {
+            if (msg.rsp_NewGroupUpdateUserExcelByFile.IsSucess == 0)
+            {
+                MessageBox.Show("数据表更新失败！！");
+                return;
+            }
+            else if (msg.rsp_NewGroupUpdateUserExcelByFile.IsSucess == 1)
+            {
+                MessageBox.Show("数据表更新成功！！");
 
+                newGroupWindow.SetDataByFileEmpty();
+            }
+        }
 
         /// <summary>
         /// 
@@ -161,6 +186,7 @@ namespace ArcSoftFace.ADCoreSystem
                 {
                     faceData.TryGetValue(keys[i], out list);
                 }
+                List<StudentFaceData> faceDatas = new List<StudentFaceData>();
                 for (int j = 0; j < list.Count; j++)
                 {
                     StudentFaceData studentFaceData = new StudentFaceData()
@@ -169,21 +195,70 @@ namespace ArcSoftFace.ADCoreSystem
                         faceFeature = list[j].faceFeature,
                         Name = list[j].Name,
                     };
-                    GameMsg gameMsg = new GameMsg()
-                    {
+                    faceDatas.Add(studentFaceData);
+                }
+                GameMsg gameMsg = new GameMsg()
+                {
                         cmd = CMD.Req_NewGroupFaceRegister,
                         req_NewGroupFaceRegister = new Req_NewGroupFaceRegister()
                         {
-                            faces = studentFaceData,
+                            faces = faceDatas,
                         }
-                    };
-                    localNetClient.SendMsg(gameMsg);
-                }
+                };
+                localNetClient.SendMsg(gameMsg);
+                
                 
             }
-        }   
+        }
+
+        public  void Rsp_NewGrroupFaceRegister(GameMsg msg)
+        {
+            if (msg.rsp_NewGroupFaceRegister.Issucess == true)
+            {
+                MessageBox.Show("注册成功");
+
+            }
+            else
+            {
+                MessageBox.Show("注册失败！！");
+            }
              
-             
+        }
+        /// <summary>
+        ///  删除 该组所有的人脸信息
+        /// </summary>
+        /// <param name="groupid"></param>
+         
+        public  void Req_DelectFaceData(UserExcel userExcel, FaceFeature faceFeature)
+        {
+            if (userExcel == null)
+            {
+                return;
+            }
+            else
+            {
+                GameMsg gameMsg = new GameMsg()
+                {
+                    cmd = CMD.Req_DelectFaceData,
+                    req_DelectFaxeData = new Req_DelectFaceData()
+                    {
+                        groupID = userExcel.Group_number,
+                        Name = userExcel.Name,
+                        faceFeature = faceFeature,
+
+                    }
+                };
+                localNetClient.SendMsg(gameMsg);
+
+            }
+        }
+
+        public  void Rsp_DelectFaceData(GameMsg msg)
+        {
+            
+        }
+
+       
     }
 }
 

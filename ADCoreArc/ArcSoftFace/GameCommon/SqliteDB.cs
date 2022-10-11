@@ -291,6 +291,16 @@ namespace ArcSoftFace.GameCommon
         {
             NewGroupSql.Instance.Req_NewGroupFaceRegister(msg);
         }
+
+        public  void Req_DelectFaceData(GameMsg msg)
+        {
+            NewGroupSql.Instance.Req_DelectFaceData(msg);
+        }
+
+        public  void Req_NewGroupUpdateUserExcelByFile(GameMsg msg)
+        {
+            NewGroupSql.Instance.Req_NewGroupUpdateUserExcelByFile(msg);
+        }
     }
 }
 

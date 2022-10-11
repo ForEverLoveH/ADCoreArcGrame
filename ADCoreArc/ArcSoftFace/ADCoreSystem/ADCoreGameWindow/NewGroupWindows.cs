@@ -46,9 +46,23 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         private Dictionary<string,  List<StudentFaceData>> FaceData = new Dictionary<string, List<StudentFaceData>>();
 
          List<StudentFaceData> FaceDataList = new List<StudentFaceData>();
-         
+        NewGroupSys NewGroupSys = new NewGroupSys();
+        List<String> imagePath = new List<string>();
+        // <summary>
+        /// 人脸库人脸特征列表
+        /// </summary>
+        private List<FaceFeature> leftImageFeatureList = new List<FaceFeature>();
 
-
+        List<UserExcel> userExcels = null;
+        string groupid;
+        /// <summary>
+        /// 人员库图片选择 锁对象
+        /// </summary>
+        private object chooseImgLocker = new object();
+        /// <summary>
+        /// 保存对比图片的列表
+        /// </summary>
+        private List<string> imagePathList = new List<string>();
         public NewGroup()
         {
             InitializeComponent();
@@ -59,19 +73,12 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             var s = FaceEngine.pEngine;
 
         }
-        NewGroupSys NewGroupSys = new NewGroupSys();
-        List<String> imagePath = new List<string>();
-
-        List<UserExcel> userExcels = null;
-        string groupid;
+        
         /// <summary>
         /// 图像处理引擎对象
         /// </summary>
         private FaceEngine imageEngine = new FaceEngine();
-        // <summary>
-        /// 人脸库人脸特征列表
-        /// </summary>
-        private List<FaceFeature> leftImageFeatureList = new List<FaceFeature>();
+        
 
         bool IsEndOfAddUserDataToList = false;// 是否结束添加数据到列表中
         #region 手动导入
@@ -455,43 +462,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
             }
         }
-        /// <summary>
-        ///  删除数据
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DelectCurrentStudentBtn_Click(object sender, EventArgs e)
-        {
-            if (CurrentStudentUserExcel == null)
-            {
-                MessageBox.Show("当前选择的数据空，无法删除");
-                return;
-            }
-            else
-            {
-                imageLists.Images.RemoveAt(index);
-                GroupListFaceView.Refresh();
-
-                leftImageFeatureList.RemoveAt(index);
-                // 还得有一个操作，删除本地图片文件
-                if (groupDirectory == null)
-                {
-                    return;
-                }
-                else
-                {
-                    Directory.Delete(groupDirectory, true);
-                }
-
-            }
-
-        }
-        /// <summary>
-        /// 人员库图片选择 锁对象
-        /// </summary>
-        private object chooseImgLocker = new object();
-
-         
+       
         /// <summary>
         /// 选择人脸数据
         /// </summary>
@@ -517,7 +488,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btns.Add(ContinueAddBtn);
                 btns.Add(ChooseFaceDataBtn);
                 btns.Add(ClearFaceGroupBtn);
-                btns.Add(DelectCurrentStudentBtn);
+               // btns.Add(DelectCurrentStudentBtn);
                  
                 var sl =   localFile.openLocalFile(false);
                 // 存贮人脸图到指定的文件夹下
@@ -562,25 +533,48 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 return;
             }
         }
-        private void ClearFaceGroupBtn_Click(object sender, EventArgs e)
+        /// <summary>
+        ///  删除当前选中的
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearCurrentFaceGroupBtn_Click(object sender, EventArgs e)
         {
+            ClearFaceGroupBtn.Enabled = false;
+            if (CurrentStudentUserExcel == null)
+            {
+                MessageBox.Show("当前选中的数据为空，无法删除"); return;
 
-            imageLists.Images.Clear();
-            GroupListFaceView.Items.Clear();
-            leftImageFeatureList.Clear();
-            //  还需要根据组号去删除文件 还没写 
-            DelectDirectory(groupid);
-
-
-            GC.Collect();
+            }
+            else
+            {
+                DialogResult dialogResult = MessageBox.Show("此操作将导致数据库的重组,确定继续么", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    DataGridViewRow dataGridViewRow = UserExcelData.Rows[index];
+                    UserExcelData.Rows.Remove(dataGridViewRow);
+                    imageLists.Images.RemoveAt(index);
+                    GroupListFaceView.Items.RemoveAt(index);
+                    var l = leftImageFeatureList[index];
+                    leftImageFeatureList.RemoveAt(index);   
+                    //  还需要根据组号去删除文件 还没写 
+                    DelectDirectory(groupid+"/"+index);
+                    GC.Collect();
+                    NewGroupSys.Req_DelectFaceData(CurrentStudentUserExcel, l);
+                }
+                else
+                {
+                    ClearFaceGroupBtn.Enabled = true;
+                }
+            }
         }
         /// <summary>
         ///  删除文件夹
         /// </summary>
-        /// <param name="groupid"></param>
-        private void DelectDirectory(string groupid)
+        /// <param name="paths"></param>
+        private void DelectDirectory(string paths)
         {
-            string path = FaceDirectory + "/" + groupid;
+            string path = FaceDirectory + "/" + paths;
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
@@ -815,7 +809,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         }
 
         /// <summary>
-        /// 获取导入的数据中的组号
+        /// 获取导入的数据将其置为userExcel
         /// </summary>
         private void GetFileImportData(DataTable dataTable)
         {
@@ -870,7 +864,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 btsn.Add(ChooseFileBtn);
                 btsn.Add(ViewDataBtn);
                 btsn.Add(ChoosefileImageBtn);
-                btsn.Add(ClearGroupListBtn);
+               // btsn.Add(ClearGroupListBtn);
                 //选择本地文件
                 var sl = localFile.openLocalFile(true);
                 uiTextBox1.Text = sl.ToString();
@@ -1017,10 +1011,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             };
             return userExcel;
         }
-        /// <summary>
-        /// 保存对比图片的列表
-        /// </summary>
-        private List<string> imagePathList = new List<string>();
+        
         /// <summary>
         ///  人脸注册
         /// </summary>
@@ -1165,18 +1156,18 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="e"></param>
         private void SaveToDBbtn_Click(object sender, EventArgs e)
         {
+            SaveToDBbtn.Enabled = false;
             if (leftImageFeatureList != null || leftImageFeatureList.Count > 0)
             {
                 
-                for(int i = 0; i < leftImageFeatureList.Count; i++)
+                for(int i = 0; i <  userExcels.Count; i++)
                 {
-                    var user = SetUserExcelDatas(UserDataView, i);
-                    groupid = user.Group_number;
+                   
                     StudentFaceData studentFace = new StudentFaceData()
                     {
-                        groupID = user.Group_number,
+                        groupID = userExcels[i].Group_number,
                         faceFeature = leftImageFeatureList[i],
-                        Name = user.Name,
+                        Name = userExcels[i].Name,
 
                     };
                     FaceDataList.Add(studentFace);
@@ -1185,22 +1176,75 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 NewGroupSys.Req_RegisterFaceDataByInput(FaceData);
 
             }
+            else
+            {
+                MessageBox.Show("人脸数据为空，无法导入！！");
+                SaveToDBbtn.Enabled = true;
+                return;
 
+            }
+
+        }
+        
+        private void SucessAddStudentByFile_Click(object sender, EventArgs e)
+        {
+            SucessAddbtnByFile.Enabled = false;
+            
+            GroupNumText.ReadOnly = false;
+            if (userExcels == null)
+            {
+                MessageBox.Show("组列表为空，不能完成添加");
+                SucessAddbtnByFile.Enabled = true;
+                return;
+            }
+            else
+            {
+                NewGroupSys.Req_UpDateUserExcelByFile(userExcels);
+            }
         }
         /// <summary>
-        /// 删除当前组数据
+        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ClearGroupListBtn_Click(object sender, EventArgs e)
+        public  void SetDataByFileEmpty()
         {
+            SetFileImportDataEmpty();
+            List<Sunny.UI.UIButton> btns = new List<UIButton>();
+            btns.Add(ViewDataBtn);
+            btns.Add(ChoosefileImageBtn);
+            btns.Add(ChooseFileBtn);
+            btns.Add(SaveToDBbtn);
+            btns.Add(SucessAddbtnByFile);
+            foreach(var  btn in btns)
+            {
+                ControlsEnable(true, btn);
+            }
+            
+
+        }
+
+        private void SetFileImportDataEmpty()
+        {
+            leftImageFeatureList.Clear();
+            userExcels.Clear();
+            FaceData.Clear();
+            sheetTable.Clear();
+            CurrentStudentUserExcel = null;
+            UserDataView.DataSource = null;
+            imagelist2.Images.Clear();
+            listView1.Clear();
+            FilePathInput.Clear();
+           // SheetDataTableDrop.Clear();
+            uiTextBox1.Clear();
+
+
+
 
 
         }
-        
+
         #endregion
 
-        
+
     }
 }
 

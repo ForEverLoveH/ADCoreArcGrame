@@ -839,7 +839,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 string paths = path + "/" + groupID;
                 imageList =   ImageData.GetDirectoryImageFile(paths);
                 ShowImageInFaceListView(imageList);
-                leftImageFeatureList = GetImagelistFaceFeature(imageList.images);
+              // leftImageFeatureList = GetImagelistFaceFeature(imageList.images);
 
 
             }
@@ -897,6 +897,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             string groupID = GroupIDDrop.Text;
             GetFaceImageDirectory(groupID);
+            StartTestingSys.Req_GetFacefeature(groupID);
+
 
         }
         /// <summary>

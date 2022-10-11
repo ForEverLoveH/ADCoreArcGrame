@@ -1,4 +1,5 @@
-﻿using ArcSoftFace.ADCoreSystem;
+﻿using ArcFaceSDK.Entity;
+using ArcSoftFace.ADCoreSystem;
 using ArcSoftFace.ADCoreSystem.ADcoreModel;
 using ArcSoftFace.ADCoreSystem.ADCoreModel;
 using System;
@@ -49,21 +50,47 @@ namespace ArcSoftFace.GameNet
 
         public Req_GetFaceFeature req_GetFaceFeature;
         public Rsp_GetFaceFeature rsp_GetFaceFeature;
-
+        public Req_DelectFaceData req_DelectFaxeData;
+        public Rsp_DelectFaceData rsp_DelectFaceData;
+        public  Req_NewGroupUpdateUserExcelByFile req_NewGroupUpdateUserExcelByFile;
+        public Rsp_NewGroupUpdateUserExcelByFile rsp_NewGroupUpdateUserExcelByFile;
     }
+
+    public class Rsp_NewGroupUpdateUserExcelByFile
+    {
+        public int IsSucess { get; set; }
+    }
+
+    public class Req_NewGroupUpdateUserExcelByFile
+    {
+        public List<UserExcel > userExcelModes { get;set;}
+    }
+
+    public class Rsp_DelectFaceData
+    {
+       public   int   IsSucess { get; set; }
+    }
+
+    public class Req_DelectFaceData
+    {
+        public string groupID { get; set; }
+        public string Name { get; set; }
+        public FaceFeature faceFeature { get; set; }
+    }
+
     /// <summary>
     ///  人脸注册的返回
     /// </summary>
     public class Rsp_NewGrroupFaceRegister
     {
-        public  int Issucess { get; set; }  
+        public  bool  Issucess { get; set; }  
     }
     /// <summary>
     /// 人脸注册的请求
     /// </summary>
     public class Req_NewGroupFaceRegister
     {
-        public StudentFaceData faces { get; set; }
+        public  List<StudentFaceData> faces { get; set; }
     }
 
     public class Rsp_GetFaceFeature
