@@ -4,6 +4,9 @@ using ArcSoftFace.GameNet;
 using System.Windows.Forms;
 using System;
 using System.Data;
+using ArcSoftFace.ADCoreSystem.ADCoreModel;
+using System.Collections.Generic;
+using RRQMCore.Helper;
 
 namespace ArcSoftFace.GameCommon
 {
@@ -137,18 +140,41 @@ namespace ArcSoftFace.GameCommon
             {
                 cmd = CMD.Rsp_GetFaceFeature,
             };
+             
             string path = Application.StartupPath+ GameConst.FaceDBPath;
-            ;
+            List<FaceDataMode> FaceList = new List<FaceDataMode>();
+           
             FaceRegisterSql sql = new FaceRegisterSql();
-            DataSet dataSet = sql.Req_GetFaceFeature(msg,path); 
+            DataSet dataSet = sql.Req_GetFaceFeature(msg,path);
             if (dataSet != null)
             {
-                 DataTable  table = dataSet.Tables[0];
-                 for(int i = 0; i < table.Rows.Count; i++)
-                 {
+                DataTable  table = dataSet.Tables[0];
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    FaceDataMode faceDataMode = new FaceDataMode()
+                    {
+                        Name = table.Rows[i][table.Columns[1].ColumnName].ToString(),
+                        GroupID = table.Rows[i][table.Columns[2].ColumnName].ToString(),
+                        FaceData = table.Rows[i][table.Columns[3].ColumnName].ToBytes(),
+                    };
+                    FaceList.Add(faceDataMode);
+                }
+                gameMsg.rsp_GetFaceFeature = new Rsp_GetFaceFeature()
+                {
+                    faceDataModes = FaceList
+                };
+               
+                localNetServer.SendMsg(gameMsg);
 
-                 }
-
+            }
+            else
+            {
+                gameMsg.rsp_GetFaceFeature = new Rsp_GetFaceFeature()
+                {
+                    faceDataModes = null ,
+                };
+                
+                localNetServer.SendMsg(gameMsg);
             }
         }
     }

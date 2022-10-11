@@ -945,11 +945,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                             compareSimilarity = sim;
                             compareNum = i;
                         }
+
                     }
                     if(compareSimilarity > 0)
                     {
                         Console .WriteLine(String.Format("匹配结果为{0}",compareSimilarity));
                     }
+                     
                 }
                 Console.WriteLine("对比结束！！");
 
@@ -982,6 +984,23 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
 
 
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="faceDataModes"></param>
+        public   void GetLeftFaceFeature(List<FaceDataMode> faceDataModes)
+        {
+            for(int i = 0; i < faceDataModes.Count; i++)
+            {
+                byte[]  s = faceDataModes[i].FaceData;
+                FaceFeature faceFeature = new FaceFeature()
+                {
+                    feature = s,
+                    featureSize = s.Length,
+                };
+                leftImageFeatureList.Add(faceFeature);
+            }
         }
     }
 }

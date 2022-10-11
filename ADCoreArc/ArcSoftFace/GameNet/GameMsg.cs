@@ -2,6 +2,7 @@
 using ArcSoftFace.ADCoreSystem;
 using ArcSoftFace.ADCoreSystem.ADcoreModel;
 using ArcSoftFace.ADCoreSystem.ADCoreModel;
+using ArcSoftFace.GameCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,7 +96,7 @@ namespace ArcSoftFace.GameNet
 
     public class Rsp_GetFaceFeature
     {
-         
+       public   List<FaceDataMode > faceDataModes { get; set; }
     }
 
     public class Req_GetFaceFeature

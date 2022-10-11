@@ -1,21 +1,12 @@
 ﻿using ArcFaceSDK.Entity;
 using ArcSoftFace.ADCoreSystem;
-using ArcSoftFace.ADCoreSystem.ADcoreModel;
 using ArcSoftFace.ADCoreSystem.ADCoreModel;
 using ArcSoftFace.GameNet;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.Migrations.Model;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
-using static Org.BouncyCastle.Crypto.Digests.SkeinEngine;
 
 namespace ArcSoftFace.GameCommon
 {
@@ -81,7 +72,9 @@ namespace ArcSoftFace.GameCommon
             sqlhelper.OpenSQLite();
             if (sqlhelper.TableExit(GameConst.DBFaceData))
             {
-               return    GetFaceFeature(msg, sqlhelper);
+                var s = GetFaceFeature(msg, sqlhelper);
+                sqlhelper.CloseSQLite();
+                return   s  ;
             }
             else
             {
@@ -91,6 +84,7 @@ namespace ArcSoftFace.GameCommon
 
         private DataSet GetFaceFeature(GameMsg msg, SQLiteHelper helper)
         {
+            helper.EnsureConnection();
             string sql = $"select * from {GameConst.DBFaceData} WHERE GroupID ={msg.req_GetFaceFeature.groupID}";
             SQLiteParameter[] parameters = new SQLiteParameter[]
             {

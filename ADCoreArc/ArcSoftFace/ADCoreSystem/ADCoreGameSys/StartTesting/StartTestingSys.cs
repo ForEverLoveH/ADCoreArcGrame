@@ -4,6 +4,7 @@ using ArcSoftFace.GameNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -201,7 +202,15 @@ namespace ArcSoftFace.ADCoreSystem
 
         public void Rsp_GetFaceFeature(GameMsg msg)
         {
-            
+            if (msg.rsp_GetFaceFeature.faceDataModes == null)
+            {
+                MessageBox.Show("当前没有找到对应的人脸特征值，请重试！！");
+                return;
+            }
+            else
+            {
+                startTestingWindow.GetLeftFaceFeature(msg.rsp_GetFaceFeature.faceDataModes);
+            }
         }
         /// <summary>
         /// 

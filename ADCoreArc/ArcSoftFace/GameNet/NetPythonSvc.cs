@@ -52,12 +52,12 @@ namespace ArcSoftFace.GameNet
                     {
                         int num;
                         if (int.TryParse(StartTestingWindow.cameraId.ToString(), out num))
-                         {
+                        {
                              string str = "{ \"cmd\": \"SitUp_Start_VideoCapture\", \"msg\": \"" + num + "\"}\r\n";
 
                              byte[] byteArray = Encoding.Default.GetBytes(str);
                              client.Send(byteArray);
-                         }
+                        }
                          else
                          {
                              Console.WriteLine("相机名字不合理");

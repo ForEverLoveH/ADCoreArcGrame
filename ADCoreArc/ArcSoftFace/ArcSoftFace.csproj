@@ -296,6 +296,7 @@
       <DependentUpon>FaceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GameCommon\ExportGrade\ExportGradeSql.cs" />
+    <Compile Include="GameCommon\FaceRegister\FaceDataMode.cs" />
     <Compile Include="GameCommon\FaceRegister\FaceRegisterSql.cs" />
     <Compile Include="GameCommon\LoginSetting\LoginSettingSql.cs" />
     <Compile Include="GameCommon\Login\LoginSql.cs" />
