@@ -971,16 +971,29 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             if (!string.IsNullOrEmpty(CameraIDInput.Text))
             {
-                cameraId = int.Parse(CameraIDInput.Text);
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-                process.StartInfo.FileName = Application.StartupPath + @"\..\Python\SitUp\SitUp.exe";
-                process.StartInfo.UseShellExecute = true;
-                process.StartInfo.RedirectStandardOutput = false;
-                process.StartInfo.RedirectStandardError = false;
-                process.StartInfo.RedirectStandardInput = false;
-                process.StartInfo.CreateNoWindow = false;
-                process.StartInfo.WorkingDirectory = Application.StartupPath + @"\..\Video\";
-                process.Start();
+                if (CurentUserExcelMode != null)
+                {
+                    cameraId = int.Parse(CameraIDInput.Text);
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    process.StartInfo.FileName = Application.StartupPath + @"\..\Python\SitUp\SitUp.exe";
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.RedirectStandardOutput = false;
+                    process.StartInfo.RedirectStandardError = false;
+                    process.StartInfo.RedirectStandardInput = false;
+                    process.StartInfo.CreateNoWindow = false;
+                    process.StartInfo.WorkingDirectory = Application.StartupPath + @"\..\Video\";
+                    process.Start();
+                }
+                else
+                {
+                    MessageBox.Show("请先选择考生数据！！");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("请输入相机id");
+                return;
             }
 
 
