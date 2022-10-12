@@ -34,6 +34,8 @@
             this.StartTestingBtn = new Sunny.UI.UIButton();
             this.ExportGradeBtn = new Sunny.UI.UIButton();
             this.LoginSettingBtn = new Sunny.UI.UIButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // PersonImportBtn
@@ -119,11 +121,21 @@
             this.LoginSettingBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.LoginSettingBtn.Click += new System.EventHandler(this.LoginSettingBtn_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::ArcSoftFace.Properties.Resources._8dbeb0333b5f708d6a2d82cc03fb5522;
+            this.pictureBox1.Location = new System.Drawing.Point(5, 65);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1040, 497);
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1339, 574);
+            this.ClientSize = new System.Drawing.Size(1083, 574);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.LoginSettingBtn);
             this.Controls.Add(this.ExportGradeBtn);
             this.Controls.Add(this.StartTestingBtn);
@@ -132,6 +144,7 @@
             this.Controls.Add(this.PersonImportBtn);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -144,5 +157,6 @@
         private Sunny.UI.UIButton StartTestingBtn;
         private Sunny.UI.UIButton ExportGradeBtn;
         private Sunny.UI.UIButton LoginSettingBtn;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

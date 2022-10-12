@@ -22,7 +22,6 @@ namespace ArcSoftFace.GameNet
         public Rsp_Verfication rsp_Verfication;
         public Req_New_Import req_New_Import;
         public Rsp_New_Import rsp_New_Import;
-
         public Req_Add_Import req_Add_Import;
         public Rsp_Add_Import rsp_Add_Import;
         public Req_AdminChangeUserPassword req_AdminChangeUserPassword;
@@ -41,14 +40,12 @@ namespace ArcSoftFace.GameNet
         public Rsp_NewGrroupFaceRegister rsp_NewGroupFaceRegister;
         public Req_GetGroupMent req_GetGroupMent;
         public Rsp_GetGroupMent rsp_GetGroupMent;
-
         public Req_TestNumberInquriry req_TestNumberInquriry;
         public Rsp_TestNumberInquriey rsp_TestNumberInquriey;
         public Req_GetCurrentGroupMsg req_GetCurrentGroupMsg;
         public Rsp_GetCurrentGroupMsg rsp_GetCurrentGroupMsg;
         public ReqModify_Grades reqModify_Grades;
         public RspModify_Grades rspModify_Grades;
-
         public Req_GetFaceFeature req_GetFaceFeature;
         public Rsp_GetFaceFeature rsp_GetFaceFeature;
         public Req_DelectFaceData req_DelectFaxeData;
@@ -73,6 +70,13 @@ namespace ArcSoftFace.GameNet
     }
 
     public class Req_DelectFaceData
+    {
+        public UserExcel userExcel { get; set; }
+        public FaceData faceData { get; set; }
+        
+    }
+
+    public class FaceData
     {
         public string groupID { get; set; }
         public string Name { get; set; }

@@ -1,4 +1,5 @@
-﻿using ArcSoftFace.ADCoreSystem.ADCoreGameWindow;
+﻿using ArcSoftFace.ADCoreSystem;
+using ArcSoftFace.ADCoreSystem.ADCoreGameWindow;
 using Newtonsoft.Json;
 using RRQMSocket;
 using System;
@@ -58,10 +59,10 @@ namespace ArcSoftFace.GameNet
                              byte[] byteArray = Encoding.Default.GetBytes(str);
                              client.Send(byteArray);
                         }
-                         else
-                         {
-                             Console.WriteLine("相机名字不合理");
-                         }
+                        else
+                        {
+                            Console.WriteLine("相机名字不合理");
+                        }
                     }
                 }
             };
@@ -79,7 +80,7 @@ namespace ArcSoftFace.GameNet
             switch (msg.cmd)
             {
                 case "SitUp":
-
+                    StartTestingSys.Instance.SitUp_Test(msg.data);
                     break;
                 default:
                     break;

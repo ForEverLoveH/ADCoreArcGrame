@@ -555,12 +555,13 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     UserExcelData.Rows.Remove(dataGridViewRow);
                     imageLists.Images.RemoveAt(index);
                     GroupListFaceView.Items.RemoveAt(index);
-                    var l = leftImageFeatureList[index];
+                    var  faceFeature = leftImageFeatureList[index];
                     leftImageFeatureList.RemoveAt(index);   
-                    //  还需要根据组号去删除文件 还没写 
-                    DelectDirectory(groupid+"/"+index);
+                    //  还需要根据组号去删除文件夹中的图片文件 还没写 
+                    DelectDirectory(groupid,index);
+                 
+                    NewGroupSys.Req_DelectFaceData(CurrentStudentUserExcel,faceFeature);
                     GC.Collect();
-                    NewGroupSys.Req_DelectFaceData(CurrentStudentUserExcel, l);
                 }
                 else
                 {
@@ -568,21 +569,17 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
             }
         }
+
+         
+
         /// <summary>
         ///  删除文件夹
         /// </summary>
         /// <param name="paths"></param>
-        private void DelectDirectory(string paths)
+        private void DelectDirectory(string paths ,int  index)
         {
-            string path = FaceDirectory + "/" + paths;
-            if (Directory.Exists(path))
-            {
-                Directory.Delete(path, true);
-            }
-            else
-            {
-                return;
-            }
+            string path = FaceDirectory + "/" + paths;// 判断{groupid}文件夹是否存在
+            imageData.DelectDirectoryImageFile(path ,index);
         }
          
         /// <summary>
@@ -599,6 +596,15 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             var dic = imageData.CreateFaceGroupFile(groupid,FaceDirectory);
             imageData.SaveImageFileToDestion(dic, imagePath);
 
+        }
+        public void SetButtonActive()
+        {
+            List<Sunny.UI.UIButton> btsn = new List<Sunny.UI.UIButton>();
+            btsn.Add(SucessAddStudent);
+            foreach (var btn in btsn)
+            {
+                ControlsEnable(true, btn);
+            }
         }
         /// <summary>
         /// 完成添加
@@ -1241,6 +1247,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
 
         }
+
+        
 
         #endregion
 

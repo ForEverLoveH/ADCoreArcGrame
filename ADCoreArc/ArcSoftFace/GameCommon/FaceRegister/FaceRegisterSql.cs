@@ -30,7 +30,7 @@ namespace ArcSoftFace.GameCommon
             {
                 for (int i = 0; i < faceDatas.Count; i++)
                 {
-                    InsertDataToFaceTable(faceDatas[i].groupID, faceDatas[i].Name, faceDatas[i].faceFeature, sqlhelper);
+                    InsertDataToFaceTable(faceDatas[i].groupID, faceDatas[i].Name, faceDatas[i].faceFeature.feature, sqlhelper);
                 }
                 sqlhelper.CloseSQLite();
                 return true ;
@@ -46,12 +46,14 @@ namespace ArcSoftFace.GameCommon
         /// <param name="msg"></param>
         public  int DelectFaceFeature(GameMsg msg)
         {
-           String Path  = Application.StartupPath +GameConst.FaceDBPath;
+            String Path  = Application.StartupPath +GameConst.FaceDBPath;
             sqlhelper = new SQLiteHelper(Path);
             sqlhelper.OpenSQLite();
             if (sqlhelper.TableExit(GameConst.DBFaceData))
             {
-                return DelectFaceData(msg, sqlhelper);
+                int s = DelectFaceData(msg, sqlhelper);
+                sqlhelper.CloseSQLite();
+                return  s ;
             }
             else
             {
@@ -107,12 +109,12 @@ namespace ArcSoftFace.GameCommon
         /// <param name="msg"></param>
         private int  DelectFaceData(GameMsg msg ,SQLiteHelper sQLiteHelper)
         {
-            String SQLwhere = $"GroupID={msg.req_DelectFaxeData.groupID},Name ={msg.req_DelectFaxeData.Name} ,FaceData = {msg.req_DelectFaxeData.faceFeature}";
+            String SQLwhere = $"GroupID={msg.req_DelectFaxeData.userExcel.Group_number},Name ={msg.req_DelectFaxeData.userExcel.Name } ,FaceData = {msg.req_DelectFaxeData. faceData.faceFeature}";
             SQLiteParameter[] parameters = new SQLiteParameter[]
             {
-               new SQLiteParameter("GroupID",msg.req_DelectFaxeData.groupID),
-               new SQLiteParameter("Name",msg.req_DelectFaxeData.Name),
-               new SQLiteParameter("FaceData",msg.req_DelectFaxeData.faceFeature),
+               new SQLiteParameter("GroupID",msg.req_DelectFaxeData.userExcel.Group_number),
+               new SQLiteParameter("Name",msg.req_DelectFaxeData.userExcel.Name),
+               new SQLiteParameter("FaceData",msg.req_DelectFaxeData. faceData.faceFeature),
             };
            return sQLiteHelper.Delete(GameConst.DBFaceData, SQLwhere, parameters);
         }
@@ -124,7 +126,7 @@ namespace ArcSoftFace.GameCommon
         /// <param name="faceFeature"></param>
         /// <param name="sqlhelper"></param>
         /// <returns></returns>
-        private  bool  InsertDataToFaceTable(string groupId, string name, FaceFeature faceFeature, SQLiteHelper sqlhelper)
+        private  bool  InsertDataToFaceTable(string groupId, string name, byte[] faceFeature, SQLiteHelper sqlhelper)
         {
             Dictionary<string, object> data = new Dictionary<string, object>();
             data.Add("GroupID", groupId);

@@ -81,7 +81,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 {
                     ExamTimeDrop.Items.Add(l.Exam_date);
                 }
-
             }
             else
             {
@@ -717,8 +716,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                             GradeTwoText.Text = "NULL";
                             GradetwoState.Text = "没有测试";
                             break;
-
-
                     }
                 }
                 if (int.TryParse(curentUserExcelMode.Achievement_three, out achieveMent))
@@ -747,8 +744,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                             GradeThreeText.Text = "NULL";
                             GradeThreeState.Text = "没有测试";
                             break;
-
-
                     }
 
                 }
@@ -893,6 +888,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// </summary>
        private bool isCompare = false;
 
+        public string Number;
+
         private void GroupIDDrop_TextChanged(object sender, EventArgs e)
         {
             string groupID = GroupIDDrop.Text;
@@ -945,6 +942,10 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                             compareSimilarity = sim;
                             compareNum = i;
                         }
+                        if (compareSimilarity > 0.8)
+                        {
+                            continue;
+                        }
 
                     }
                     if(compareSimilarity > 0)
@@ -995,8 +996,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 MessageBox.Show("请输入相机id");
                 return;
             }
-
-
         }
         /// <summary>
         /// 
@@ -1015,5 +1014,12 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 leftImageFeatureList.Add(faceFeature);
             }
         }
+
+        public  void SitUpTest(string number)
+        {
+            Number = number;
+        }
+        bool IsSitUp = false;
+
     }
 }

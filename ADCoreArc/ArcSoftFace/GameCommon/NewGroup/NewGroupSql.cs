@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 
 namespace ArcSoftFace.GameCommon
 {
@@ -66,7 +67,7 @@ namespace ArcSoftFace.GameCommon
             netServer.SendMsg(msgs);
         }
         /// <summary>
-        /// 人脸更新
+        /// 更新
         /// </summary>
         /// <param name="msg"></param>
         public void Req_NewGroupUpdateUserExcel(GameMsg msg)
@@ -162,13 +163,76 @@ namespace ArcSoftFace.GameCommon
                 cmd = CMD.Rsp_DelectFaceData,
 
             };
-            FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
-            int S =  faceRegisterSql.DelectFaceFeature(msg);
-            gameMsg.rsp_DelectFaceData = new Rsp_DelectFaceData()
+           int  s= DelectUserExcel(msg.req_DelectFaxeData.userExcel);
+            if (s == 0)
             {
-                IsSucess = S,
+                FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
+                int S = faceRegisterSql.DelectFaceFeature(msg);
+                if(S == 0)
+                gameMsg.rsp_DelectFaceData = new Rsp_DelectFaceData()
+                {
+                    IsSucess = S,
+                };
+                netServer.SendMsg(gameMsg);
+            }
+            else
+            {
+                Console.WriteLine("userExcel 删除失败！！");
+            }
+        }
+        /// <summary>
+        ///  删除userexcel 中的数据
+        /// </summary>
+        /// <param name="userExcel"></param>
+        private int  DelectUserExcel(UserExcel userExcel)
+        { 
+            string path = Application.StartupPath + GameConst.SaveDBPath;
+            SQLiteHelper helper = new SQLiteHelper(path);
+            helper.OpenSQLite();
+            if (helper.TableExit(GameConst.DBUserExcel))
+            {
+                int t = DelectUserExcelByHelper(helper, userExcel);
+                helper.CloseSQLite();
+                return t;
+            }
+            else
+            {
+                return -1;
+            }
+
+
+        }
+
+        private  int  DelectUserExcelByHelper(SQLiteHelper helper, UserExcel userExcel)
+        {
+            helper.EnsureConnection();
+            string sql = string.Format("Exam_number={0},Region ={1},Venue={2},Project ={3},Name={4},Sex={5},School={6},Grade={7},ClassName={8},Number_class={9},Project={10},Exam_data={11},Session ={12},Group_number={13},Intra_group_serial_number ={14},Achievement_one={15},Achievement_two={16},Achievement_three={17},Achievement_four={18},Remarks ={19}",
+                userExcel.Exam_number, userExcel.Region, userExcel.Venue, userExcel.Project, userExcel.Name, userExcel.Sex, userExcel.School, userExcel.Grade, userExcel.ClassName, userExcel.Number_class
+                ,userExcel.Project, userExcel.Exam_date, userExcel.Sessions, userExcel.Group_number, userExcel.Intra_group_serial_number, userExcel.Achievement_one, userExcel.Achievement_two, userExcel.Achievement_three, userExcel.Achievement_four, userExcel.Remarks );
+            SQLiteParameter[] parameter = new SQLiteParameter[]
+            {
+                new SQLiteParameter("Exam_number",userExcel.Exam_number),
+                new SQLiteParameter("Region",userExcel.Region),
+                new SQLiteParameter("Venue",userExcel.Venue),
+                new SQLiteParameter("Project",userExcel.Project),
+                new SQLiteParameter("Name",userExcel.Name),
+                new SQLiteParameter("Sex",userExcel.Sex),
+                new SQLiteParameter("School",userExcel.School),
+                new SQLiteParameter( "Grade",userExcel.Grade),
+                new SQLiteParameter("ClassName",userExcel.ClassName ),
+                new SQLiteParameter("Number_class",userExcel.Number_class ),
+                new SQLiteParameter("Project",userExcel.Project ),
+                new SQLiteParameter("Exam_data",userExcel .Exam_date),
+                new SQLiteParameter("Session",userExcel.Sessions),
+                new SQLiteParameter("Group_number",userExcel.Group_number),
+                new SQLiteParameter("Intra_group_serial_number" ,userExcel.Intra_group_serial_number ),
+                new SQLiteParameter("Achievement_one ",userExcel .Achievement_one),
+                new SQLiteParameter("Achievement_two",userExcel.Achievement_two),
+                new SQLiteParameter("Achievement_three",userExcel .Achievement_three),
+                new SQLiteParameter("Achievement_four",userExcel .Achievement_four),
+                new SQLiteParameter("Remarks",userExcel.Remarks),
             };
-            netServer .SendMsg(gameMsg);
+           return helper.Delete(GameConst.DBUserExcel, sql, parameter);
         }
 
         public  void Req_NewGroupUpdateUserExcelByFile(GameMsg msg)

@@ -1,5 +1,6 @@
 ﻿using ArcFaceSDK.Utils;
 using ArcSoftFace.Utils;
+using NPOI.SS.Formula.Functions;
 using NPOI.SS.Formula.UDF;
 using Sunny.UI.Win32;
 using System;
@@ -279,6 +280,42 @@ namespace ArcSoftFace.ADCoreSystem
             {
                 Console.WriteLine(e.Message);
                 return null;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        public  void DelectDirectoryImageFile(string path, int index)
+        {
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                FileInfo[] files = directoryInfo.GetFiles(); // 获取这个文见夹下所有文件
+                List<string> pathlist = new List<string>();
+                foreach (FileInfo file in files)
+                {
+                    string filePath = file.FullName;// 拿到路径
+                    if (filePath.EndsWith(".bmp") || filePath.EndsWith(".png") || filePath.EndsWith(".jpg") | filePath.EndsWith(".jpeg"))
+                    {
+                        pathlist.Add(filePath);  // 判断文件是不是图片文件，是则拿到路径
+                    }
+                }
+                string spth = pathlist[index];
+                if (!string.IsNullOrEmpty(spth))
+                {
+                    File.Delete(spth);
+                    Console.WriteLine("删除成功！！");
+                }
+                else
+                {
+                    Console.WriteLine("文件不存在！");
+                    return;
+                }
+            }
+            else
+            {
+                return;
             }
         }
     }

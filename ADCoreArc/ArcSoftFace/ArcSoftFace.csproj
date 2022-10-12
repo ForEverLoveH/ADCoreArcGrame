@@ -385,6 +385,7 @@
     <Content Include="lib\AForge.Math.dll" />
     <Content Include="lib\AForge.Video.DirectShow.dll" />
     <Content Include="lib\AForge.Video.dll" />
+    <None Include="Resources\8dbeb0333b5f708d6a2d82cc03fb55221.jpeg" />
     <None Include="Resources\favicon.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -145,6 +145,7 @@
             this.PasswordInput.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.PasswordInput.Watermark = "";
             this.PasswordInput.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.PasswordInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PasswordInput_KeyDown);
             // 
             // LoginWindow
             // 

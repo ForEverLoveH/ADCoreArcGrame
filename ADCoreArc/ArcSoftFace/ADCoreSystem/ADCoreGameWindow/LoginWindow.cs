@@ -57,11 +57,16 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
         private void LoginBtn_Click(object sender, EventArgs e)
         {
+            LoginGame();
+        }
+
+        private void LoginGame()
+        {
             string acc = AccountInput.Text.Trim();
             string pass = PasswordInput.Text.Trim();
-            if(!string.IsNullOrEmpty(acc))
+            if (!string.IsNullOrEmpty(acc))
             {
-                if(!string.IsNullOrEmpty(pass))
+                if (!string.IsNullOrEmpty(pass))
                 {
                     loginSys.Req_Login(acc, pass);
 
@@ -90,6 +95,12 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 return User;
             }
              
+        }
+
+        private void PasswordInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyValue ==13)
+                    LoginGame();
         }
     }
 }

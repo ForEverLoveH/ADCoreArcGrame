@@ -423,6 +423,7 @@ namespace ArcSoftFace
                 }
                 catch(Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
                     return 0;
                 }
             }
@@ -569,7 +570,8 @@ namespace ArcSoftFace
             {
                 throw new ArgumentException("tablename is null");
 
-            }EnsureConnection();
+            }
+            EnsureConnection();
             string sql = "delete from" + tableName;
             if (!string.IsNullOrEmpty(sqlwhere))
             {

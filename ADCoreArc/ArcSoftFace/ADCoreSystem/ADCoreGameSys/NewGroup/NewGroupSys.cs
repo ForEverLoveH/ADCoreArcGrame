@@ -216,6 +216,7 @@ namespace ArcSoftFace.ADCoreSystem
             if (msg.rsp_NewGroupFaceRegister.Issucess == true)
             {
                 MessageBox.Show("注册成功");
+                newGroupWindow.SetButtonActive();
 
             }
             else
@@ -242,9 +243,13 @@ namespace ArcSoftFace.ADCoreSystem
                     cmd = CMD.Req_DelectFaceData,
                     req_DelectFaxeData = new Req_DelectFaceData()
                     {
-                        groupID = userExcel.Group_number,
-                        Name = userExcel.Name,
-                        faceFeature = faceFeature,
+                         userExcel  = userExcel,
+                         faceData  = new FaceData()
+                         {
+                             groupID   =  userExcel.Group_number,
+                             Name  = userExcel.Name,
+                             faceFeature = faceFeature
+                         }
 
                     }
                 };
