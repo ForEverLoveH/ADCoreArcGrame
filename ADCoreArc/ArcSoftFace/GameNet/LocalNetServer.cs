@@ -82,6 +82,9 @@ namespace ArcSoftFace.GameNet
                 case CMD.Req_NewGroupFaceRegister:
                     SqliteDB.Instance.Req_NewGroupFaceRegister(msg);
                     break;
+                case CMD.Req_NewGroupFaceRegisterByFile:
+                    SqliteDB.Instance.Req_NewGroupFaceRegisterByFile(msg);
+                    break;
                 case CMD.Req_DelectFaceData:
                     SqliteDB.Instance.Req_DelectFaceData(msg);
                     break;

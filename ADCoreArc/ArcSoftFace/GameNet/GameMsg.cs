@@ -52,6 +52,18 @@ namespace ArcSoftFace.GameNet
         public Rsp_DelectFaceData rsp_DelectFaceData;
         public  Req_NewGroupUpdateUserExcelByFile req_NewGroupUpdateUserExcelByFile;
         public Rsp_NewGroupUpdateUserExcelByFile rsp_NewGroupUpdateUserExcelByFile;
+         public  Req_NewGroupFaceRegisterByFile req_NewGroupFaceRegisterFileByFile;
+        public Rsp_NewGroupFaceRegisterByFile rsp_NewGroupFaceRegisterByFile;
+    }
+
+    public class Rsp_NewGroupFaceRegisterByFile
+    {
+        public bool IsSucecc { get; set; }
+    }
+
+    public class Req_NewGroupFaceRegisterByFile
+    {
+        public List<StudentFaceData> face { get; set; }
     }
 
     public class Rsp_NewGroupUpdateUserExcelByFile
@@ -96,6 +108,7 @@ namespace ArcSoftFace.GameNet
     public class Req_NewGroupFaceRegister
     {
         public  List<StudentFaceData> faces { get; set; }
+        public  UserExcel users { get; set; }
     }
 
     public class Rsp_GetFaceFeature

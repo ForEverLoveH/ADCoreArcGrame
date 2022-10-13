@@ -563,7 +563,7 @@ namespace ArcSoftFace
         /// <param name="where"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
+         
         public int Delete(string tableName, string sqlwhere, SQLiteParameter[] parameters)
         {
             if (string.IsNullOrEmpty(tableName))

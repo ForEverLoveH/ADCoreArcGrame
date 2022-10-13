@@ -87,6 +87,7 @@
             this.adminPasswordInput.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.adminPasswordInput.Watermark = "";
             this.adminPasswordInput.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.adminPasswordInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.adminPasswordInput_KeyDown);
             // 
             // VerificationWindow
             // 

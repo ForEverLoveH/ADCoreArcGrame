@@ -370,7 +370,7 @@
             this.ImportSqliteBtn.Name = "ImportSqliteBtn";
             this.ImportSqliteBtn.Size = new System.Drawing.Size(100, 35);
             this.ImportSqliteBtn.TabIndex = 39;
-            this.ImportSqliteBtn.Text = "导入数据库";
+            this.ImportSqliteBtn.Text = " 存贮到数据库";
             this.ImportSqliteBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ImportSqliteBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.ImportSqliteBtn.Click += new System.EventHandler(this.ImportSqliteBtn_Click);
@@ -432,12 +432,12 @@
             // 
             this.SucessAddStudent.Cursor = System.Windows.Forms.Cursors.Hand;
             this.SucessAddStudent.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.SucessAddStudent.Location = new System.Drawing.Point(1249, 445);
+            this.SucessAddStudent.Location = new System.Drawing.Point(1241, 445);
             this.SucessAddStudent.MinimumSize = new System.Drawing.Size(1, 1);
             this.SucessAddStudent.Name = "SucessAddStudent";
-            this.SucessAddStudent.Size = new System.Drawing.Size(100, 35);
+            this.SucessAddStudent.Size = new System.Drawing.Size(108, 35);
             this.SucessAddStudent.TabIndex = 32;
-            this.SucessAddStudent.Text = "完成添加";
+            this.SucessAddStudent.Text = "添加到用户表";
             this.SucessAddStudent.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.SucessAddStudent.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.SucessAddStudent.Click += new System.EventHandler(this.SucessAddStudent_Click);
@@ -747,7 +747,7 @@
             this.examTimeDroup.SymbolDropDown = 61555;
             this.examTimeDroup.SymbolNormal = 61555;
             this.examTimeDroup.TabIndex = 9;
-            this.examTimeDroup.Text = "2022/10/10 12:10";
+            this.examTimeDroup.Text = "2022/10/13 12:10";
             this.examTimeDroup.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.examTimeDroup.TimeFormat = "yyyy/MM/dd hh:MM";
             this.examTimeDroup.Value = new System.DateTime(2022, 9, 12, 16, 21, 8, 894);
@@ -1113,7 +1113,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1365, 681);
             this.Controls.Add(this.uiTabControl1);
-            //this.Name = "NewGroup";
+           // this.Name = "NewGroup";
             this.Text = "newGroupWindow";
             this.Load += new System.EventHandler(this.NewGroup_Load);
             ((System.ComponentModel.ISupportInitialize)(this.UserExcelData)).EndInit();

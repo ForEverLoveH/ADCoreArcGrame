@@ -142,13 +142,45 @@ namespace ArcSoftFace.GameCommon
             {
                 cmd = CMD.Rsp_NewGrroupFaceRegister,
             };
-            FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
-            bool s = faceRegisterSql.AddFaceData(msg.req_NewGroupFaceRegister .faces);
-            gameMsg.rsp_NewGroupFaceRegister = new Rsp_NewGrroupFaceRegister()
+             int sl  = AddUserExcelToDB(msg.req_NewGroupFaceRegister.users);
+            if(sl == 1)
             {
-                Issucess = s,
-            };
-            netServer.SendMsg(gameMsg);
+                FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
+                bool s = faceRegisterSql.AddFaceData(msg.req_NewGroupFaceRegister.faces);
+                gameMsg.rsp_NewGroupFaceRegister = new Rsp_NewGrroupFaceRegister()
+                {
+                    Issucess = s,
+                };
+                netServer.SendMsg(gameMsg);
+            }
+            
+        }
+
+        private   int   AddUserExcelToDB(UserExcel users)
+        {
+            IsExitenceUserExcelData(GameConst.DBUserExcel);
+            try
+            {
+                String path = Application.StartupPath + GameConst.SaveDBPath;
+                SqlDbCommand sqlDbCommand = new SqlDbCommand(path);
+                var sl = sqlDbCommand.Insert<UserExcel>(users, GameConst.DBUserExcel);
+                if (sl == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return -1;
+
+            }
 
         }
 
@@ -273,6 +305,24 @@ namespace ArcSoftFace.GameCommon
 
             netServer.SendMsg(gameMsg);
 
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        public  void Req_NewGroupFaceRegisterByFile(GameMsg msg)
+        {
+            GameMsg  gameMsg= new GameMsg()
+            {
+                cmd = CMD.Rsp_NewGroupFaceRegisterByFile,
+            };
+            FaceRegisterSql faceRegisterSql = new FaceRegisterSql();
+            bool s = faceRegisterSql.AddFaceData(msg.req_NewGroupFaceRegisterFileByFile.face);
+            gameMsg.rsp_NewGroupFaceRegisterByFile = new Rsp_NewGroupFaceRegisterByFile()
+            {
+                IsSucecc = s,
+            };
+            netServer.SendMsg(gameMsg);
         }
     }
     

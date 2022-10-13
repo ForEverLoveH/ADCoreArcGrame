@@ -31,6 +31,8 @@
         Rsp_QueryExaminationTime,
         Req_NewGroupFaceRegister,
         Rsp_NewGrroupFaceRegister,
+        Req_NewGroupFaceRegisterByFile,
+        Rsp_NewGroupFaceRegisterByFile,
 
         Req_NewGroupUpdateUserExcel,
         Rsp_NewGroupUpdateUserExcel,

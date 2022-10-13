@@ -165,7 +165,7 @@ namespace ArcSoftFace.ADCoreSystem
         ///  人脸注册通过输入
         /// </summary>
         /// <param name="faceData">key 是组号， var字典，对应学生信息中的名字以及人脸信息</param>
-        public void Req_RegisterFaceDataByInput(Dictionary<string, List<StudentFaceData>> faceData)
+        public void Req_RegisterFaceDataByInput(Dictionary<string, List<StudentFaceData>> faceData, UserExcel userExcel)
         {
             if (faceData == null)
             {
@@ -203,6 +203,7 @@ namespace ArcSoftFace.ADCoreSystem
                         req_NewGroupFaceRegister = new Req_NewGroupFaceRegister()
                         {
                             faces = faceDatas,
+                            users= userExcel
                         }
                 };
                 localNetClient.SendMsg(gameMsg);
@@ -263,7 +264,62 @@ namespace ArcSoftFace.ADCoreSystem
             
         }
 
-       
+        public void Req_RegisterFaceDataByFile(Dictionary<string, List<StudentFaceData>> faceData)
+        {
+            if (faceData == null)
+            {
+                return;
+            }
+            else
+            {
+                List<StudentFaceData> list = new List<StudentFaceData>();
+                List<string> keys = new List<string>();
+                for (int i = 0; i < faceData.Count; i++)
+                {
+                    foreach (var key in faceData.Keys)
+                    {
+                        keys.Add(key);
+                    }
+                }
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    faceData.TryGetValue(keys[i], out list);
+                }
+                List<StudentFaceData> faceDatas = new List<StudentFaceData>();
+                for (int j = 0; j < list.Count; j++)
+                {
+                    StudentFaceData studentFaceData = new StudentFaceData()
+                    {
+                        groupID = list[j].groupID,
+                        faceFeature = list[j].faceFeature,
+                        Name = list[j].Name,
+                    };
+                    faceDatas.Add(studentFaceData);
+                }
+                GameMsg gameMsg = new GameMsg()
+                {
+                    cmd = CMD.Req_NewGroupFaceRegisterByFile,
+                    req_NewGroupFaceRegisterFileByFile = new Req_NewGroupFaceRegisterByFile()
+                    {
+                        face= faceDatas,
+
+                    }
+                };
+                localNetClient.SendMsg(gameMsg);
+            }
+        }
+
+        public void Rsp_NewGroupFaceRegisterByFile(GameMsg msg)
+        { 
+           if(msg.rsp_NewGroupFaceRegisterByFile.IsSucecc ==true )
+            {
+                MessageBox.Show("注册成功！！");return;
+            }
+            else
+            {
+                MessageBox.Show("注册失败！！");return;
+            }
+        }
     }
 }
 

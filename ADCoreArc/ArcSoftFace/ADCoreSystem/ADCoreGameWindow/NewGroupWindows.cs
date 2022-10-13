@@ -71,6 +71,10 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             ArcFaceManage.Instance.InitEngines();
             var s = FaceEngine.pEngine;
+            TopStudentBtn.Enabled = false;
+            NextStudentBtn.Enabled = false;
+            ClearFaceGroupBtn.Enabled = false;
+
 
         }
         
@@ -118,12 +122,12 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                         Region = session,
                         Project = "引体向上",
                         Project_team = "中考引体向上 ", // 项目组
-                        Achievement_one = "",
-                        Achievement_two = " ",
-                        Achievement_three = " ",
-                        Achievement_four = " ",
-                        Venue = " ",
-                        Remarks = " ",
+                        Achievement_one = "null",
+                        Achievement_two = "null ",
+                        Achievement_three = "null ",
+                        Achievement_four = "null ",
+                        Venue = "null ",
+                        Remarks = "null ",
                         School = school,
 
                     };
@@ -149,6 +153,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     }
                     AddStudentToListBtn.Enabled = false;
                     UserExcelData.AllowUserToAddRows = false;
+                    TopStudentBtn.Enabled = true;
+                    NextStudentBtn.Enabled = true;
                 }
             }
         }
@@ -289,37 +295,46 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
             else
             {
-                if (!string.IsNullOrEmpty(groupid))
+                if (CurrentStudentUserExcel != null)
                 {
-                    for (int i = 0; i < leftImageFeatureList.Count; i++)
+                    if (!string.IsNullOrEmpty(groupid))
                     {
-                        StudentFaceData studentFaceData = new StudentFaceData()
+                        for (int i = 0; i < leftImageFeatureList.Count; i++)
                         {
-                            groupID = groupid,
-                            faceFeature = leftImageFeatureList[i],
-                            Name = CurrentStudentUserExcel.Name,
-                        };
-                        if (FaceDataList.Contains(studentFaceData))
+                            StudentFaceData studentFaceData = new StudentFaceData()
+                            {
+                                groupID = groupid,
+                                faceFeature = leftImageFeatureList[i],
+                                Name = CurrentStudentUserExcel.Name,
+                            };
+                            if (FaceDataList.Contains(studentFaceData))
+                            {
+                                MessageBox.Show("成员已经存在列表中，无法添加");
+                                return;
+                            }
+                            else
+                            {
+
+                                FaceDataList.Add(studentFaceData);
+                                FaceData.Add(groupid, FaceDataList);
+                            }
+                        }
+                        if (FaceData.Count > 0)
                         {
-                            MessageBox.Show("成员已经存在列表中，无法添加");
-                            return;
+                            NewGroupSys.Req_RegisterFaceDataByInput(FaceData,CurrentStudentUserExcel);
                         }
                         else
                         {
-
-                            FaceDataList.Add(studentFaceData);
-                            FaceData.Add(groupid, FaceDataList);
+                            return;
                         }
-                    }
-                    if(FaceData.Count > 0)
-                    {
-                        NewGroupSys.Req_RegisterFaceDataByInput(FaceData);
                     }
                 }
                 else
                 {
+                    MessageBox.Show("请先选择数据！！");
                     return;
                 }
+                 
             }
         }
         /// <summary>
@@ -367,7 +382,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
                     }
                     isLastClick = true;
-                    
+                    ClearFaceGroupBtn.Enabled = true;
                 }
                 else
                 {
@@ -559,7 +574,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     leftImageFeatureList.RemoveAt(index);   
                     //  还需要根据组号去删除文件夹中的图片文件 还没写 
                     DelectDirectory(groupid,index);
-                 
+                   
                     NewGroupSys.Req_DelectFaceData(CurrentStudentUserExcel,faceFeature);
                     GC.Collect();
                 }
@@ -571,6 +586,8 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         }
 
          
+
+
 
         /// <summary>
         ///  删除文件夹
@@ -1179,7 +1196,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                     FaceDataList.Add(studentFace);
                 }
                 FaceData.Add(groupid, FaceDataList);
-                NewGroupSys.Req_RegisterFaceDataByInput(FaceData);
+                NewGroupSys.Req_RegisterFaceDataByFile(FaceData);
 
             }
             else

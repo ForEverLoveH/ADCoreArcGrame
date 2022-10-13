@@ -255,6 +255,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
                 if (sheetData != null)
                 {
+
                     if (sheetData.Count + PersonImportSys.sqlNumber < GameConst.SqlNumber)
                     {
                         switch (sheetData[0].Err)

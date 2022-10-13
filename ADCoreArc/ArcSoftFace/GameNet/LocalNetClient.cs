@@ -97,6 +97,9 @@ namespace ArcSoftFace.GameNet
                 case CMD.Rsp_NewGrroupFaceRegister:
                     NewGroupSys.Instance.Rsp_NewGrroupFaceRegister(msg);
                     break;
+                case CMD.Rsp_NewGroupFaceRegisterByFile:
+                    NewGroupSys.Instance.Rsp_NewGroupFaceRegisterByFile(msg);
+                    break;
                 case CMD.Rsp_DelectFaceData:
                     NewGroupSys.Instance.Rsp_DelectFaceData(msg);
                     break;

@@ -17,7 +17,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using Image = System.Drawing.Image;
 
 namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 {
@@ -634,6 +636,19 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
 
         }
+        private void GroupDataView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (e.RowIndex >= -1 && e.ColumnIndex != -1)
+                {
+                    index = e.RowIndex;
+                    GroupDataView.Rows[index].DefaultCellStyle.BackColor = Color.White;
+                    SetFaceGroupListHight(index, false);
+                }
+            }
+
+        }
         /// <summary>
         /// 设置facegroupList中的人脸数据选中状态
         /// </summary>
@@ -854,20 +869,37 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 for(int i = 0; i < imageModel.images.Count; i++)
                 {
                     string imagePath = imageModel.ImagePath[i];// 图片路径
-                    Image image = imageModel.images[i];
-                    FaceImageList.Images.Add(imagePath,image);
-                    FaceList.Items.Add(i.ToString()+"号", imagePath);
-                    
+                    System.Drawing.Image image = imageModel.images[i];
+                    FaceImageList.Images.Add(i.ToString(),image);     
                 }
-                FaceList.Refresh();
+                ShowImageFaceListView();
+                
             }
              
         }
+
+        private void ShowImageFaceListView()
+        {
+            FaceList.View = System.Windows.Forms.View.LargeIcon;
+            FaceList.LargeImageList = FaceImageList;
+            if(FaceImageList!=null||FaceImageList.Images.Count > 0)
+            {
+                for(int  i= 0; i < FaceImageList.Images.Count; i++)
+                {
+                    String txt = FaceImageList .Images.Keys[i];
+                    System.Windows.Forms.ListViewItem item = new System.Windows.Forms.ListViewItem();
+                    item.Text = txt;
+                    item.ImageIndex = i;
+                    FaceList.Items.Add(item);
+                }
+            }
+        }
+
         /// <summary>
         /// 获取图片的人脸特征值
         /// </summary>
         /// <param name="imageList"></param>
-       
+
         private List<FaceFeature> GetImagelistFaceFeature(List<Image> imageList)
         {
             List<FaceFeature> features = new List<FaceFeature>();
@@ -1021,5 +1053,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         }
         bool IsSitUp = false;
 
+        
     }
 }

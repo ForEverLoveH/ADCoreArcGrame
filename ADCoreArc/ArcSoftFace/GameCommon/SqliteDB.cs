@@ -301,6 +301,11 @@ namespace ArcSoftFace.GameCommon
         {
             NewGroupSql.Instance.Req_NewGroupUpdateUserExcelByFile(msg);
         }
+
+        public  void Req_NewGroupFaceRegisterByFile(GameMsg msg)
+        {
+            NewGroupSql.Instance.Req_NewGroupFaceRegisterByFile(msg);
+        }
     }
 }
 
