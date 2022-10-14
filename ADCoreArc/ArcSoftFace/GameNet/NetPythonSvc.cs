@@ -15,7 +15,7 @@ namespace ArcSoftFace.GameNet
     {
         public void Start()
         {
-            if (System.Diagnostics.Process.GetProcessesByName("仰卧起坐").ToList().Count > 1)
+            if (System.Diagnostics.Process.GetProcessesByName("引体向上测试系统").ToList().Count > 1)
             {
                 Application.Exit();
             }
@@ -46,7 +46,7 @@ namespace ArcSoftFace.GameNet
                 //Debug.Log($"已从{client.Name}接收到信息：{mes}");//Name即IP+Port
                 MsgData msg = JsonConvert.DeserializeObject<MsgData>(mes);
                 NetPython(msg);
-                if (msg.data != "SitUp_Start")
+                if (msg.data != "Up_Start")
                 {
                     Console.WriteLine(msg.cmd);
                     if (client.Online)
@@ -54,7 +54,7 @@ namespace ArcSoftFace.GameNet
                         int num;
                         if (int.TryParse(StartTestingWindow.cameraId.ToString(), out num))
                         {
-                             string str = "{ \"cmd\": \"SitUp_Start_VideoCapture\", \"msg\": \"" + num + "\"}\r\n";
+                             string str = "{ \"cmd\": \"Up_Start_VideoCapture\", \"msg\": \"" + num + "\"}\r\n";
 
                              byte[] byteArray = Encoding.Default.GetBytes(str);
                              client.Send(byteArray);
@@ -80,7 +80,7 @@ namespace ArcSoftFace.GameNet
             switch (msg.cmd)
             {
                 case "SitUp":
-                    StartTestingSys.Instance.SitUp_Test(msg.data);
+                    StartTestingSys.Instance.Up_Test(msg.data);
                     break;
                 default:
                     break;

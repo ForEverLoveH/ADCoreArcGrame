@@ -49,10 +49,30 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             StartTestingSys.ReqGetExamTime();
             // 获取外接显示器的数量
             StartTestingSys.GetScreenCount();
+            SetTimeStart(true );
+
 
 
 
         }
+         /// <summary>
+         ///  设置计时器
+         /// </summary>
+         /// <param name="s"></param>
+        private void SetTimeStart(bool s )
+        {
+            TestTimer.Enabled = s;
+            TestTimer.Interval = 1000;
+            if (s == true)
+            {
+                TestTimer.Start();
+            }
+            else
+            {
+                TestTimer.Stop();   
+            }
+        }
+
         /// <summary>
         ///  查询按钮点击事件
         /// </summary>
@@ -417,7 +437,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
                 else
                 {
-                    SetUserGradeData(S, "缺考");
+                    SetUserGradeData(btnName ,S, "缺考");
                 }
             }
         }
@@ -426,9 +446,9 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// </summary>
         /// <param name="s"></param>
         /// <param name="v"></param>
-        private void SetUserGradeData(string s, string v)
+        private void SetUserGradeData( int index ,string s, string v)
         {
-             if(CurentUserExcelMode==null)
+            if(CurentUserExcelMode==null)
             {
                 MessageBox.Show("请选择考生数据！！");
                 return;
@@ -477,7 +497,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
                 else
                 {
-                    SetUserGradeData(S, "犯规");
+                    SetUserGradeData(btnName ,S, "犯规");
                 }
             }
         }
@@ -503,7 +523,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
                 else
                 {
-                    SetUserGradeData(S, "null");
+                    SetUserGradeData(btnName, S, "null");
                 }
 
             }
@@ -530,7 +550,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
                 else
                 {
-                    SetUserGradeData(S, "弃权");
+                    SetUserGradeData(btnName ,S, "弃权");
                 }
             }
         }
@@ -924,6 +944,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
         private void GroupIDDrop_TextChanged(object sender, EventArgs e)
         {
+            GroupIDDrop.Items.Clear();  
             string groupID = GroupIDDrop.Text;
             GetFaceImageDirectory(groupID);
             StartTestingSys.Req_GetFacefeature(groupID);
@@ -965,19 +986,22 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                         FaceFeature faceFeatu = leftImageFeatureList[j];
                         float sim = 0f;
                         FaceEngine.ASFFaceFeatureCompare(faceFeature,faceFeatu,out sim);
+                        //增加异常值处理
                         if (sim.ToString().IndexOf("E") > -1)
                         {
                             sim = 0F;
                         }
+                        Console.WriteLine(string.Format("与人脸库{0}号比对结果:{1}", i, sim));
+                       if( JudgmentCommpareResult(i, sim))
+                       {
+                            break;
+                       }
                         if (sim > compareSimilarity)
                         {
                             compareSimilarity = sim;
                             compareNum = i;
                         }
-                        if (compareSimilarity > 0.8)
-                        {
-                            continue;
-                        }
+                        
 
                     }
                     if(compareSimilarity > 0)
@@ -995,6 +1019,20 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 return;
             }
         }
+
+        private bool  JudgmentCommpareResult(int i, float sim)
+        {
+            if (sim >= 0.8)
+            {
+                MessageBox.Show($"当前人脸数据和{i}号人脸数据相同，匹配成功！！");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// 启动测试按钮执行事件
         /// </summary>
@@ -1006,16 +1044,20 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             {
                 if (CurentUserExcelMode != null)
                 {
-                    cameraId = int.Parse(CameraIDInput.Text);
-                    System.Diagnostics.Process process = new System.Diagnostics.Process();
-                    process.StartInfo.FileName = Application.StartupPath + @"\..\Python\SitUp\SitUp.exe";
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.RedirectStandardOutput = false;
-                    process.StartInfo.RedirectStandardError = false;
-                    process.StartInfo.RedirectStandardInput = false;
-                    process.StartInfo.CreateNoWindow = false;
-                    process.StartInfo.WorkingDirectory = Application.StartupPath + @"\..\Video\";
-                    process.Start();
+                    int num;
+                    if(System.Diagnostics.Process.GetProcessesByName("Up").ToList().Count > 0)
+                    {
+                        MessageBox.Show("正在测试中");
+                        return;
+                    }
+                    else
+                    {
+                        StartPythonUp();
+                        IsUp = true;
+                        Number = "0";
+                    }
+
+
                 }
                 else
                 {
@@ -1028,6 +1070,18 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 MessageBox.Show("请输入相机id");
                 return;
             }
+        }
+        public  void StartPythonUp()
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = Application.StartupPath + @"\..\Python\Up\Up.exe";
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.RedirectStandardOutput = false;
+            process.StartInfo.RedirectStandardError = false;
+            process.StartInfo.RedirectStandardInput = false;
+            process.StartInfo.CreateNoWindow = false;
+            process.StartInfo.WorkingDirectory = Application.StartupPath + @"\..\Video\";
+            process.Start();
         }
         /// <summary>
         /// 
@@ -1051,8 +1105,50 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             Number = number;
         }
-        bool IsSitUp = false;
+        bool IsUp = false;
 
-        
+        private void TestTimer_Tick(object sender, EventArgs e)
+        {
+            UpDateAllMessage();
+        }
+
+        private void UpDateAllMessage()
+        {
+            if (IsUp)
+            {
+                if (System.Diagnostics.Process.GetProcessesByName("Up").ToList().Count == 0)
+                {
+                    IsUp = false;
+                    SetUserGradeData(btnName, GradeDroup.Text, Number);
+
+                }
+                else
+                {
+                    switch(GradeDroup.Text){
+                        case "成绩1":
+                            GradeOneText.Text = $"成绩1：{Number}";
+                            GradeOneState.Text = $"测试中";
+                            break;
+                        case "成绩2":
+                            GradeTwoText.Text = $"成绩2:{Number}";
+                            GradetwoState.Text = $"测试中";
+                            break;
+                        case "成绩3":
+                            GradeThreeText.Text = $"成绩3:{Number}";
+                            GradeThreeState.Text = "测试中";
+                            break;
+                        case "成绩4":
+                            GradeFourText.Text  = $"成绩4：{Number}";
+                            GradeFourState.Text = "测试中";
+                            break;
+                        default:
+                            break;
+
+                            
+
+                    }
+                }
+            }
+        }
     }
 }

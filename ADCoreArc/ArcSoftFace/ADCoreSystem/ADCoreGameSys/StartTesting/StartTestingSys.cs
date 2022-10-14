@@ -289,7 +289,7 @@ namespace ArcSoftFace.ADCoreSystem
             }
         }
 
-        public  void SitUp_Test(string number)
+        public  void Up_Test(string number)
         {
             if (number != startTestingWindow.Number)
             {

@@ -1042,7 +1042,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="a"></param>
         /// <param name="imageList"></param>
         /// <param name="listView"></param>
-        private void FaceRegister( string[] imagePath,  ImageList imageList, ListView listView, List<Sunny.UI.UIButton> btns)
+        private void FaceRegister(string[] imagePath,  ImageList imageList, ListView listView, List<Sunny.UI.UIButton> btns)
         {
             try
             {
@@ -1185,7 +1185,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 
                 for(int i = 0; i <  userExcels.Count; i++)
                 {
-                   
                     StudentFaceData studentFace = new StudentFaceData()
                     {
                         groupID = userExcels[i].Group_number,
@@ -1197,7 +1196,6 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
                 FaceData.Add(groupid, FaceDataList);
                 NewGroupSys.Req_RegisterFaceDataByFile(FaceData);
-
             }
             else
             {
@@ -1211,6 +1209,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         
         private void SucessAddStudentByFile_Click(object sender, EventArgs e)
         {
+            
             SucessAddbtnByFile.Enabled = false;
             
             GroupNumText.ReadOnly = false;
