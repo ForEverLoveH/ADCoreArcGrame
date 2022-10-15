@@ -10,3 +10,9 @@ D:\WorkProject\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.csproj.AssemblyRefe
 D:\WorkProject\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.csproj.CoreCompileInputs.cache
 D:\WorkProject\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.dll
 D:\WorkProject\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.pdb
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\bin\x64\Debug\ArcFaceSDK.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\bin\x64\Debug\ArcFaceSDK.pdb
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.csproj.AssemblyReference.cache
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.csproj.CoreCompileInputs.cache
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcFaceSDK\obj\x64\Debug\ArcFaceSDK.pdb

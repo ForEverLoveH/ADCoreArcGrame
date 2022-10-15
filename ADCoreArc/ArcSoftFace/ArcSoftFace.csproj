@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\x64\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -230,6 +230,12 @@
     <Compile Include="ADCoreSystem\ADCoreGameWindow\NewGroupWindows.Designer.cs">
       <DependentUpon>NewGroupWindows.cs</DependentUpon>
     </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\ServerSettingWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\ServerSettingWindow.Designer.cs">
+      <DependentUpon>ServerSettingWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ADCoreSystem\ADCoreGameWindow\StartTestingWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -343,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\PersonImportWindow.resx">
       <DependentUpon>PersonImportWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\ServerSettingWindow.resx">
+      <DependentUpon>ServerSettingWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\StartTestingWindow.resx">
       <DependentUpon>StartTestingWindow.cs</DependentUpon>

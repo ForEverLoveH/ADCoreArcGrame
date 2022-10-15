@@ -29,7 +29,8 @@ namespace ArcSoftFace.ADCoreSystem
         /// </summary>
         public const string FaceDBPath = "/../Seve/FaceData.db";
         public const string DBFaceData = "FaceData";
-
+        public const string helpDocPath = "/../help/help.doc";
+        public const string GenDocPath = "/../Drive/CH341SER.exe";
         public const int SqlNumber = 1000000;
 
         //Excel

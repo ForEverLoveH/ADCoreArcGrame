@@ -27,7 +27,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
         private void PersonImportWindow_Load(object sender, EventArgs e)
         {
-            PersonImportSys.Req_GetKey();
+           PersonImportSys.Req_GetKey();
         }
 
         List<string> sheetTable = new List<string>();

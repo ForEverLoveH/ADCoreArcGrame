@@ -137,7 +137,6 @@ D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\NPOI.OpenXml4N
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\NPOI.OpenXmlFormats.pdb
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\System.Data.SQLite.xml
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.csproj.AssemblyReference.cache
-D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.csproj.SuggestedBindingRedirects.cache
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.FrmLoading.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.LoginWindow.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.MainWindow.resources

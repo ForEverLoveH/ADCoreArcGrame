@@ -21,7 +21,6 @@ C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcSoftFace\obj\Debug\
 C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcSoftFace\obj\Debug\ArcSoftFace.exe
 C:\Users\DYL\Desktop\虹软\ArcfaceDemo_CSharp_3.0-master\ArcSoftFace\obj\Debug\ArcSoftFace.pdb
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.csproj.AssemblyReference.cache
-D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.csproj.SuggestedBindingRedirects.cache
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.ExportGradeWindow.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.FrmLoading.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.LoginSettingOfAdminWindow.resources

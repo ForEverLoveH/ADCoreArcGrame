@@ -94,7 +94,7 @@ namespace ArcSoftFace.GameCommon
                                 {
                                     if (attribute.Type == "integer")
                                     {
-                                        sb.Append("autoincrement");
+                                        sb.Append(" autoincrement");
                                     }
                                 }
                             }
@@ -111,9 +111,10 @@ namespace ArcSoftFace.GameCommon
             }
             catch (System.Exception e)
             {
-                Console.WriteLine($"数据库表创建异常：{e.Message}");
+                 Console .WriteLine($"数据库表创建异常：{e.Message}");
                 return -1;
             }
+
 
         }
 

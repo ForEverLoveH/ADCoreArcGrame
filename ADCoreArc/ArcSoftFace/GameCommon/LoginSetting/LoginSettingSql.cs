@@ -26,87 +26,89 @@ namespace ArcSoftFace.GameCommon
         /// <param name="msg"></param>
         public void Req_AdminChangeAdminPassword(GameMsg msg)
         {
-            GameMsg msgs = new GameMsg()
+            GameMsg Rsp_Admin_admin_Change_Password_Msg = new GameMsg
             {
-                cmd = CMD.Rsp_AdminChangeAdminPassword,
+                cmd = CMD.Rsp_AdminChangeAdminPassword
             };
-            var account = msg.req_AdminChangeAdminPassword.account;
-            var oldPassword = msg.req_AdminChangeAdminPassword.oldPassword;
-            var newPassword = msg.req_AdminChangeAdminPassword.newPassword;
-            if (!string.IsNullOrEmpty(account))
+            if (string.IsNullOrEmpty(msg. req_AdminChangeAdminPassword.account) != true)
             {
-                if (!string.IsNullOrEmpty(oldPassword))
+                if (string.IsNullOrEmpty(msg.req_AdminChangeAdminPassword.oldPassword ) != true)
                 {
-                    if (!string.IsNullOrEmpty(newPassword))
+                    if (string.IsNullOrEmpty(msg.req_AdminChangeAdminPassword.newPassword ) != true)
                     {
-                        if (!string.IsNullOrEmpty(newPassword))
+                        if (msg.req_AdminChangeAdminPassword.oldPassword  != msg.req_AdminChangeAdminPassword.newPassword )
                         {
-                            if (oldPassword != newPassword)
+                            loginSql. IsExtenceAdminData( GameConst.DBLoginName);
+                            if (loginSql.IsLogin( GameConst .DBLoginName, msg.req_AdminChangeAdminPassword.account, msg.req_AdminChangeAdminPassword.oldPassword ))
                             {
-                                LoginSql.Instance.IsExtenceAdminData(GameConst.DBLoginName);
-                                if (LoginSql.Instance.IsLogin(GameConst.DBLoginName, msg.req_AdminChangeAdminPassword.oldPassword, msg.req_AdminChangeAdminPassword.newPassword))
+                                Admin admin = new Admin
                                 {
-                                    Admin admin = new Admin()
+                                    User =  GameConst .InitAdminAcct,
+                                    Password = msg.req_AdminChangeAdminPassword.newPassword 
+                                };
+                                if (SetLoginData(admin, GameConst.DBLoginName, $"User = '{admin.User}' and Password = {msg.req_AdminChangeAdminPassword.newPassword }") != -1)
+                                {
+                                    Rsp_Admin_admin_Change_Password_Msg. rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword
                                     {
-                                        User = GameConst.InitAdminAcct,
-                                        Password = msg.req_AdminChangeAdminPassword.newPassword,
+                                        //修改成功
+                                        IsSucess = 0,
                                     };
-                                    if (SetLoginData(admin, GameConst.DBLoginName, $"User  = '{admin.User}' and Password ='{msg.req_AdminChangeAdminPassword.newPassword}'") != -1)
-                                    {
-                                        msgs.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword()
-                                        {
-                                            IsSucess = 0,
-                                        };
-                                    }
-                                    else
-                                    {
-                                        msgs.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword()
-                                        {
-                                            IsSucess = -6, // 修改失败
-                                        };
-                                    }
                                 }
                                 else
                                 {
-                                    msgs.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword()
+                                    Rsp_Admin_admin_Change_Password_Msg.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword
                                     {
-                                        IsSucess = -5, // 修改失败,密码失败
+                                        //修改失败
+                                        IsSucess = -6
                                     };
                                 }
                             }
                             else
                             {
-                                msgs.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword()
+                                Rsp_Admin_admin_Change_Password_Msg.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword
                                 {
-                                    IsSucess = -4, // 修改失败,新旧密码一致
+                                    //密码错误
+                                    IsSucess = -5
                                 };
                             }
                         }
                         else
                         {
-                            msgs.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword()
+                            Rsp_Admin_admin_Change_Password_Msg.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword
                             {
-                                IsSucess = -3, // 修改失败,旧密码为空 
+                                //密码与新密码一致
+                                IsSucess  = -4
                             };
                         }
+
                     }
                     else
                     {
-                        msgs.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword()
+                        Rsp_Admin_admin_Change_Password_Msg.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword
                         {
-                            IsSucess = -2,
+                            //新密码为空
+                            IsSucess  = -3
                         };
                     }
                 }
                 else
                 {
-                    msgs.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword()
+                    Rsp_Admin_admin_Change_Password_Msg.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword
                     {
-                        IsSucess = -1,
+                        //密码为空
+                        IsSucess = -2
                     };
                 }
             }
-            localNetServer.SendMsg(msgs);   
+            else
+            {
+                Rsp_Admin_admin_Change_Password_Msg.rsp_AdminChangeAdminPassword = new Rsp_AdminChangeAdminPassword
+                {
+                    //账号为空
+                    IsSucess  = -1
+                };
+            }
+            localNetServer.SendMsg(Rsp_Admin_admin_Change_Password_Msg);
         }
         /// <summary>
         /// 管理员更改裁判员账号密码
@@ -114,76 +116,82 @@ namespace ArcSoftFace.GameCommon
         /// <param name="msg"></param>
         public void Req_AdminChangeUserPassword(GameMsg msg)
         {
-            GameMsg gameMsg = new GameMsg()
+            GameMsg Rsp_Admin_user_Change_Password_Msg = new GameMsg
             {
                 cmd = CMD.Rsp_AdminChangeUserPassword,
             };
-            var oldPassword = msg.req_AdminChangeUserPassword.oldPassword.Trim();
-            var newPassword = msg.req_AdminChangeUserPassword.newPassword.Trim();
-            var account = msg.req_AdminChangeUserPassword.account.Trim();
-            if (!string.IsNullOrEmpty(oldPassword))
+            if (string.IsNullOrEmpty(msg.req_AdminChangeUserPassword.account) != true)
             {
-                if (!string.IsNullOrEmpty(newPassword))
+                if (string.IsNullOrEmpty(msg.req_AdminChangeUserPassword.oldPassword ) != true)
                 {
-                    if (oldPassword != newPassword)
+                    if (string.IsNullOrEmpty(msg.req_AdminChangeUserPassword.newPassword ) != true)
                     {
-                        LoginSql.Instance.IsExtenceAdminData(GameConst.DBLoginName);
-                        if (LoginSql.Instance.IsLogin(GameConst.DBLoginName, msg.req_AdminChangeUserPassword.account, msg.req_AdminChangeUserPassword.oldPassword))
+                        loginSql.IsExtenceAdminData( GameConst.DBLoginName);
+                        if (loginSql.IsLogin( GameConst.DBLoginName, msg.req_AdminChangeUserPassword.account , msg.req_AdminChangeUserPassword.oldPassword ))
                         {
-                            Admin admin = new Admin()
+                            Admin admin = new Admin
                             {
-                                User = GameConst.InitAdminAcct,
-                                Password = msg.req_AdminChangeUserPassword.newPassword,
+                                User =GameConst .InitUserAcct,
+                                Password = msg.req_AdminChangeUserPassword.newPassword 
                             };
-                            var s = SetLoginData(admin, GameConst.DBLoginName, $"User='{admin.User}' and  Password = '{admin.Password}'");
-                            if ( s != -1)
+                            if (SetLoginData(admin, GameConst .DBLoginName, $"User = '{admin.User}'") != -1)
                             {
-                                gameMsg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword()
+                                Rsp_Admin_user_Change_Password_Msg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword
                                 {
-                                    IsSucess = 0,
+                                    //修改成功
+                                     IsSucess  = 0,
                                 };
                             }
                             else
                             {
-                                gameMsg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword()
+                                Rsp_Admin_user_Change_Password_Msg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword
                                 {
-                                    IsSucess = -6,
+                
+                                    //修改失败
+                                    IsSucess   = -5
                                 };
                             }
-
                         }
                         else
                         {
-                            gameMsg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword()
+                            Rsp_Admin_user_Change_Password_Msg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword
                             {
-                                IsSucess = -5,
+
+                                //修改失败
+                                IsSucess = -4
                             };
                         }
                     }
                     else
                     {
-                        gameMsg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword()
+                        Rsp_Admin_user_Change_Password_Msg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword
                         {
-                            IsSucess = -4,
+
+                            //修改失败
+                            IsSucess = -3
                         };
                     }
                 }
                 else
                 {
-                    gameMsg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword()
+                    Rsp_Admin_user_Change_Password_Msg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword
                     {
-                        IsSucess = -3,
+
+                        //修改失败
+                        IsSucess = -2
                     };
                 }
             }
             else
             {
-                gameMsg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword()
+                Rsp_Admin_user_Change_Password_Msg.rsp_AdminChangeUserPassword = new Rsp_AdminChangeUserPassword
                 {
-                    IsSucess = -2,
+
+                    //修改失败
+                    IsSucess = -1
                 };
             }
-            localNetServer.SendMsg(gameMsg);
+            localNetServer.SendMsg(Rsp_Admin_user_Change_Password_Msg);
         }
         /// <summary>
         ///  裁判员更改自己账号
@@ -191,85 +199,88 @@ namespace ArcSoftFace.GameCommon
         /// <param name="msg"></param>
         public void Req_UserChangeUserPassword(GameMsg msg)
         {
-            GameMsg gameMsgs = new GameMsg()
+            GameMsg Rsp_User_Change_Password_Msg = new GameMsg
             {
                 cmd = CMD.Rsp_UserChangeUserPassword,
             };
-            string account = msg.req_UserChangeUserPassword.account.Trim();
-            string oldPassword = msg.req_UserChangeUserPassword.oldPassword.Trim();
-            string newPassword = msg.req_UserChangeUserPassword.newPassword.Trim();
-            if (!string.IsNullOrEmpty(account))
+            if (string.IsNullOrEmpty(msg. req_UserChangeUserPassword.account ) != true)
             {
-                if (!string.IsNullOrEmpty(oldPassword))
+                if (string.IsNullOrEmpty(msg.req_UserChangeUserPassword.oldPassword) != true)
                 {
-                    if (!string.IsNullOrEmpty(newPassword))
+                    if (string.IsNullOrEmpty(msg.req_UserChangeUserPassword.newPassword ) != true)
                     {
-                        if (oldPassword != newPassword)
+                        if (msg.req_UserChangeUserPassword.oldPassword  != msg.req_UserChangeUserPassword.newPassword )
                         {
-                            LoginSql.Instance.IsExtenceAdminData(GameConst.DBLoginName);
-                            if (LoginSql.Instance.IsLogin(GameConst.DBLoginName, msg.req_UserChangeUserPassword.account, msg.req_UserChangeUserPassword.oldPassword))
+                            loginSql. IsExtenceAdminData ( GameConst.DBLoginName);
+                            if (loginSql.IsLogin( GameConst.DBLoginName, msg.req_UserChangeUserPassword.account , msg.req_UserChangeUserPassword.newPassword ))
                             {
                                 Admin admin = new Admin
                                 {
-                                    User = GameConst.InitAdminAcct,
-                                    Password = msg.req_UserChangeUserPassword.newPassword,
+                                    User = GameConst.InitUserAcct,
+                                    Password = msg.req_UserChangeUserPassword.newPassword
                                 };
-                                var s  = SetLoginData(admin, GameConst.DBLoginName, $"User='{admin.User}' and Password  = '{admin.Password}'");
-                                if ( s != -1)
+                                if (SetLoginData(admin, GameConst.DBLoginName, $"User = '{admin.User}' and Password = {msg.req_UserChangeUserPassword.newPassword }") != -1)
                                 {
-                                    gameMsgs.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword()
+                                    Rsp_User_Change_Password_Msg.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword
                                     {
-                                        IsSucess = 0,
+                                        //修改成功
+                                         IsSucess  = 0
                                     };
                                 }
                                 else
                                 {
-                                    gameMsgs.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword()
+                                    Rsp_User_Change_Password_Msg.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword
                                     {
-                                        IsSucess = -6,
+                                        //修改失败
+                                        IsSucess = -6
                                     };
                                 }
                             }
                             else
                             {
-                                gameMsgs.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword()
+                                Rsp_User_Change_Password_Msg.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword
                                 {
-                                    IsSucess = -5,
+                                    //修改成功
+                                    IsSucess = -5
                                 };
                             }
                         }
                         else
                         {
-                            gameMsgs.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword()
+                            Rsp_User_Change_Password_Msg.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword
                             {
-                                IsSucess = -4,
+                                //修改成功
+                                IsSucess = -4
                             };
                         }
                     }
                     else
                     {
-                        gameMsgs.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword()
+                        Rsp_User_Change_Password_Msg.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword
                         {
-                            IsSucess = -3,
+                            //修改成功
+                            IsSucess = -3
                         };
                     }
                 }
                 else
                 {
-                    gameMsgs.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword()
+                    Rsp_User_Change_Password_Msg.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword
                     {
-                        IsSucess = -2,
+                        //修改成功
+                        IsSucess = -2
                     };
                 }
             }
             else
             {
-                gameMsgs.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword()
+                Rsp_User_Change_Password_Msg.rsp_UserChangeUserPassword = new Rsp_UserChangeUserPassword
                 {
-                    IsSucess = -1,
+                    //修改成功
+                    IsSucess = -1
                 };
             }
-            localNetServer.SendMsg(gameMsgs);
+           localNetServer.SendMsg(Rsp_User_Change_Password_Msg);
         }
         /// <summary>
         /// 设置登录信息

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ArcSoftFace.ADCoreSystem.ADcoreModel 
 {
-    public  class UserExcelMode
+    public class UserExcelMode
     {
         /// <summary>
         /// Id
@@ -242,6 +242,9 @@ namespace ArcSoftFace.ADCoreSystem.ADcoreModel
         [ModeHelp(true, "Remarks", "string", false, false)]
         public string Remarks { get { return _remarks; } set { _remarks = value; } }
 
+
+
     }
+
 }
-    
+

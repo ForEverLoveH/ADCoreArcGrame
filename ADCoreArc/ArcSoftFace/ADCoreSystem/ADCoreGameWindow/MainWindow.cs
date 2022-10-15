@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,6 +60,26 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
             }
 
+        }
+
+        private void HelpBtn_Click(object sender, EventArgs e)
+        {
+            string path = Application.StartupPath + GameConst.helpDocPath;
+            if (File.Exists(path))
+                System.Diagnostics.Process.Start(path);
+            else
+                MessageBox.Show("帮助文件丢失\r\n" + path);
+        }
+
+        private void uiButton1_Click(object sender, EventArgs e)
+        {
+            string path = Application.StartupPath + GameConst.GenDocPath;
+            if(File.Exists(path))
+            {
+                System.Diagnostics.Process.Start(path);
+            }
+            else
+                MessageBox.Show("驱动文件丢失\r\n" + path);
         }
     }
 }
