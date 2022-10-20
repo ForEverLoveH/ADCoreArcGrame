@@ -301,6 +301,16 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             }
         }
 
-         
+        private void LoadTable_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("正在开发中请稍后！！");
+            return;
+        }
+
+        private void uiButton2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("正在开发中请稍后！！");
+            return;
+        }
     }
 }

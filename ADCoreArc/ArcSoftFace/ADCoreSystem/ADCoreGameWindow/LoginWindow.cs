@@ -97,6 +97,11 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
              
         }
 
+        public  void SetLoginWindowState()
+        {
+            this.Close();  
+        }
+
         private void PasswordInput_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyValue ==13)

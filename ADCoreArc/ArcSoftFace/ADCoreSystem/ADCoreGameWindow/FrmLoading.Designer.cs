@@ -53,11 +53,11 @@
             this.PnlImage.BackColor = System.Drawing.Color.Transparent;
             this.PnlImage.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.PnlImage.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PnlImage.Location = new System.Drawing.Point(100, 12);
+            this.PnlImage.Location = new System.Drawing.Point(6, 5);
             this.PnlImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PnlImage.MinimumSize = new System.Drawing.Size(1, 1);
             this.PnlImage.Name = "PnlImage";
-            this.PnlImage.Size = new System.Drawing.Size(200, 200);
+            this.PnlImage.Size = new System.Drawing.Size(381, 207);
             this.PnlImage.Style = Sunny.UI.UIStyle.Custom;
             this.PnlImage.TabIndex = 1;
             this.PnlImage.Text = null;
@@ -66,7 +66,7 @@
             // 
             // FrmLoading
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(400, 300);
@@ -83,7 +83,6 @@
             this.Load += new System.EventHandler(this.FrmLoading_Load);
             this.Shown += new System.EventHandler(this.FrmLoading_Shown);
             this.ResumeLayout(false);
-
 
         }
 

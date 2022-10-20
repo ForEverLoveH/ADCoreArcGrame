@@ -36,6 +36,7 @@ namespace ArcSoftFace.ADCoreSystem
             {
                 //  
                 MessageBox.Show("验证成功！！");
+                verificationWindow.SetWindowState();
                 New_import();
                 // IsCheck = true;
 

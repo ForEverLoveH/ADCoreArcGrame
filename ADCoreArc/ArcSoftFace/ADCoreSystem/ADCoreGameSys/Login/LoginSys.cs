@@ -87,7 +87,7 @@ namespace ArcSoftFace.ADCoreSystem
                     MessageBox.Show("登录成功！！");
 
                     MainSys.Instance.Init();
-                    loginWindow.Close();
+                    loginWindow.SetLoginWindowState();
 
 
                 }

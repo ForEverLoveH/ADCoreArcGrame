@@ -170,3 +170,6 @@ D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\System.Memory.
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\System.Numerics.Vectors.xml
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\x64\Debug\System.Threading.Tasks.Extensions.xml
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.ServerSettingWindow.resources
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.PrintTitleWindow.resources
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\x64\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.FaceImportWindow.resources

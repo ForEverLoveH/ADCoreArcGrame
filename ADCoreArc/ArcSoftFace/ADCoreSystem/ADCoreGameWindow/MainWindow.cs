@@ -81,5 +81,21 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             else
                 MessageBox.Show("驱动文件丢失\r\n" + path);
         }
+
+        private void FaceImport_Click(object sender, EventArgs e)
+        {
+            FaceImportSys faceImportSys = new FaceImportSys();
+            faceImportSys.Init();
+        }
+
+        private void SettingServerBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PrintTitleBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

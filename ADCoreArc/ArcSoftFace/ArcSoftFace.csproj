@@ -198,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ADCoreSystem\ADCoreGameSys\ExportGrade\ExportGradeSys.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameSys\FaceImport\FaceImportSys.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameSys\LoginSetting\LoginSettingOfAdminSys.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameSys\LoginSetting\LoginSettingOfUserSys.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameSys\Login\LoginSys.cs" />
@@ -211,6 +212,12 @@
     </Compile>
     <Compile Include="ADCoreSystem\ADCoreGameWindow\ExportGradeWindow.Designer.cs">
       <DependentUpon>ExportGradeWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\FaceImportWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\FaceImportWindow.Designer.cs">
+      <DependentUpon>FaceImportWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ADCoreSystem\ADCoreGameWindow\LoginSettingOfAdminWindow.cs">
       <SubType>Form</SubType>
@@ -230,6 +237,12 @@
     <Compile Include="ADCoreSystem\ADCoreGameWindow\NewGroupWindows.Designer.cs">
       <DependentUpon>NewGroupWindows.cs</DependentUpon>
     </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\PrintTitleWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ADCoreSystem\ADCoreGameWindow\PrintTitleWindow.Designer.cs">
+      <DependentUpon>PrintTitleWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ADCoreSystem\ADCoreGameWindow\ServerSettingWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -248,6 +261,7 @@
     <Compile Include="ADCoreSystem\ADCoreGameWindow\VerificationWindow.Designer.cs">
       <DependentUpon>VerificationWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ADCoreSystem\ADCoreModel\DirectoryFileModel\FileInfoModel.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\FaceDataModel\StudentFaceData.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\GroupData\GroupDataModel.cs" />
     <Compile Include="ADCoreSystem\ADCoreModel\StartTestingExamData\StartTestingExamDataModel.cs" />
@@ -329,6 +343,9 @@
     <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\ExportGradeWindow.resx">
       <DependentUpon>ExportGradeWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\FaceImportWindow.resx">
+      <DependentUpon>FaceImportWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\FrmLoading.resx">
       <DependentUpon>FrmLoading.cs</DependentUpon>
     </EmbeddedResource>
@@ -349,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\PersonImportWindow.resx">
       <DependentUpon>PersonImportWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\PrintTitleWindow.resx">
+      <DependentUpon>PrintTitleWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ADCoreSystem\ADCoreGameWindow\ServerSettingWindow.resx">
       <DependentUpon>ServerSettingWindow.cs</DependentUpon>

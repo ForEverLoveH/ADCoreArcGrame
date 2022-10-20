@@ -58,5 +58,10 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 }
             }
         }
+
+        public void SetWindowState()
+        {
+            this.Close();
+        }
     }
 }

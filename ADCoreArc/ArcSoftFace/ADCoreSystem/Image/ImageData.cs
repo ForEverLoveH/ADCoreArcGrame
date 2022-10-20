@@ -126,6 +126,22 @@ namespace ArcSoftFace.ADCoreSystem
                 }
             }
         }
+        public void SaveImageFileToDestion(string destionDirectory, List<string> ImagePath)
+        {
+            if (!Directory.Exists(destionDirectory))
+            {
+                Directory.CreateDirectory(destionDirectory);
+            }
+             
+            if (ImagePath.Count> 0)
+            {
+                for (int i = 0; i < ImagePath.Count; i++)
+                {
+                    byte[] by = SetImageToByte(ImagePath[i]);
+                    SaveImageDataToDestion(destionDirectory, by, i);
+                }
+            }
+        }
         /// <summary>
         /// 保存图片到本地
         /// </summary>

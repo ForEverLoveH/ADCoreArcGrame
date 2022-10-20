@@ -38,6 +38,7 @@
             this.HelpBtn = new Sunny.UI.UIButton();
             this.uiButton1 = new Sunny.UI.UIButton();
             this.SettingServerBtn = new Sunny.UI.UIButton();
+            this.PrintTitleBtn = new Sunny.UI.UIButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,6 +68,7 @@
             this.FaceImport.Text = "人脸导入";
             this.FaceImport.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FaceImport.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.FaceImport.Click += new System.EventHandler(this.FaceImport_Click);
             // 
             // NewGroupBtn
             // 
@@ -173,12 +175,28 @@
             this.SettingServerBtn.Text = "服务器设置";
             this.SettingServerBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.SettingServerBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.SettingServerBtn.Click += new System.EventHandler(this.SettingServerBtn_Click);
+            // 
+            // PrintTitleBtn
+            // 
+            this.PrintTitleBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PrintTitleBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PrintTitleBtn.Location = new System.Drawing.Point(1143, 12);
+            this.PrintTitleBtn.MinimumSize = new System.Drawing.Size(1, 1);
+            this.PrintTitleBtn.Name = "PrintTitleBtn";
+            this.PrintTitleBtn.Size = new System.Drawing.Size(87, 35);
+            this.PrintTitleBtn.TabIndex = 10;
+            this.PrintTitleBtn.Text = "打印标题";
+            this.PrintTitleBtn.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PrintTitleBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.PrintTitleBtn.Click += new System.EventHandler(this.PrintTitleBtn_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1435, 574);
+            this.Controls.Add(this.PrintTitleBtn);
             this.Controls.Add(this.SettingServerBtn);
             this.Controls.Add(this.uiButton1);
             this.Controls.Add(this.HelpBtn);
@@ -208,5 +226,6 @@
         private Sunny.UI.UIButton HelpBtn;
         private Sunny.UI.UIButton uiButton1;
         private Sunny.UI.UIButton SettingServerBtn;
+        private Sunny.UI.UIButton PrintTitleBtn;
     }
 }

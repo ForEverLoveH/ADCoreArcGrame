@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArcSoftFace.ADCoreSystem.ADcoreModel { 
+namespace ArcSoftFace.ADCoreSystem.ADcoreModel 
+{ 
 
     public  class UserExcelIndexMode
     {
