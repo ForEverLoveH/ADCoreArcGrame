@@ -823,7 +823,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         {
             if (index != -1)
             {
-                GroupDataView.Rows[index].DefaultCellStyle.BackColor = Color.LightSkyBlue;
+                dataTable.Rows[index].DefaultCellStyle.BackColor = Color.LightSkyBlue;
 
             }
             UserExcelMode userExcel = new UserExcelMode() 

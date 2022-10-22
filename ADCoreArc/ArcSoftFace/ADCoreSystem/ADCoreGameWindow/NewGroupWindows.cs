@@ -387,10 +387,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 else
                 {
                     SetUserExcelData(UserExcelData, index);
-                }
-                 
-            
-            
+                }  
         }
         /// <summary>
         /// 查找根据点击的位置判断在GroupListFaceView 是否存在对应的数据

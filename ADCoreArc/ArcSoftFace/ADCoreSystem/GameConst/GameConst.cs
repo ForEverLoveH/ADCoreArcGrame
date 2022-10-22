@@ -41,6 +41,6 @@ namespace ArcSoftFace.ADCoreSystem
 
         public const int Number = 20;
         public const string FaceDirectory =  "/Face";
-        public const string FaceData = "/DataFace";
+        public const string FaceData = "/../Face/shape_predictor_68_face_landmarks.dat";
     }
 }

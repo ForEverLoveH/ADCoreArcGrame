@@ -84,12 +84,13 @@ namespace ArcSoftFace.ADCoreSystem
             {
                 if (msg.rspLogin.playerData.isLoginSucess == 0)
                 {
-                    MessageBox.Show("登录成功！！");
-
+                      MessageBox.Show("登录成功" );
+                    
+                        
                     MainSys.Instance.Init();
-                    loginWindow.SetLoginWindowState();
-
-
+                    
+                    
+                   
                 }
                 else if (msg.rspLogin.playerData.isLoginSucess== -1)
                 {

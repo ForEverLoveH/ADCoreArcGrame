@@ -163,3 +163,4 @@ D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\Debug\x64\System.Threadi
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.FaceImportWindow.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.PrintTitleWindow.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.ServerSettingWindow.resources
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.csproj.SuggestedBindingRedirects.cache
