@@ -45,20 +45,25 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         private void StartTestingWindow_Load(object sender, EventArgs e)
         {
             ArcFaceManage.Instance.InitEngines();
-            var s = FaceEngine.pEngine;
+           var s = FaceEngine.pEngine;
             StartTestingSys.ReqGetExamTime();
             // 获取外接显示器的数量
-            StartTestingSys.GetScreenCount();
+            SetScreeDrop(StartTestingSys.GetScreenCount());
             SetTimeStart(true );
-
-
-
-
         }
-         /// <summary>
-         ///  设置计时器
-         /// </summary>
-         /// <param name="s"></param>
+        public void SetScreeDrop(List<string> managementObjects)
+        {
+            foreach (var managementObject in managementObjects)
+            {
+              ShowDeviceDrop  .Items.Add((managementObject));
+            }
+            ShowDeviceDrop.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        ///  设置计时器
+        /// </summary>
+        /// <param name="s"></param>
         private void SetTimeStart(bool s )
         {
             TestTimer.Enabled = s;
@@ -142,6 +147,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
                 {
                     GroupIDDrop.Items.Add(item.Group_number);
                 }
+                GroupIDDrop.SelectedIndex = 0;
             }
 
              
@@ -208,6 +214,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         private void GroupIDDrop_DoubleClick(object sender, EventArgs e)
         {
             string examTime = ExamTimeDrop.Text.Trim();
+            GroupIDDrop.Items.Clear();
             StartTestingSys.Req_GetGroupMent(examTime);
         }
         /// <summary>
@@ -265,148 +272,155 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
             StartCameraBtn.Enabled = false;
             try
             {
-               if (!faceEngine.GetEngineStatus())
+                if (!faceEngine.GetEngineStatus())
                 {
                     MessageBox.Show("请先初始化引擎!");
                     ChooseImageBtn.Enabled = true;
                     StartCameraBtn.Enabled = true;
                     return;
                 }
-               
+
                 var image1Path = localFile.openLocalFile(false);
-                foreach (var image in image1Path)
+                if (image1Path != null)
                 {
-                    //检测图片格式
-                    if (!ImageData.CheckImage(image))
+                    foreach (var image in image1Path)
                     {
-                        return;
-                    }
-                    DateTime detectStartTime = DateTime.Now;
-                    //获取文件，不能是过大的文件图片
-                    FileInfo fileInfo = new FileInfo(image);
-                    if (fileInfo.Length > maxSize)
-                    {
-                        MessageBox.Show("图片文件最大为2MB,请先压缩后导入！！");
-                        ChooseImageBtn.Enabled = true;
-                        StartCameraBtn.Enabled = true;
-                        return;
-                    }
-                    Image scrImage = ImageUtil.ReadFromFile(image);
-                    ImageData.CheckImageWidthAndHeight(ref scrImage);
-                    if (scrImage == null)
-                    {
-                        MessageBox.Show("图片获取失败，请稍后重试！！");
-                        ChooseImageBtn.Enabled = true;
-                        StartCameraBtn.Enabled = true;
-
-                        return;
-                    }//调整图片的宽度，为4 的倍数   
-                    if (scrImage.Width % 4 != 0)
-                    {
-                        scrImage = ImageUtil.ScaleImage(scrImage, scrImage.Width - (scrImage.Width % 4), scrImage.Height);
-
-                    }
-                    //人脸检测
-                    MultiFaceInfo multiFaceInfo;
-                    int retCode = faceEngine.ASFDetectFacesEx(scrImage, out multiFaceInfo);
-                    if (retCode != 0)
-                    {
-                        MessageBox.Show("图像人脸检测失败，请稍后重试!");
-                        ChooseImageBtn.Enabled = true;
-                        StartCameraBtn.Enabled = true;
-                        return;
-                    }
-                    if (multiFaceInfo.faceNum < 1)
-                    {
-                        scrImage = ImageUtil.ScaleImage(scrImage, picImageCompare.Width, picImageCompare.Height);
-                        //rightImageFeatureList.Clear();
-                        picImageCompare.Image = scrImage;
-                        leftImageFeatureList.Clear();
-                        picImageCompare.Image = scrImage;
-                        return;
-                    }
-                    // 年龄检测
-                    int retAge = -1;
-                    AgeInfo ageInfo = FaceUtil.AgeEstimation(faceEngine, scrImage, multiFaceInfo, out retAge);
-
-                    //性别检测
-                    int retCode_Gender = -1;
-                    GenderInfo genderInfo = FaceUtil.GenderEstimation(faceEngine, scrImage, multiFaceInfo, out retCode_Gender);
-                    //3DAngle检测
-                    int retCode_3DAngle = -1;
-                    Face3DAngle face3DAngleInfo = FaceUtil.Face3DAngleDetection(faceEngine, scrImage, multiFaceInfo, out retCode_3DAngle);
-                    MRECT[] mrectTemp = new MRECT[multiFaceInfo.faceNum];
-                    int[] ageTemp = new int[multiFaceInfo.faceNum];
-                    int[] genderTemp = new int[multiFaceInfo.faceNum];
-                    SingleFaceInfo singleFaceInfo;
-
-                    //标记出检测到的人脸
-                    for (int i = 0; i < multiFaceInfo.faceNum; i++)
-                    {
-                        MRECT rect = multiFaceInfo.faceRects[i];
-                        int orient = multiFaceInfo.faceOrients[i];
-                        int age = 0;
-                        //年龄检测
-                        if (retAge != 0)
+                        //检测图片格式
+                        if (!ImageData.CheckImage(image))
                         {
-                           Console.WriteLine(string.Format("年龄检测失败，返回{0}!", retAge));
+                            return;
                         }
-                        else
+                        DateTime detectStartTime = DateTime.Now;
+                        //获取文件，不能是过大的文件图片
+                        FileInfo fileInfo = new FileInfo(image);
+                        if (fileInfo.Length > maxSize)
                         {
-                            age = ageInfo.ageArray[i];
+                            MessageBox.Show("图片文件最大为2MB,请先压缩后导入！！");
+                            ChooseImageBtn.Enabled = true;
+                            StartCameraBtn.Enabled = true;
+                            return;
                         }
+                        Image scrImage = ImageUtil.ReadFromFile(image);
+                        ImageData.CheckImageWidthAndHeight(ref scrImage);
+                        if (scrImage == null)
+                        {
+                            MessageBox.Show("图片获取失败，请稍后重试！！");
+                            ChooseImageBtn.Enabled = true;
+                            StartCameraBtn.Enabled = true;
+
+                            return;
+                        }//调整图片的宽度，为4 的倍数   
+                        if (scrImage.Width % 4 != 0)
+                        {
+                            scrImage = ImageUtil.ScaleImage(scrImage, scrImage.Width - (scrImage.Width % 4), scrImage.Height);
+
+                        }
+                        //人脸检测
+                        MultiFaceInfo multiFaceInfo;
+                        int retCode = faceEngine.ASFDetectFacesEx(scrImage, out multiFaceInfo);
+                        if (retCode != 0)
+                        {
+                            MessageBox.Show("图像人脸检测失败，请稍后重试!");
+                            ChooseImageBtn.Enabled = true;
+                            StartCameraBtn.Enabled = true;
+                            return;
+                        }
+                        if (multiFaceInfo.faceNum < 1)
+                        {
+                            scrImage = ImageUtil.ScaleImage(scrImage, picImageCompare.Width, picImageCompare.Height);
+                            //rightImageFeatureList.Clear();
+                            picImageCompare.Image = scrImage;
+                            leftImageFeatureList.Clear();
+                            picImageCompare.Image = scrImage;
+                            return;
+                        }
+                        // 年龄检测
+                        int retAge = -1;
+                        AgeInfo ageInfo = FaceUtil.AgeEstimation(faceEngine, scrImage, multiFaceInfo, out retAge);
+
                         //性别检测
-                        int gender = -1;
-                        if (retCode_Gender != 0)
-                        {
-                           Console.WriteLine (string.Format("性别检测失败，返回{0}!", retCode_Gender));
-                        }
-                        else
-                        {
-                            gender = genderInfo.genderArray[i];
-                        }
+                        int retCode_Gender = -1;
+                        GenderInfo genderInfo = FaceUtil.GenderEstimation(faceEngine, scrImage, multiFaceInfo, out retCode_Gender);
                         //3DAngle检测
-                        int face3DStatus = -1;
-                        float roll = 0f;
-                        float pitch = 0f;
-                        float yaw = 0f;
-                        if (retCode_3DAngle != 0)
+                        int retCode_3DAngle = -1;
+                        Face3DAngle face3DAngleInfo = FaceUtil.Face3DAngleDetection(faceEngine, scrImage, multiFaceInfo, out retCode_3DAngle);
+                        MRECT[] mrectTemp = new MRECT[multiFaceInfo.faceNum];
+                        int[] ageTemp = new int[multiFaceInfo.faceNum];
+                        int[] genderTemp = new int[multiFaceInfo.faceNum];
+                        SingleFaceInfo singleFaceInfo;
+
+                        //标记出检测到的人脸
+                        for (int i = 0; i < multiFaceInfo.faceNum; i++)
                         {
-                            // AppendText(string.Format("3DAngle检测失败，返回{0}!", retCode_3DAngle));
+                            MRECT rect = multiFaceInfo.faceRects[i];
+                            int orient = multiFaceInfo.faceOrients[i];
+                            int age = 0;
+                            //年龄检测
+                            if (retAge != 0)
+                            {
+                                Console.WriteLine(string.Format("年龄检测失败，返回{0}!", retAge));
+                            }
+                            else
+                            {
+                                age = ageInfo.ageArray[i];
+                            }
+                            //性别检测
+                            int gender = -1;
+                            if (retCode_Gender != 0)
+                            {
+                                Console.WriteLine(string.Format("性别检测失败，返回{0}!", retCode_Gender));
+                            }
+                            else
+                            {
+                                gender = genderInfo.genderArray[i];
+                            }
+                            //3DAngle检测
+                            int face3DStatus = -1;
+                            float roll = 0f;
+                            float pitch = 0f;
+                            float yaw = 0f;
+                            if (retCode_3DAngle != 0)
+                            {
+                                // AppendText(string.Format("3DAngle检测失败，返回{0}!", retCode_3DAngle));
+                            }
+                            else
+                            {
+                                //角度状态 非0表示人脸不可信
+                                face3DStatus = face3DAngleInfo.status[i];
+                                //roll为侧倾角，pitch为俯仰角，yaw为偏航角
+                                roll = face3DAngleInfo.roll[i];
+                                pitch = face3DAngleInfo.pitch[i];
+                                yaw = face3DAngleInfo.yaw[i];
+                            }
+                            FaceFeature feature = FaceUtil.ExtractFeature(faceEngine, scrImage, out singleFaceInfo, ref retCode, i);
+                            //提取人脸特征
+                            rightImageFeatureList.Add(feature);
+                            mrectTemp[i] = rect;
+                            ageTemp[i] = age;
+                            genderTemp[i] = gender;
+                            Console.WriteLine(string.Format("{0} - 第{12}人脸坐标:[left:{1},top:{2},right:{3},bottom:{4},orient:{5},roll:{6},pitch:{7},yaw:{8},status:{11}] Age:{9} Gender:{10}",
+                                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), rect.left, rect.top, rect.right, rect.bottom, orient, roll, pitch, yaw, age, (gender >= 0 ? gender.ToString() : ""), face3DStatus, i));
+
                         }
-                        else
-                        {
-                            //角度状态 非0表示人脸不可信
-                            face3DStatus = face3DAngleInfo.status[i];
-                            //roll为侧倾角，pitch为俯仰角，yaw为偏航角
-                            roll = face3DAngleInfo.roll[i];
-                            pitch = face3DAngleInfo.pitch[i];
-                            yaw = face3DAngleInfo.yaw[i];
-                        }
-                        FaceFeature feature = FaceUtil.ExtractFeature(faceEngine, scrImage, out singleFaceInfo, ref retCode, i);
-                        //提取人脸特征
-                        rightImageFeatureList.Add(feature);
-                        mrectTemp[i] = rect;
-                        ageTemp[i] = age;
-                        genderTemp[i] = gender;
-                       Console.WriteLine(string.Format("{0} - 第{12}人脸坐标:[left:{1},top:{2},right:{3},bottom:{4},orient:{5},roll:{6},pitch:{7},yaw:{8},status:{11}] Age:{9} Gender:{10}", 
-                           DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), rect.left, rect.top, rect.right, rect.bottom, orient, roll, pitch, yaw, age, (gender >= 0 ? gender.ToString() : ""), face3DStatus, i));
-                        
+                        Console.WriteLine(string.Format("------------------------------检测结束，时间:{0}------------------------------", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
+
+                        //获取缩放比例
+                        float scaleRate = ImageUtil.GetWidthAndHeight(scrImage.Width, scrImage.Height, picImageCompare.Width, picImageCompare.Height);
+                        //缩放图片
+                        scrImage = ImageUtil.ScaleImage(scrImage, picImageCompare.Width, picImageCompare.Height);
+                        //添加标记
+                        scrImage = ImageUtil.MarkRectAndString(scrImage, mrectTemp, ageTemp, genderTemp, picImageCompare.Width, scaleRate, multiFaceInfo.faceNum);
+                        //显示标记后的图像
+                        picImageCompare.Image = scrImage;
+
                     }
-                    Console.WriteLine(string.Format("------------------------------检测结束，时间:{0}------------------------------", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
-                    
-                    //获取缩放比例
-                    float scaleRate = ImageUtil.GetWidthAndHeight(scrImage.Width, scrImage.Height, picImageCompare.Width, picImageCompare.Height);
-                    //缩放图片
-                    scrImage = ImageUtil.ScaleImage(scrImage, picImageCompare.Width, picImageCompare.Height);
-                    //添加标记
-                    scrImage = ImageUtil.MarkRectAndString(scrImage, mrectTemp, ageTemp, genderTemp, picImageCompare.Width, scaleRate, multiFaceInfo.faceNum);
-                    //显示标记后的图像
-                    picImageCompare.Image = scrImage;
-                    
+                }
+                else
+                {
+                    return;
                 }
             }
-            
+
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -944,7 +958,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
 
         private void GroupIDDrop_TextChanged(object sender, EventArgs e)
         {
-            GroupIDDrop.Items.Clear();  
+              
             string groupID = GroupIDDrop.Text;
             GetFaceImageDirectory(groupID);
             StartTestingSys.Req_GetFacefeature(groupID);
@@ -958,6 +972,7 @@ namespace ArcSoftFace.ADCoreSystem.ADCoreGameWindow
         /// <param name="e"></param>
         private void StartMatchingBtn_Click(object sender, EventArgs e)
         {
+           
             try
             {
                 if (leftImageFeatureList.Count == 0)

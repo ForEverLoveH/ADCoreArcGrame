@@ -1,9 +1,11 @@
-﻿using ArcSoftFace.ADCoreSystem.ADCoreGameWindow;
+﻿using ArcSoftFace.ADCoreSystem.ADCoreGameSys;
+using ArcSoftFace.ADCoreSystem.ADCoreGameWindow;
 using ArcSoftFace.ADCoreSystem.ADcoreModel;
 using ArcSoftFace.GameNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -248,21 +250,40 @@ namespace ArcSoftFace.ADCoreSystem
 
         }
 
-        public  void GetScreenCount()
+        public  List<string > GetScreenCount()
         {
+            myScreen screen = new myScreen();
+            myScreen.DISPLAY_DEVICE d = new myScreen.DISPLAY_DEVICE();
+
+            d.cb = Marshal.SizeOf(d);
+            int NUM = 0;
             try
             {
-                int num = Screen.AllScreens.Count();
-                for(int i=0; i < num; i++)
+                List<string> deviceName = new List<string>();
+                for (uint id = 0; myScreen.EnumDisplayDevices(null, id, ref d, 0); id++)
                 {
-                     
+                    if (d.StateFlags.HasFlag(myScreen.DisplayDeviceStateFlags.AttachedToDesktop))
+                    {
+                        //计算个数
+                        NUM++;
+                        //输出相关信息
+                        Console.WriteLine(String.Format("{0}, {1}, {2}, {3}, {4}, {5}", id, d.DeviceName, d.DeviceString, d.StateFlags, d.DeviceID, d.DeviceKey));
+                        d.cb = Marshal.SizeOf(d);
+                        myScreen. EnumDisplayDevices(d.DeviceName, 0, ref d, 0);
+                        Console.WriteLine(String.Format("{0}, {1}", d.DeviceName, d.DeviceString));
+                        deviceName.Add(d.DeviceName);
+                    }
+                    d.cb = Marshal.SizeOf(d);
                 }
+                return deviceName;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("获取外接的显示器异常"+ex.Message);
+                Console.WriteLine(String.Format("{0}", ex.ToString()));
+                return null;
             }
         }
+    
         /// <summary>
         ///  根据组号获取人脸特征值
         /// </summary>

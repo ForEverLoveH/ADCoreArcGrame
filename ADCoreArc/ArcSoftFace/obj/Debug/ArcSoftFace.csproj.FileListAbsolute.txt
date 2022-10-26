@@ -164,3 +164,7 @@ D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCore
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.PrintTitleWindow.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.ADCoreSystem.ADCoreGameWindow.ServerSettingWindow.resources
 D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\obj\Debug\ArcSoftFace.csproj.SuggestedBindingRedirects.cache
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\Debug\x64\DlibDotNetNative.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\Debug\x64\DlibDotNetNativeDnn.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\Debug\x64\DlibDotNet.dll
+D:\WorkProject\ADCoreArcGrame\ADCoreArc\ArcSoftFace\bin\Debug\x64\System.Drawing.Common.dll

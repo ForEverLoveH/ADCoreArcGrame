@@ -212,6 +212,7 @@
     <Compile Include="ADCoreSystem\ADCoreGameSys\Main\MainSys.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameSys\NewGroup\NewGroupSys.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameSys\PersonImport\PersonImportSys.cs" />
+    <Compile Include="ADCoreSystem\ADCoreGameSys\ScreenDevice\myScreen.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameSys\StartTesting\StartTestingSys.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameSys\Verification\VerificationSys.cs" />
     <Compile Include="ADCoreSystem\ADCoreGameWindow\ExportGradeWindow.cs">

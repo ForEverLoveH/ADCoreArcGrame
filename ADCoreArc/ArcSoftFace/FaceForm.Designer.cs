@@ -121,9 +121,9 @@
             // matchBtn
             // 
             this.matchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.matchBtn.Location = new System.Drawing.Point(756, 436);
+            this.matchBtn.Location = new System.Drawing.Point(756, 429);
             this.matchBtn.Name = "matchBtn";
-            this.matchBtn.Size = new System.Drawing.Size(104, 26);
+            this.matchBtn.Size = new System.Drawing.Size(104, 28);
             this.matchBtn.TabIndex = 34;
             this.matchBtn.Text = "开始匹配";
             this.matchBtn.UseVisualStyleBackColor = true;
